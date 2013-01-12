@@ -13,8 +13,8 @@ public:
 	joystick2(2){}
 
 	// Drive
-	float drive_left(void){return joystick1.GetRawAxis(1);};
-	float drive_right(void){return joystick1.GetRawAxis(3);};
+	float driveLeft(void){return joystick1.GetRawAxis(1);};
+	float driveRight(void){return joystick1.GetRawAxis(3);};
 };
-
+		
 #endif

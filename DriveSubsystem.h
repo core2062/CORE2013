@@ -1,30 +1,37 @@
 #include "WPILib.h"
-#include "CORERobot.h"
+#include "CORESubsystemRobot.h"
 
 class DriveSubsystem : CORESubsystem{
 	RobotDrive drive;
 	
-	float drive_right;
-	float drive_left;
+	float driveRight;
+	float driveLeft;
 public:
 	DriveSubsystem(void):
 		drive(1,2,3,4)
 	{}
 	
-	void teleop_init(){
+	void teleopInit(){
 		
 	}
 	
-	void teleop_inputs(COREJoystick& joystick){
-		drive_right = joystick.drive_right();
-		drive_left = joystick.drive_left();
+	void teleopInputs(COREJoystick& joystick){
+		driveRight = joystick.driveRight();
+		driveLeft = joystick.driveLeft();
 	}
 	
-	void teleop_logic(){
-		//nope
+	void teleopLogic(){
+		deadband(driveRight);
+		deadband(driveLeft);
 	}
 	
-	void teleop_outputs(){
-		drive.TankDrive(drive_left, drive_right);
+	void teleopOutputs(){
+		drive.TankDrive(driveLeft, driveRight);
+	}
+	float deadband(float value, float range = .1){
+		if(abs(value) < range){
+			return 0;
+		}
+		return value;
 	}
 };

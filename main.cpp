@@ -1,6 +1,8 @@
 #include "WPILib.h"
 
 #include "Subsystems.h"
+#include "CORESubsystemRobot.h"
+#include "COREJoystick.h"
 
 /**
  * This is a demo program showing the use of the RobotBase class.
@@ -8,15 +10,16 @@
  * Autonomous and OperatorControl methods at the right time as controlled by the switches on
  * the driver station or the field controls.
  */ 
-class RobotDemo : public SimpleRobot
+class CORE2013 : public SimpleRobot
 {
 	CORERobot robot;
 	COREJoystick joystick;
 	
 public:
-	RobotDemo(void):
+	
+	CORE2013(void):
 		robot(),
-		joystick()
+		joystick() 
 	{
 		
 	}
@@ -36,7 +39,7 @@ public:
 		wd.SetEnabled(true);
 		wd.SetExpiration(.5);
 		
-		robot.teleop_init();
+		robot.teleopInit();
 		
 		while (IsOperatorControl() and !IsDisabled()){
 			robot.teleop(joystick);
@@ -53,5 +56,5 @@ public:
 	}
 };
 
-START_ROBOT_CLASS(RobotDemo);
+START_ROBOT_CLASS(CORE2013);
 
