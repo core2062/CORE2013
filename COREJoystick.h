@@ -11,6 +11,10 @@ public:
 	COREJoystick(void):
 	joystick1(1),
 	joystick2(2){}
+
+	// Drive
+	float drive_left(void){return joystick1.GetRawAxis(1);};
+	float drive_right(void){return joystick1.GetRawAxis(3);};
 };
 
 #endif
