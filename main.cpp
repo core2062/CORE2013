@@ -15,13 +15,17 @@ class CORE2013 : public SimpleRobot
 	CORERobot robot;
 	COREJoystick joystick;
 	
+	DriveSubsystem drive;
+	
 public:
 	
 	CORE2013(void):
 		robot(),
-		joystick() 
-	{
+		joystick(),
 		
+		drive()
+	{
+		robot.add(drive);
 	}
 
 	/**

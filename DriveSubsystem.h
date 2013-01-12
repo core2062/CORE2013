@@ -18,23 +18,24 @@ public:
 		return "Drive";
 	}
 	
-	void teleopInit(){
+	void teleopInit(void){
 		
 	}
 	
-	void teleopInputs(COREJoystick& joystick){
+	void teleopInput(COREJoystick& joystick){
 		driveRight = joystick.driveRight();
 		driveLeft = joystick.driveLeft();
 	}
 	
-	void teleopLogic(){
+	void teleopLogic(void){
 		deadband(driveRight);
 		deadband(driveLeft);
 	}
 	
-	void teleopOutputs(){
+	void teleopOutput(void){
 		drive.TankDrive(driveLeft, driveRight);
 	}
+	
 	float deadband(float value, float range = .1){
 		if(std::abs(value) < range){
 			return 0;
