@@ -1,18 +1,17 @@
-#ifndef _CORESubsystemRobot_
-#define _CORESubsystemRobot_
-
 #include "WPILib.h"
 #include "COREJoystick.h"
 #include <string>
 #include <vector>
 
+#ifndef _CORESubsystemRobot_
+#define _CORESubsystemRobot_
+	
 
-class CORESubsystem
-{
+class CORESubsystem {
 	
 public:
 					CORESubsystem(void);
-	virtual 		~CORESubsystem(void);	// class destructor defined to suppress compiler error
+	virtual 		~CORESubsystem(void){};	// class destructor defined to suppress compiler error
 	virtual void	teleopInit(void) = 0;	
 	virtual void	teleopInput(COREJoystick&) = 0;
 	virtual void	teleopLogic(void) = 0;

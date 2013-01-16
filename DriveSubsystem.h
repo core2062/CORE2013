@@ -1,8 +1,9 @@
-#ifndef DRIVESUBSYSTEM_H
-#define DRIVESUBSYSTEM_H
 #include "WPILib.h"
 #include "CORESubsystemRobot.h"
 #include <cmath>
+
+#ifndef DRIVESUBSYSTEM_H
+#define DRIVESUBSYSTEM_H
 
 class DriveSubsystem : public CORESubsystem{
 	RobotDrive drive;
@@ -10,37 +11,16 @@ class DriveSubsystem : public CORESubsystem{
 	float driveRight;
 	float driveLeft;
 public:
-	DriveSubsystem(void):
-		drive(1,2,3,4)
-	{}
+	DriveSubsystem(void);
 	
-	std::string name(void){
-		return "Drive";
-	}
+	std::string name(void);
+
+	void teleopInit(void);
 	
-	void teleopInit(void){
-		
-	}
+	void teleopInput(COREJoystick& joystick);
 	
-	void teleopInput(COREJoystick& joystick){
-		driveRight = joystick.driveRight();
-		driveLeft = joystick.driveLeft();
-	}
+	void teleopLogic(void);
 	
-	void teleopLogic(void){
-		deadband(driveRight);
-		deadband(driveLeft);
-	}
-	
-	void teleopOutput(void){
-		drive.TankDrive(driveLeft, driveRight);
-	}
-	
-	float deadband(float value, float range = .1){
-		if(std::abs(value) < range){
-			return 0;
-		}
-		return value;
-	}
+	void teleopOutput(void);
 };
 #endif

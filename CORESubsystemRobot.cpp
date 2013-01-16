@@ -10,27 +10,51 @@ void CORERobot::add(CORESubsystem& sub){
 
 void CORERobot::teleopInit(void){
 	cout << "teleop init" << endl;
-	for(std::vector<CORESubsystem*>::iterator i = subsystems.begin(); i != subsystems.end(); ++i){
-		(*i)->teleopInit();
-		cout << "teleop init " << (*(*i)).name() << endl;
+	for(std::vector<CORESubsystem*>::iterator it = subsystems.begin(); it != subsystems.end(); ++it){
+		cout << "teleop init " << (*it)->name() << endl;
+		(*it)->teleopInit();
 	}
 }
 
 void CORERobot::teleop(COREJoystick& joystick){
 	cout << "teleop" << endl;
 	
-	for(std::vector<CORESubsystem*>::iterator i = subsystems.begin(); i != subsystems.end(); ++i){
-		(*i)->teleopInput(joystick);
-		cout << "teleop input " << (*(*i)).name() << endl;
+	std::vector<CORESubsystem*>::iterator it;
+	
+	for(it = subsystems.begin(); it != subsystems.end(); ++it){
+		cout << "teleop input " << (*it)->name() << endl;
+		(*it)->teleopInput(joystick);
 	}
 
-	for(std::vector<CORESubsystem*>::iterator i = subsystems.begin(); i != subsystems.end(); ++i){
-		(*i)->teleopLogic();
-		cout << "teleop logic " << (*(*i)).name() << endl;
+	for(it = subsystems.begin(); it != subsystems.end(); ++it){
+		cout << "teleop logic " << (*it)->name() << endl;
+		(*it)->teleopLogic();
 	}
 
-	for(std::vector<CORESubsystem*>::iterator i = subsystems.begin(); i != subsystems.end(); ++i){
-		(*i)->teleopOutput();
-		cout << "teleop output " << (*(*i)).name() << endl;
+	for(it = subsystems.begin(); it != subsystems.end(); ++it){
+		cout << "teleop output " << (*it)->name() << endl;
+		(*it)->teleopOutput();
 	}
+}
+
+CORESubsystem::CORESubsystem(void){}
+
+std::string CORESubsystem::name(void){
+	return "undefined name";
+}
+
+void CORESubsystem::teleopInit(void){
+	printf("Unimplemented teleop_init\n");
+}
+
+void CORESubsystem::teleopInput(COREJoystick& joystick){
+	printf("Unimplemented teleop_inputs\n");
+}
+
+void CORESubsystem::teleopLogic(void){
+	printf("Unimplemented teleop_logic\n");
+}
+
+void CORESubsystem::teleopOutput(void){
+	printf("Unimplemented teleop_outputs\n");
 }
