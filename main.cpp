@@ -5,6 +5,8 @@
 #include "Subsystems.h"
 
 /**
+TODO: remove all sample comments and replace with something relevant - mrg
+
  * This is a demo program showing the use of the RobotBase class.
  * The SimpleRobot class is the base of a robot application that will automatically call your
  * Autonomous and OperatorControl methods at the right time as controlled by the switches on
