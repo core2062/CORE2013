@@ -15,6 +15,12 @@ public:
 	// Drive
 	float driveLeft(void){return joystick1.GetRawAxis(1);};
 	float driveRight(void){return joystick1.GetRawAxis(3);};
+	
+	bool shooterOn(void){return joystick2.GetRawButton(2);};
+	bool shooterZero(void){return joystick2.GetRawButton(5);};
+	bool shooterUp(void){return joystick2.GetRawButton(4);};
+	bool shooterDown(void){return joystick2.GetRawButton(3);};
+	bool shooterShoot(void){return joystick2.GetRawButton(1);};
 };
 		
 #endif
