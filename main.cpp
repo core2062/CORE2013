@@ -2,7 +2,7 @@
 
 #include "CORESubsystemRobot.h"
 #include "COREJoystick.h"
-#include "DriveSubsystem.h"
+#include "Subsystems.h"
 
 /**
  * This is a demo program showing the use of the RobotBase class.
@@ -16,6 +16,8 @@ class CORE2013 : public SimpleRobot
 	COREJoystick joystick;
 	
 	DriveSubsystem drive;
+	ShooterSubsystem shooter;
+	LiftSubsystem lift;
 	
 public:
 	
@@ -23,9 +25,14 @@ public:
 		robot(),
 		joystick(),
 		
-		drive()
+		drive(),
+		shooter(),
+		lift()
+		
 	{
 		robot.add(drive);
+		robot.add(shooter);
+		robot.add(lift);
 	}
 
 	/**
