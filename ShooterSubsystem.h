@@ -6,7 +6,7 @@
 #define SHOOTERSUBSYSTEM_H
 
 class ShooterSubsystem : public CORESubsystem{
-	Victor shooterMotor;
+	Jaguar shooterMotor;
 	DigitalInput hopperSwitch;
 	//Encoder shooterEncoder;
 	
