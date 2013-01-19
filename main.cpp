@@ -4,14 +4,7 @@
 #include "COREJoystick.h"
 #include "Subsystems.h"
 
-/**
-TODO: remove all sample comments and replace with something relevant - mrg
 
- * This is a demo program showing the use of the RobotBase class.
- * The SimpleRobot class is the base of a robot application that will automatically call your
- * Autonomous and OperatorControl methods at the right time as controlled by the switches on
- * the driver station or the field controls.
- */ 
 class CORE2013 : public SimpleRobot
 {
 	CORERobot robot;
@@ -37,16 +30,10 @@ public:
 		robot.add(lift);
 	}
 
-	/**
-	 * Drive left & right motors for 2 seconds then stop
-	 */
 	void Autonomous(void){
 		// myRobot.SetSafetyEnabled(false);
 	}
 
-	/**
-	 * Runs the motors with arcade steering. 
-	 */
 	void OperatorControl(void){
 		Watchdog &wd = GetWatchdog();
 		wd.SetEnabled(true);
