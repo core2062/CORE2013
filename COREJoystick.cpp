@@ -5,8 +5,7 @@
 	{
 		joystick = jPtr;
 		input = num;
-		
-		state = oldState = false;
+		oldState = false;
 		
 	}
 	
@@ -19,24 +18,18 @@
 	// returns true on rising edge
 	bool COREJoystickButton::Rise(){
 		
-		state = Get();
-
+		bool state = Get();
 		bool rise = state and !oldState;
-		
 		oldState = state;
-		
 		return( rise );
 	}
 	
  // returns false on rising edge
 	bool COREJoystickButton::Fall(){
 		
-		state = Get();
-
+		bool state = Get();
 		bool fall = !state and oldState;
-		
 		oldState = state;
-		
 		return( fall );
 		
 	}

@@ -6,13 +6,15 @@
 #define CLIMBSUBSYSTEM_H
 
 class ClimbSubsystem : public CORESubsystem{
-	
+	Jaguar climberMotor;
+	Jaguar camMotor;
+	DigitalInput tiltLimit; 
 	bool isTilting;
+	bool isDeTilting;
 	bool speedFull;
 	bool speedHalf;
 	float currentSpeed;
-	Jaguar climberMotor;
-	Jaguar camMotor;
+	
 	
 public:
 	ClimbSubsystem(void);

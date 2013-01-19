@@ -5,7 +5,6 @@
 class COREJoystickButton {
 	Joystick	*joystick;
 	int			input;
-	bool		state;
 	bool		oldState;
 
 public:
@@ -43,8 +42,8 @@ public:
 	
 	bool climbFull(void){return joystick2.GetRawButton(6);};
 	bool climbHalf(void){return joystick2.GetRawButton(7);};
-	bool climbNormal(void){return joystick2.GetRawButton(8);};
 	bool climbTilt(void){return joystick2.GetRawButton(9);};
+	bool climbDeTilt(void){return joystick2.GetRawButton(10);};
 
 };
 		
