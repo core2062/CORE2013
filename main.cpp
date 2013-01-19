@@ -12,7 +12,7 @@ class CORE2013 : public SimpleRobot
 	
 	DriveSubsystem drive;
 	ShooterSubsystem shooter;
-	LiftSubsystem lift;
+	ClimbSubsystem climb;
 	
 public:
 	
@@ -22,12 +22,12 @@ public:
 		
 		drive(),
 		shooter(),
-		lift()
+		climb()
 		
 	{
 		robot.add(drive);
 		robot.add(shooter);
-		robot.add(lift);
+		robot.add(climb);
 	}
 
 	void Autonomous(void){

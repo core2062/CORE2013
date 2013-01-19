@@ -2,22 +2,22 @@
 #include "CORESubsystemRobot.h"
 #include <cmath>
 
-#ifndef LIFTSUBSYSTEM_H
-#define LIFTSUBSYSTEM_H
+#ifndef CLIMBSUBSYSTEM_H
+#define CLIMBSUBSYSTEM_H
 
-class LiftSubsystem : public CORESubsystem{
+class ClimbSubsystem : public CORESubsystem{
 	
 	bool isTilting;
 	bool speedFull;
 	bool speedHalf;
 	float currentSpeed;
-	Jaguar motorShooter; //change name to climber
-	Jaguar motorTilter;
+	Jaguar climberMotor;
+	Jaguar camMotor;
 	
 public:
-	LiftSubsystem(void);
+	ClimbSubsystem(void);
 	
-	std::string name(void){return "Lift";};
+	std::string name(void){return "Climb";};
 
 	void teleopInit(void);
 	
@@ -30,6 +30,6 @@ public:
 	//0- Half speed
 	//1- Normal Speed
 	//2- Full Speed
-	float getLiftSpeed(void);
+	float getClimbSpeed(void);
 };
 #endif
