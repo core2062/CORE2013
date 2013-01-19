@@ -4,7 +4,7 @@
 float deadband(float value, float range = .1);
 
 DriveSubsystem::DriveSubsystem(void):
-	drive(6,7,8,10)
+	drive(3,4,5,6)
 {}
 std::string DriveSubsystem::name(void){
 	return "Drive";

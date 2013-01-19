@@ -28,6 +28,7 @@ public:
 	void add(CORESubsystem&);
 	void teleopInit(void);
 	void teleop(COREJoystick&);
+	static void console( );
 };
 
 #endif

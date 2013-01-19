@@ -38,8 +38,9 @@ public:
 		Watchdog &wd = GetWatchdog();
 		wd.SetEnabled(true);
 		wd.SetExpiration(.5);
-		
+		cout <<"before" <<endl;
 		robot.teleopInit();
+		cout<<"after"<<endl;
 		
 		while (IsOperatorControl() and !IsDisabled()){
 			wd.Feed();

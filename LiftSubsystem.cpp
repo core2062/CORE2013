@@ -2,8 +2,8 @@
 #include "LiftSubsystem.h"
 
 LiftSubsystem::LiftSubsystem(void):
-motorShooter(9),
-motorTilter(9)
+motorShooter(9), //change name to climber
+motorTilter(7)
 {}
 
 void LiftSubsystem::teleopInit(void){

@@ -11,7 +11,7 @@ class LiftSubsystem : public CORESubsystem{
 	bool speedFull;
 	bool speedHalf;
 	float currentSpeed;
-	Jaguar motorShooter;
+	Jaguar motorShooter; //change name to climber
 	Jaguar motorTilter;
 	
 public:
