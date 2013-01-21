@@ -47,12 +47,15 @@ void ShooterSubsystem::teleopInput(COREJoystick& joystick){
 
 void ShooterSubsystem::teleopLogic(void){
 	
+	// could change this logic to use the new rising edge features in COREJoystickButton
 	if (!oldPyramidSpeed && pyramidSpeed) {
 		shooterValue = shooterDefault;
 	}
+	// ditto
 	if (!oldUp && up) {
 		shooterValue += shooterInc;
 	}
+	//ditto
 	if (!oldDown && down) {
 		shooterValue -= shooterInc;
 	}
