@@ -20,13 +20,10 @@ class ShooterSubsystem : public CORESubsystem{
 	float shooterOutput;
 	
 	bool pyramidSpeed;
-	bool oldPyramidSpeed;
 	bool shooterOn;
 	bool shooterRunning;
 	bool up;
-	bool oldUp;
 	bool down;
-	bool oldDown;
 	bool feed;
 	bool feedingDisk;
 	

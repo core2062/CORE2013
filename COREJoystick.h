@@ -21,13 +21,20 @@ class COREJoystick {
 	
 	COREJoystickButton	feedTrigger;
 	COREJoystickButton	shooterRun;
+	COREJoystickButton	pyramidSpeed;
+	COREJoystickButton	shooterIncrease;
+	COREJoystickButton	shooterDecrease;
+	
 	
 public:
 	COREJoystick(void):
 	joystick1(1),
 	joystick2(2),
 	feedTrigger( &joystick2, 1),
-	shooterRun( &joystick2, 2){}
+	shooterRun( &joystick2, 2),
+	pyramidSpeed( &joystick2, 5),
+	shooterIncrease( &joystick2, 4),
+	shooterDecrease( &joystick2, 3){}
 
 	// Drive
 	float driveLeft(void){return joystick1.GetRawAxis(1);};
@@ -35,9 +42,9 @@ public:
 	
 
 	bool shooterOn(void){return shooterRun.Rise();};
-	bool shooterZero(void){return joystick2.GetRawButton(5);};
-	bool shooterUp(void){return joystick2.GetRawButton(4);};
-	bool shooterDown(void){return joystick2.GetRawButton(3);};
+	bool shooterDefault(void){return pyramidSpeed.Rise();};
+	bool shooterUp(void){return shooterIncrease.Rise();};
+	bool shooterDown(void){return shooterDecrease.Rise();};
 	bool shooterShoot(void){return feedTrigger.Rise();};
 	
 	bool climbFull(void){return joystick2.GetRawButton(6);};

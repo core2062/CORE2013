@@ -14,13 +14,10 @@ feederTimer( )
 	
 	// initialize bools
 	pyramidSpeed = false;
-	oldPyramidSpeed = false;
 	shooterOn = false;
 	shooterRunning = false;
 	up = false;
-	oldUp = false;
 	down = false;
-	oldDown = false;
 	feed = false;
 	feedingDisk = false;
 }
@@ -38,7 +35,7 @@ void ShooterSubsystem::teleopInit(void)
 }
 
 void ShooterSubsystem::teleopInput(COREJoystick& joystick){
-	pyramidSpeed = joystick.shooterZero();
+	pyramidSpeed = joystick.shooterDefault();
 	up = joystick.shooterUp();
 	down = joystick.shooterDown();
 	feed = joystick.shooterShoot();
@@ -47,23 +44,19 @@ void ShooterSubsystem::teleopInput(COREJoystick& joystick){
 
 void ShooterSubsystem::teleopLogic(void){
 	
-	// could change this logic to use the new rising edge features in COREJoystickButton
-	if (!oldPyramidSpeed && pyramidSpeed) {
+	
+	if (pyramidSpeed) {
 		shooterValue = shooterDefault;
 	}
-	// ditto
-	if (!oldUp && up) {
+	
+	if (up) {
 		shooterValue += shooterInc;
 	}
-	//ditto
-	if (!oldDown && down) {
+	
+	if (down) {
 		shooterValue -= shooterInc;
 	}
 	
-	// store old versions
-	oldPyramidSpeed = pyramidSpeed;
-	oldUp = up;
-	oldDown = down;
 	
 	if (feed and !feedingDisk and shooterRunning ) {
 		feederTimer.Reset();
