@@ -6,7 +6,9 @@ float deadband(float value, float range = .1);
 DriveSubsystem::DriveSubsystem(void):
 	drive(3,4,5,6)
 {
-	//drive.SetInvertedMotor(RobotDrive::kFrontLeftMotor,true);
+	drive.SetInvertedMotor(RobotDrive::kFrontLeftMotor,true);
+	drive.SetInvertedMotor(RobotDrive::kFrontRightMotor,true);
+	drive.SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
 }
 std::string DriveSubsystem::name(void){
 	return "Drive";

@@ -37,8 +37,8 @@ public:
 	shooterDecrease( &joystick2, 3){}
 
 	// Drive
-	float driveLeft(void){return joystick1.GetRawAxis(1);};
-	float driveRight(void){return joystick1.GetRawAxis(3);};
+	float driveLeft(void){return joystick1.GetRawAxis(2);};
+	float driveRight(void){return joystick1.GetRawAxis(5);};
 	
 
 	bool shooterOn(void){return shooterRun.Rise();};
