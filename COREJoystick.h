@@ -25,6 +25,8 @@ class COREJoystick {
 	COREJoystickButton	shooterIncrease;
 	COREJoystickButton	shooterDecrease;
 	
+	bool arcade;
+	
 	
 public:
 	COREJoystick(void):
@@ -34,7 +36,9 @@ public:
 	shooterRun( &joystick2, 2),
 	pyramidSpeed( &joystick2, 5),
 	shooterIncrease( &joystick2, 4),
-	shooterDecrease( &joystick2, 3){}
+	shooterDecrease( &joystick2, 3){
+		arcade = false;
+	}
 
 	// Drive
 	float driveLeft(void){return joystick1.GetRawAxis(2);};
@@ -42,7 +46,6 @@ public:
 	float driveMag(void){return joystick1.GetRawAxis(5);};
 	float driveRotate(void){return joystick1.GetRawAxis(4);};
 	
-
 	bool shooterOn(void){return shooterRun.Rise();};
 	bool shooterDefault(void){return pyramidSpeed.Rise();};
 	bool shooterUp(void){return shooterIncrease.Rise();};
@@ -54,7 +57,9 @@ public:
 	bool climbTilt(void){return joystick2.GetRawButton(9);};
 	bool climbDeTilt(void){return joystick2.GetRawButton(10);};
 	
-	bool driveArcade(void){return false;};
+	
+	void driveArcade(bool n){arcade=n;};
+	bool driveArcade(void){return arcade;};
 };
 		
 #endif

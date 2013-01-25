@@ -31,7 +31,7 @@ public:
 	}
 
 	void Autonomous(void){
-		// myRobot.SetSafetyEnabled(false);
+		// Hey
 	}
 
 	void OperatorControl(void){
@@ -39,7 +39,7 @@ public:
 		wd.SetEnabled(true);
 		wd.SetExpiration(.5);
 		
-		SmartDashboard::PutBoolean("Tank Drive", true);
+		SmartDashboard::PutBoolean("Arcade Drive", false);
 
 		SmartDashboard::PutData("FLDrive", drive.getFLDrive());
 		SmartDashboard::PutData("RLDrive", drive.getRLDrive());
@@ -53,6 +53,8 @@ public:
 		
 		while (IsOperatorControl() and !IsDisabled()){
 			wd.Feed();
+			
+			joystick.driveArcade(SmartDashboard::GetBoolean("Arcade Drive"));
 			
 			robot.teleop(joystick);
 
