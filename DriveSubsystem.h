@@ -6,6 +6,11 @@
 #define DRIVESUBSYSTEM_H
 
 class DriveSubsystem : public CORESubsystem{
+	Jaguar FLDrive;
+	Jaguar RLDrive;
+	Jaguar FRDrive;
+	Jaguar RRDrive;
+	
 	RobotDrive drive;
 	
 	float	driveRight;
@@ -27,5 +32,11 @@ public:
 	void teleopLogic(void);
 	
 	void teleopOutput(void);
+	
+
+	Jaguar* getFLDrive(void);
+	Jaguar* getRLDrive(void);
+	Jaguar* getFRDrive(void);
+	Jaguar* getRRDrive(void);
 };
 #endif

@@ -4,13 +4,17 @@
 float deadband(float value, float range = .1);
 
 DriveSubsystem::DriveSubsystem(void):
-	drive(3,4,5,6)
+	FLDrive(3),
+	RLDrive(4),
+	FRDrive(5),
+	RRDrive(6),
+	
+	drive(FLDrive,RLDrive,FRDrive,RRDrive)
 {
 	drive.SetInvertedMotor(RobotDrive::kFrontLeftMotor,true);
 	drive.SetInvertedMotor(RobotDrive::kFrontRightMotor,true);
 	drive.SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
 	
-	//initialize bool
 	driveArcade = false;
 }
 std::string DriveSubsystem::name(void){
@@ -50,4 +54,17 @@ float deadband(float value, float range){
 		return 0;
 	}
 	return value;
+}
+
+Jaguar* DriveSubsystem::getFLDrive(void){
+	return &FLDrive;
+}
+Jaguar* DriveSubsystem::getRLDrive(void){
+	return &RLDrive;
+}
+Jaguar* DriveSubsystem::getFRDrive(void){
+	return &FRDrive;
+}
+Jaguar* DriveSubsystem::getRRDrive(void){
+	return &RRDrive;
 }
