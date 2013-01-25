@@ -8,8 +8,13 @@
 class DriveSubsystem : public CORESubsystem{
 	RobotDrive drive;
 	
-	float driveRight;
-	float driveLeft;
+	float	driveRight;
+	float	driveLeft;
+	
+	float	driveMag;
+	float	driveRotate;
+	bool	driveArcade;
+	
 public:
 	DriveSubsystem(void);
 	

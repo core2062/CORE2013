@@ -39,6 +39,8 @@ public:
 	// Drive
 	float driveLeft(void){return joystick1.GetRawAxis(2);};
 	float driveRight(void){return joystick1.GetRawAxis(5);};
+	float driveMag(void){return joystick1.GetRawAxis(5);};
+	float driveRotate(void){return joystick1.GetRawAxis(4);};
 	
 
 	bool shooterOn(void){return shooterRun.Rise();};
@@ -51,7 +53,8 @@ public:
 	bool climbHalf(void){return joystick2.GetRawButton(7);};
 	bool climbTilt(void){return joystick2.GetRawButton(9);};
 	bool climbDeTilt(void){return joystick2.GetRawButton(10);};
-
+	
+	bool driveArcade(void){return false;};
 };
 		
 #endif
