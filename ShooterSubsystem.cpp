@@ -1,7 +1,8 @@
 #include "CORESubsystemRobot.h"
 #include "ShooterSubsystem.h"
 
-ShooterFeedback::ShooterFeedback(UINT32 channel){}
+ShooterFeedback::ShooterFeedback(UINT32 channel):
+Counter(channel){}
 double	ShooterFeedback::PIDGet(){
 	return(1/GetPeriod());
 }
@@ -11,7 +12,7 @@ shooterMotor(8),
 hopperSwitch(1),
 feeder(1, Relay::kForwardOnly ), // 0 is relay 1
 feederTimer( ),
-shooterEncoder(1)
+shooterEncoder(10)
 {
 	shooterValue = 0;
 	shooterOutput = 0;
