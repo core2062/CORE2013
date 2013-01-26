@@ -1,13 +1,17 @@
 #include "CORESubsystemRobot.h"
 #include "ShooterSubsystem.h"
 
+ShooterFeedback::ShooterFeedback(UINT32 channel){}
+double	ShooterFeedback::PIDGet(){
+	return(1/GetPeriod());
+}
 
 ShooterSubsystem::ShooterSubsystem(void):
 shooterMotor(8),
 hopperSwitch(1),
-//shooterEncoder(1)
 feeder(1, Relay::kForwardOnly ), // 0 is relay 1
-feederTimer( )
+feederTimer( ),
+shooterEncoder(1)
 {
 	shooterValue = 0;
 	shooterOutput = 0;
@@ -74,7 +78,7 @@ void ShooterSubsystem::teleopLogic(void){
 		
 	shooterOutput = shooterRunning ? shooterValue : 0;
 	
-	// cout << "Shooter Output is " << shooterOutput <<endl;
+	cout << "Shooter speed is " << shooterEncoder.PIDGet() <<endl;
 	
 }
 

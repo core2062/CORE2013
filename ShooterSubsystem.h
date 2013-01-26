@@ -5,12 +5,21 @@
 #ifndef SHOOTERSUBSYSTEM_H
 #define SHOOTERSUBSYSTEM_H
 
+class ShooterFeedback : public Counter, public PIDSource{
+	//Member Data
+	
+	//Member Functions
+public:
+	ShooterFeedback(UINT32 channel);
+	double	PIDGet ();
+};
+
 class ShooterSubsystem : public CORESubsystem{
 	Jaguar 			shooterMotor;
 	DigitalInput 	hopperSwitch;
-	//Encoder 		shooterEncoder;
 	Relay 			feeder;
 	Timer			feederTimer;
+	ShooterFeedback	shooterEncoder;
 
 	static const float shooterInc = 0.05;
 	static const float shooterDefault = .5;
