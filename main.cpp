@@ -33,6 +33,11 @@ public:
 	void Autonomous(void){
 		// Hey
 	}
+	
+	void Disabled(void){
+		cout << "Disabled." << endl;
+		printf("Disabled.");
+	}
 
 	void OperatorControl(void){
 		Watchdog &wd = GetWatchdog();
@@ -41,11 +46,6 @@ public:
 		
 		SmartDashboard::PutBoolean("Arcade Drive", false);
 
-		SmartDashboard::PutData("FLDrive", drive.getFLDrive());
-		SmartDashboard::PutData("RLDrive", drive.getRLDrive());
-		SmartDashboard::PutData("FRDrive", drive.getFRDrive());
-		SmartDashboard::PutData("RRDrive", drive.getRRDrive());
-		
 		cout <<"before" <<endl;
 		robot.teleopInit();
 		cout<<"after"<<endl;

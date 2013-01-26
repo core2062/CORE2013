@@ -17,7 +17,6 @@ shooterEncoder(10)
 	shooterValue = 0;
 	shooterOutput = 0;
 	
-	// initialize bools
 	pyramidSpeed = false;
 	shooterOn = false;
 	shooterRunning = false;
