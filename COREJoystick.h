@@ -25,8 +25,6 @@ class COREJoystick {
 	COREJoystickButton	shooterIncrease;
 	COREJoystickButton	shooterDecrease;
 	
-	bool arcade;
-	
 	
 public:
 	COREJoystick(void):
@@ -37,7 +35,6 @@ public:
 	pyramidSpeed( &joystick2, 5),
 	shooterIncrease( &joystick2, 4),
 	shooterDecrease( &joystick2, 3){
-		arcade = false;
 	}
 
 	// Drive
@@ -56,10 +53,6 @@ public:
 	bool climbHalf(void){return joystick2.GetRawButton(7);};
 	bool climbTilt(void){return joystick2.GetRawButton(9);};
 	bool climbDeTilt(void){return joystick2.GetRawButton(10);};
-	
-	
-	void driveArcade(bool n){arcade=n;};
-	bool driveArcade(void){return arcade;};
 };
 		
 #endif

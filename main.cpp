@@ -35,8 +35,7 @@ public:
 	}
 	
 	void Disabled(void){
-		cout << "Disabled." << endl;
-		printf("Disabled.");
+		cout << "Disabled" << endl;
 	}
 
 	void OperatorControl(void){
@@ -44,8 +43,6 @@ public:
 		wd.SetEnabled(true);
 		wd.SetExpiration(.5);
 		
-		SmartDashboard::PutBoolean("Arcade Drive", false);
-
 		cout <<"before" <<endl;
 		robot.teleopInit();
 		cout<<"after"<<endl;
@@ -53,9 +50,7 @@ public:
 		
 		while (IsOperatorControl() and !IsDisabled()){
 			wd.Feed();
-			
-			joystick.driveArcade(SmartDashboard::GetBoolean("Arcade Drive"));
-			
+						
 			robot.teleop(joystick);
 
 			Wait(0.005);				// wait for a motor update time

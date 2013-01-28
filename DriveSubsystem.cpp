@@ -22,7 +22,8 @@ std::string DriveSubsystem::name(void){
 }
 
 void DriveSubsystem::teleopInit(void){
-	
+	SmartDashboard::PutBoolean("Arcade Drive", false);
+
 }
 
 void DriveSubsystem::teleopInput(COREJoystick& joystick){
@@ -30,7 +31,8 @@ void DriveSubsystem::teleopInput(COREJoystick& joystick){
 	driveLeft = joystick.driveLeft();
 	driveMag = joystick.driveMag();
 	driveRotate = joystick.driveRotate();
-	driveArcade = joystick.driveArcade();
+	
+	driveArcade = SmartDashboard::GetBoolean("Arcade Drive");
 }
 
 void DriveSubsystem::teleopLogic(void){
