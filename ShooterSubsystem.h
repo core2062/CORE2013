@@ -5,12 +5,12 @@
 #ifndef SHOOTERSUBSYSTEM_H
 #define SHOOTERSUBSYSTEM_H
 
-class ShooterFeedback : public Counter, public PIDSource{
+class PIDCounter : public Counter, public PIDSource{
 	//Member Data
 	
 	//Member Functions
 public:
-	ShooterFeedback(UINT32 channel);
+	PIDCounter(UINT32 channel);
 	double	PIDGet ();
 };
 
@@ -19,7 +19,7 @@ class ShooterSubsystem : public CORESubsystem{
 	DigitalInput 	hopperSwitch;
 	Relay 			feeder;
 	Timer			feederTimer;
-	ShooterFeedback	shooterEncoder;
+	PIDCounter	shooterEncoder;
 
 	static const float shooterInc = 0.05;
 	static const float shooterDefault = .5;
