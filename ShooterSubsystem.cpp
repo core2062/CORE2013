@@ -4,7 +4,7 @@
 PIDCounter::PIDCounter(UINT32 channel):
 Counter(channel){}
 double	PIDCounter::PIDGet(){
-	return(1/GetPeriod());
+	return(1.0/GetPeriod());
 }
 
 ShooterSubsystem::ShooterSubsystem(void):
@@ -16,7 +16,8 @@ shooterEncoder(3)
 {
 	shooterValue = 0;
 	shooterOutput = 0;
-	
+	n=0;
+	shooterEncoder.Start();
 	pyramidSpeed = false;
 	shooterOn = false;
 	shooterRunning = false;
@@ -33,8 +34,6 @@ std::string ShooterSubsystem::name(void)
 
 void ShooterSubsystem::teleopInit(void)
 {
-//	shooterEncoder.Start();
-	
 	shooterValue = shooterDefault;
 }
 
@@ -77,8 +76,10 @@ void ShooterSubsystem::teleopLogic(void){
 	}
 		
 	shooterOutput = shooterRunning ? shooterValue : 0;
-	
-	cout << "Shooter speed is " << shooterEncoder.PIDGet() <<endl;
+	if (n >= 50){
+		n = 0;
+		cout << "Shooter speed is " << shooterEncoder.Get() << endl;
+	} else{++n;}
 	
 }
 

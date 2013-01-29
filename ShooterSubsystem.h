@@ -6,9 +6,6 @@
 #define SHOOTERSUBSYSTEM_H
 
 class PIDCounter : public Counter, public PIDSource{
-	//Member Data
-	
-	//Member Functions
 public:
 	PIDCounter(UINT32 channel);
 	double	PIDGet ();
@@ -35,6 +32,8 @@ class ShooterSubsystem : public CORESubsystem{
 	bool down;
 	bool feed;
 	bool feedingDisk;
+	
+	int n;
 	
 public:
 	ShooterSubsystem(void);
