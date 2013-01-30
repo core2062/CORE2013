@@ -16,7 +16,10 @@ class ShooterSubsystem : public CORESubsystem{
 	DigitalInput 	hopperSwitch;
 	Relay 			feeder;
 	Timer			feederTimer;
-	PIDCounter	shooterEncoder;
+//	PIDCounter		shooterOptEncoder;
+	Encoder			shooter360Encoder;
+	
+	PIDController 	pid;
 
 	static const float shooterInc = 0.05;
 	static const float shooterDefault = .5;

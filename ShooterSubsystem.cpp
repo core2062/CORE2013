@@ -4,7 +4,7 @@
 PIDCounter::PIDCounter(UINT32 channel):
 Counter(channel){}
 double	PIDCounter::PIDGet(){
-	return(1.0/GetPeriod());
+	return(1/GetPeriod());
 }
 
 ShooterSubsystem::ShooterSubsystem(void):
@@ -12,12 +12,19 @@ shooterMotor(8),
 hopperSwitch(1),
 feeder(1, Relay::kForwardOnly ), // 0 is relay 1
 feederTimer( ),
-shooterEncoder(3)
+//shooterOptEncoder(10),
+shooter360Encoder(14,13),
+pid(0.09, 0 ,0, 0.021, &shooter360Encoder, &shooterMotor)
 {
 	shooterValue = 0;
 	shooterOutput = 0;
 	n=0;
-	shooterEncoder.Start();
+	
+//	shooterOptEncoder.Start();
+	shooter360Encoder.Start();
+	shooter360Encoder.SetDistancePerPulse(((double) 1.0)/((double) 360.0));
+	shooter360Encoder.SetPIDSourceParameter(Encoder::kRate);
+	
 	pyramidSpeed = false;
 	shooterOn = false;
 	shooterRunning = false;
@@ -34,7 +41,16 @@ std::string ShooterSubsystem::name(void)
 
 void ShooterSubsystem::teleopInit(void)
 {
+	pid.SetSetpoint(5);
+	
+	SmartDashboard::PutNumber("P", pid.GetP());
+	SmartDashboard::PutNumber("I", pid.GetI());
+	SmartDashboard::PutNumber("D", pid.GetD());
+	SmartDashboard::PutNumber("F", pid.GetF());
+	SmartDashboard::PutNumber("Setpoint", pid.GetSetpoint());
+	
 	shooterValue = shooterDefault;
+	pid.Enable();
 }
 
 void ShooterSubsystem::teleopInput(COREJoystick& joystick){
@@ -76,16 +92,11 @@ void ShooterSubsystem::teleopLogic(void){
 	}
 		
 	shooterOutput = shooterRunning ? shooterValue : 0;
-	if (n >= 50){
-		n = 0;
-		cout << "Shooter speed is " << shooterEncoder.Get() << endl;
-	} else{++n;}
-	
 }
 
 void ShooterSubsystem::teleopOutput(void){
 	// service shooter motor
-	shooterMotor.Set(shooterOutput);
+	// shooterMotor.Set(shooterOutput);
 	
 	// service feeder
 	if ( !feedingDisk )
@@ -100,9 +111,21 @@ void ShooterSubsystem::teleopOutput(void){
 		else {
 			feeder.Set( Relay::kOn );
 		}
-	}	
-	
-	// cout << "we are " << ( feedingDisk ? "feedingDisk" : "not shoooting" ) << endl;
-		
-}
+	}
 
+	SmartDashboard::PutNumber("Shooter speed", shooter360Encoder.GetRate());
+	
+	double p = SmartDashboard::GetNumber("P");
+	double i = SmartDashboard::GetNumber("I");
+	double d = SmartDashboard::GetNumber("D");
+	double f = SmartDashboard::GetNumber("F");
+	double set = SmartDashboard::GetNumber("Setpoint");
+	
+	pid.SetPID(p,i,d,f);
+	pid.SetSetpoint(set); // TODO: Tie into shooter logic (ie joystick control)
+	
+//	cout << "  P: " << pid.GetP() << " I: " << pid.GetI() << " D: " << pid.GetD()
+//			<< " F: " << pid.GetF() << " Set: " << pid.GetSetpoint() << endl;
+
+	// cout << "we are " << ( feedingDisk ? "feedingDisk" : "not shoooting" ) << endl;		
+}
