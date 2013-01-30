@@ -21,8 +21,8 @@ class ShooterSubsystem : public CORESubsystem{
 	
 	PIDController 	pid;
 
-	static const float shooterInc = 0.05;
-	static const float shooterDefault = .5;
+	static const float shooterInc = 1; // value is in rps
+	static const float shooterDefault = 20;
 	static const float feederTime = .5;  		// energize pusher fore 5 seconds 
 	
 	float shooterValue;
