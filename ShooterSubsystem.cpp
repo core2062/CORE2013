@@ -96,7 +96,7 @@ void ShooterSubsystem::teleopLogic(void){
 
 void ShooterSubsystem::teleopOutput(void){
 	// service shooter motor
-	// shooterMotor.Set(shooterOutput);
+	 pid.SetSetpoint(shooterOutput);
 	
 	// service feeder
 	if ( !feedingDisk )
@@ -119,10 +119,9 @@ void ShooterSubsystem::teleopOutput(void){
 	double i = SmartDashboard::GetNumber("I");
 	double d = SmartDashboard::GetNumber("D");
 	double f = SmartDashboard::GetNumber("F");
-	double set = SmartDashboard::GetNumber("Setpoint");
+	SmartDashboard::PutNumber("Setpoint", shooterOutput);
 	
 	pid.SetPID(p,i,d,f);
-	pid.SetSetpoint(set); // TODO: Tie into shooter logic (ie joystick control)
 	
 //	cout << "  P: " << pid.GetP() << " I: " << pid.GetI() << " D: " << pid.GetD()
 //			<< " F: " << pid.GetF() << " Set: " << pid.GetSetpoint() << endl;
