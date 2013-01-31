@@ -4,6 +4,7 @@
 PIDCounter::PIDCounter(UINT32 channel):
 Counter(channel){}
 double	PIDCounter::PIDGet(){
+	if (StatusIsFatal()) return 0.0;
 	return(1/GetPeriod());
 }
 
@@ -12,7 +13,7 @@ shooterMotor(8),
 hopperSwitch(1),
 feeder(1, Relay::kForwardOnly ), // 0 is relay 1
 feederTimer( ),
-//shooterOptEncoder(10),
+shooterOptEncoder(10),
 shooter360Encoder(14,13),
 pid(0.09, 0 ,0, 0.021, &shooter360Encoder, &shooterMotor)
 {
@@ -20,7 +21,7 @@ pid(0.09, 0 ,0, 0.021, &shooter360Encoder, &shooterMotor)
 	shooterOutput = 0;
 	n=0;
 	
-//	shooterOptEncoder.Start();
+	shooterOptEncoder.Start();
 	shooter360Encoder.Start();
 	shooter360Encoder.SetDistancePerPulse(((double) 1.0)/((double) 360.0));
 	shooter360Encoder.SetPIDSourceParameter(Encoder::kRate);
@@ -114,6 +115,7 @@ void ShooterSubsystem::teleopOutput(void){
 	}
 
 	SmartDashboard::PutNumber("Shooter speed", shooter360Encoder.GetRate());
+	SmartDashboard::PutNumber("Opt Shooter", shooterOptEncoder.PIDGet());
 	
 	double p = SmartDashboard::GetNumber("P");
 	double i = SmartDashboard::GetNumber("I");
