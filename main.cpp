@@ -47,13 +47,17 @@ public:
 		robot.teleopInit();
 		cout<<"after"<<endl;
 		
+		Timer teleop;
+		teleop.Start();
 		
 		while (IsOperatorControl() and !IsDisabled()){
+			teleop.Reset();
 			wd.Feed();
-						
+				
 			robot.teleop(joystick);
 
-			Wait(0.005);				// wait for a motor update time
+			Wait(0.05);				// wait for a motor update time
+			SmartDashboard::PutNumber("Teleop time", teleop.Get());
 		}
 	}
 	

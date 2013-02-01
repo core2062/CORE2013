@@ -6,8 +6,11 @@
 #define SHOOTERSUBSYSTEM_H
 
 class PIDCounter : public Counter, public PIDSource{
+	INT32 prevCounterVal;
+	double prevPeriod;
 public:
 	PIDCounter(UINT32 channel);
+	double 	GetPeriod();
 	double	PIDGet ();
 };
 

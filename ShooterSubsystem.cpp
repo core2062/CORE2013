@@ -2,10 +2,22 @@
 #include "ShooterSubsystem.h"
 
 PIDCounter::PIDCounter(UINT32 channel):
-Counter(channel){}
+Counter(channel){
+	prevCounterVal = 0;
+	prevPeriod = 0;
+}
+
 double	PIDCounter::PIDGet(){
 	if (StatusIsFatal()) return 0.0;
-	return(1/GetPeriod());
+	INT32 counterValue;
+	counterValue = Get();
+	if (counterValue != prevCounterVal){
+		prevCounterVal = counterValue;
+		prevPeriod = (1/GetPeriod());
+	} else{
+		cout << "No counter change" << endl;
+	}
+	return prevPeriod;
 }
 
 ShooterSubsystem::ShooterSubsystem(void):
