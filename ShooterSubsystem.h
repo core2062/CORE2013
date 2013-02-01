@@ -10,7 +10,6 @@ class PIDCounter : public Counter, public PIDSource{
 	double prevPeriod;
 public:
 	PIDCounter(UINT32 channel);
-	double 	GetPeriod();
 	double	PIDGet ();
 };
 

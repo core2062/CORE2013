@@ -3,21 +3,13 @@
 
 PIDCounter::PIDCounter(UINT32 channel):
 Counter(channel){
-	prevCounterVal = 0;
-	prevPeriod = 0;
+	SetMaxPeriod(.3);  // Value is too high. PID won't stop.
 }
 
 double	PIDCounter::PIDGet(){
 	if (StatusIsFatal()) return 0.0;
-	INT32 counterValue;
-	counterValue = Get();
-	if (counterValue != prevCounterVal){
-		prevCounterVal = counterValue;
-		prevPeriod = (1/GetPeriod());
-	} else{
-		cout << "No counter change" << endl;
-	}
-	return prevPeriod;
+	return (1/GetPeriod());
+
 }
 
 ShooterSubsystem::ShooterSubsystem(void):
@@ -27,7 +19,7 @@ feeder(1, Relay::kForwardOnly ), // 0 is relay 1
 feederTimer( ),
 shooterOptEncoder(10),
 shooter360Encoder(14,13),
-pid(0.09, 0 ,0, 0.021, &shooter360Encoder, &shooterMotor)
+pid(0.09, 0 ,0, 0.021, &shooterOptEncoder, &shooterMotor)
 {
 	shooterValue = 0;
 	shooterOutput = 0;
