@@ -23,7 +23,6 @@ std::string DriveSubsystem::name(void){
 
 void DriveSubsystem::teleopInit(void){
 	SmartDashboard::PutBoolean("Arcade Drive", false);
-
 }
 
 void DriveSubsystem::teleopInput(COREJoystick& joystick){
@@ -56,17 +55,4 @@ float deadband(float value, float range){
 		return 0;
 	}
 	return value;
-}
-
-Jaguar* DriveSubsystem::getFLDrive(void){
-	return &FLDrive;
-}
-Jaguar* DriveSubsystem::getRLDrive(void){
-	return &RLDrive;
-}
-Jaguar* DriveSubsystem::getFRDrive(void){
-	return &FRDrive;
-}
-Jaguar* DriveSubsystem::getRRDrive(void){
-	return &RRDrive;
 }

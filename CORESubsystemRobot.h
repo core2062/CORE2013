@@ -22,6 +22,7 @@ public:
 
 class CORERobot {
 	vector <CORESubsystem*> subsystems;
+	Timer timer;
 	
 public:
 	CORERobot(void);

@@ -1,10 +1,12 @@
 #include "CORESubsystemRobot.h"
 
 CORERobot::CORERobot(void):
-	subsystems(){}
+	subsystems(),
+	timer(){
+	timer.Start();
+}
 
 void CORERobot::add(CORESubsystem& sub){
-	
 	subsystems.push_back( &sub );
 }
 
@@ -22,18 +24,24 @@ void CORERobot::teleop(COREJoystick& joystick){
 	std::vector<CORESubsystem*>::iterator it;
 	
 	for(it = subsystems.begin(); it != subsystems.end(); ++it){
-		//cout << "teleop input " << (*it)->name() << endl;
+		cout << "teleop input " << (*it)->name() << endl;
+		timer.Reset();
 		(*it)->teleopInput(joystick);
+		cout<< "    " << timer.Get()<<endl;
 	}
 
 	for(it = subsystems.begin(); it != subsystems.end(); ++it){
-		//cout << "teleop logic " << (*it)->name() << endl;
+		cout << "teleop logic " << (*it)->name() << endl;
+		timer.Reset();
 		(*it)->teleopLogic();
+		cout<< "    " << timer.Get()<<endl;
 	}
 
 	for(it = subsystems.begin(); it != subsystems.end(); ++it){
-		//cout << "teleop output " << (*it)->name() << endl;
+		cout << "teleop output " << (*it)->name() << endl;
+		timer.Reset();
 		(*it)->teleopOutput();
+		cout<< "    " << timer.Get()<<endl;
 	}
 }
 

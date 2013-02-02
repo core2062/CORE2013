@@ -32,8 +32,8 @@ public:
 	joystick2(2),
 	feedTrigger( &joystick2, 1),
 	shooterRun( &joystick2, 2),
-	pyramidSpeed( &joystick2, 5),
-	shooterIncrease( &joystick2, 4),
+	pyramidSpeed( &joystick2, 8),
+	shooterIncrease( &joystick2, 5),
 	shooterDecrease( &joystick2, 3){
 	}
 

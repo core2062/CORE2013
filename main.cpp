@@ -43,9 +43,7 @@ public:
 		wd.SetEnabled(true);
 		wd.SetExpiration(.5);
 		
-		cout <<"before" <<endl;
 		robot.teleopInit();
-		cout<<"after"<<endl;
 		
 		Timer teleop;
 		teleop.Start();

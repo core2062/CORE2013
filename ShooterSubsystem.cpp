@@ -3,7 +3,7 @@
 
 PIDCounter::PIDCounter(UINT32 channel):
 Counter(channel){
-	SetMaxPeriod(.3);  // Value is too high. PID won't stop.
+	SetMaxPeriod(.15);
 }
 
 double	PIDCounter::PIDGet(){
@@ -15,15 +15,14 @@ double	PIDCounter::PIDGet(){
 ShooterSubsystem::ShooterSubsystem(void):
 shooterMotor(8),
 hopperSwitch(1),
-feeder(1, Relay::kForwardOnly ), // 0 is relay 1
-feederTimer( ),
+feeder(1, Relay::kForwardOnly), // 0 is relay 1
+feederTimer(),
 shooterOptEncoder(10),
 shooter360Encoder(14,13),
 pid(0.09, 0 ,0, 0.021, &shooterOptEncoder, &shooterMotor)
 {
 	shooterValue = 0;
 	shooterOutput = 0;
-	n=0;
 	
 	shooterOptEncoder.Start();
 	shooter360Encoder.Start();
@@ -74,6 +73,9 @@ void ShooterSubsystem::teleopLogic(void){
 	}
 	
 	if (up) {
+		if(!shooterRunning){
+			shooterOn = true;
+		}
 		shooterValue += shooterInc;
 	}
 	
@@ -95,13 +97,19 @@ void ShooterSubsystem::teleopLogic(void){
 	else if ( shooterOn and shooterRunning){
 		shooterRunning = false;
 	}
-		
+	
+	if (shooterValue <= 7){
+		shooterRunning = false;
+		shooterValue = 8;
+	}
+	
 	shooterOutput = shooterRunning ? shooterValue : 0;
 }
 
 void ShooterSubsystem::teleopOutput(void){
 	// service shooter motor
-	 pid.SetSetpoint(shooterOutput);
+	pid.SetSetpoint(shooterOutput);
+	
 	
 	// service feeder
 	if ( !feedingDisk )

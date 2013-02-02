@@ -38,8 +38,6 @@ class ShooterSubsystem : public CORESubsystem{
 	bool feed;
 	bool feedingDisk;
 	
-	int n;
-	
 public:
 	ShooterSubsystem(void);
 	
