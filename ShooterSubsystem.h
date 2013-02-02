@@ -19,7 +19,6 @@ class ShooterSubsystem : public CORESubsystem{
 	Relay 			feeder;
 	Timer			feederTimer;
 	PIDCounter		shooterOptEncoder;
-	Encoder			shooter360Encoder;
 	
 	PIDController 	pid;
 

@@ -24,22 +24,22 @@ void CORERobot::teleop(COREJoystick& joystick){
 	std::vector<CORESubsystem*>::iterator it;
 	
 	for(it = subsystems.begin(); it != subsystems.end(); ++it){
-		cout << "teleop input " << (*it)->name() << endl;
-		timer.Reset();
+//		cout << "teleop input " << (*it)->name() << endl;
+//		timer.Reset();
 		(*it)->teleopInput(joystick);
 //		cout<< "    " << timer.Get()<<endl;
 	}
 
 	for(it = subsystems.begin(); it != subsystems.end(); ++it){
-		cout << "teleop logic " << (*it)->name() << endl;
-		timer.Reset();
+//		cout << "teleop logic " << (*it)->name() << endl;
+//		timer.Reset();
 		(*it)->teleopLogic();
 //		cout<< "    " << timer.Get()<<endl;
 	}
 
 	for(it = subsystems.begin(); it != subsystems.end(); ++it){
-		cout << "teleop output " << (*it)->name() << endl;
-		timer.Reset();
+//		cout << "teleop output " << (*it)->name() << endl;
+//		timer.Reset();
 		(*it)->teleopOutput();
 //		cout<< "    " << timer.Get()<<endl;
 	}
