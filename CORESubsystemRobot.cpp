@@ -27,21 +27,21 @@ void CORERobot::teleop(COREJoystick& joystick){
 		cout << "teleop input " << (*it)->name() << endl;
 		timer.Reset();
 		(*it)->teleopInput(joystick);
-		cout<< "    " << timer.Get()<<endl;
+//		cout<< "    " << timer.Get()<<endl;
 	}
 
 	for(it = subsystems.begin(); it != subsystems.end(); ++it){
 		cout << "teleop logic " << (*it)->name() << endl;
 		timer.Reset();
 		(*it)->teleopLogic();
-		cout<< "    " << timer.Get()<<endl;
+//		cout<< "    " << timer.Get()<<endl;
 	}
 
 	for(it = subsystems.begin(); it != subsystems.end(); ++it){
 		cout << "teleop output " << (*it)->name() << endl;
 		timer.Reset();
 		(*it)->teleopOutput();
-		cout<< "    " << timer.Get()<<endl;
+//		cout<< "    " << timer.Get()<<endl;
 	}
 }
 
