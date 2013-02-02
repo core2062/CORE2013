@@ -1,9 +1,12 @@
 #include "WPILib.h"
 #include "CORESubsystemRobot.h"
-#include <cmath>
+#include <string.h>
+#include "COREDrive.h"
 
 #ifndef DRIVESUBSYSTEM_H
 #define DRIVESUBSYSTEM_H
+
+
 
 class DriveSubsystem : public CORESubsystem{
 	Jaguar FLDrive;
@@ -11,14 +14,22 @@ class DriveSubsystem : public CORESubsystem{
 	Jaguar FRDrive;
 	Jaguar RRDrive;
 	
-	RobotDrive drive;
+	COREDrive drive;
 	
-	float	driveRight;
-	float	driveLeft;
+	float	tankRight;
+	float	tankLeft;
 	
-	float	driveMag;
-	float	driveRotate;
-	bool	driveArcade;
+	float	classicMag;
+	float	classicRot;
+	
+	float 	kajMag;
+	float	kajRot;
+	
+	SendableChooser controlSelect;
+	SendableChooser algoSelect;
+	
+	std::string control;
+	std::string algo;
 	
 public:
 	DriveSubsystem(void);
@@ -32,11 +43,5 @@ public:
 	void teleopLogic(void);
 	
 	void teleopOutput(void);
-	
-
-	Jaguar* getFLDrive(void);
-	Jaguar* getRLDrive(void);
-	Jaguar* getFRDrive(void);
-	Jaguar* getRRDrive(void);
 };
 #endif
