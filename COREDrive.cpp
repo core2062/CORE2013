@@ -1,10 +1,6 @@
 #include "COREDrive.h"
 
-void COREDrive::ColinArcade(double mag, double rotate){
-	double right = (mag-rotate)/2;
-	double left = (mag+rotate)/2;
-	SetLeftRightMotorOutputs(left, right);
-}
+
 
 double inline etherL(double fwd, double rcw, double a, double b){
 	return fwd + b*rcw*(1-fwd);

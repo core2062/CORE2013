@@ -11,7 +11,6 @@ public:
 						frontRightMotor, rearRightMotor){
 		
 	}
-	void ColinArcade(double mag, double rotate);
 	
 	void EtherArcade(double mag, double rotate, double a, double b);
 };

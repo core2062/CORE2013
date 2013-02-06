@@ -26,7 +26,6 @@ DriveSubsystem::DriveSubsystem(void):
 	controlSelect.AddObject("Kaj", new std::string("kaj"));
 	
 	algoSelect.AddDefault("Classic", new std::string("classic"));
-	algoSelect.AddObject("Colin", new std::string("colin"));
 	algoSelect.AddObject("Ether", new std::string("ether"));
 }
 std::string DriveSubsystem::name(void){
@@ -88,8 +87,6 @@ void DriveSubsystem::teleopOutput(void){
 		
 		if(algo == "classic"){
 			drive.ArcadeDrive(mag, rotate);
-		} else if (algo == "colin"){
-			drive.ColinArcade(mag, rotate);
 		} else if (algo == "ether"){
 			double a = SmartDashboard::GetNumber("Ether A");
 			double b = SmartDashboard::GetNumber("Ether B");
