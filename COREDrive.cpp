@@ -23,11 +23,11 @@ void COREDrive::EtherArcade(double mag, double rotate, double a, double b){
 		}
 	} else{
 		if (rotate>=0){
-			left = -etherL(-mag, rotate, a, b);
-			right = -etherR(-mag, rotate, a, b);
+			left = -etherR(-mag, rotate, a, b);
+			right = -etherL(-mag, rotate, a, b);
 		} else{
-			left = -etherR(-mag, -rotate, a, b);
-			right = -etherL(-mag, -rotate, a, b);
+			left = -etherL(-mag, -rotate, a, b);
+			right = -etherR(-mag, -rotate, a, b);
 		}
 	}
 	SetLeftRightMotorOutputs(left, right);
@@ -87,3 +87,64 @@ else
  end;
 end;
 */
+
+void COREDrive::ArcadeDrive(float moveValue, float rotateValue, bool squaredInputs)
+{
+	// local variables to hold the computed PWM values for the motors
+	float leftMotorOutput;
+	float rightMotorOutput;
+
+	moveValue = Limit(moveValue);
+	rotateValue = Limit(rotateValue);
+
+	if (squaredInputs)
+	{
+		// square the inputs (while preserving the sign) to increase fine control while permitting full power
+		if (moveValue >= 0.0)
+		{
+			moveValue = (moveValue * moveValue);
+		}
+		else
+		{
+			moveValue = -(moveValue * moveValue);
+		}
+		if (rotateValue >= 0.0)
+		{
+			rotateValue = (rotateValue * rotateValue);
+		}
+		else
+		{
+			rotateValue = -(rotateValue * rotateValue);
+		}
+	}
+
+	if (moveValue > 0.0)
+	{
+		if (rotateValue > 0.0)
+		{
+			leftMotorOutput = moveValue - rotateValue;
+			rightMotorOutput = max(moveValue, rotateValue);
+		}
+		else
+		{
+			leftMotorOutput = max(moveValue, -rotateValue);
+			rightMotorOutput = moveValue + rotateValue;
+		}
+	}
+	else
+	{
+		if (rotateValue > 0.0)
+		{
+			leftMotorOutput = - max(-moveValue, rotateValue);
+			rightMotorOutput = moveValue + rotateValue;
+		}
+		else
+		{
+			leftMotorOutput = moveValue - rotateValue;
+			rightMotorOutput = - max(-moveValue, -rotateValue);
+		}
+	}
+	SetLeftRightMotorOutputs(leftMotorOutput, rightMotorOutput);
+	cout << moveValue << "    " << rotateValue << endl << 
+			"    " << leftMotorOutput << "    " << rightMotorOutput << endl;
+}

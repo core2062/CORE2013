@@ -16,6 +16,12 @@ class DriveSubsystem : public CORESubsystem{
 	
 	COREDrive drive;
 	
+	Encoder right;
+	Encoder left;
+	
+//	PIDController PIDRight;
+//	PIDController PIDLeft;
+	
 	float	tankRight;
 	float	tankLeft;
 	

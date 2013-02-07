@@ -12,6 +12,14 @@ DriveSubsystem::DriveSubsystem(void):
 	RRDrive(6),
 	
 	drive(FLDrive,RLDrive,FRDrive,RRDrive),
+
+	right(2, 1),
+	left(4, 3),
+	
+	
+	// TODO: implement pid control on drive
+//	PIDRight(0.09, 0 ,0, 0.021, &shooterOptEncoder, &shooterMotor),
+//	PIDLeft(0.09, 0 ,0, 0.021, &shooterOptEncoder, &shooterMotor),
 	
 	controlSelect(),
 	algoSelect()
@@ -20,6 +28,9 @@ DriveSubsystem::DriveSubsystem(void):
 	drive.SetInvertedMotor(RobotDrive::kFrontRightMotor,true);
 	drive.SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
 	drive.SetInvertedMotor(RobotDrive::kRearRightMotor,true);
+	
+	right.SetDistancePerPulse(1.0/360.0);
+	left.SetDistancePerPulse(1.0/360.0);
 	
 	controlSelect.AddDefault("Tank", new std::string("tank"));
 	controlSelect.AddObject("Arcade", new std::string("arcade"));
@@ -33,11 +44,16 @@ std::string DriveSubsystem::name(void){
 }
 
 void DriveSubsystem::teleopInit(void){
+	right.Start();
+	left.Start();
 	SmartDashboard::PutData("Control Selecter", &controlSelect);
 	SmartDashboard::PutData("Algo Selecter", &algoSelect);
 	
 	SmartDashboard::PutNumber("Ether A", .5);
 	SmartDashboard::PutNumber("Ether B", .5);
+	
+	SmartDashboard::PutNumber("Right", 0);
+	SmartDashboard::PutNumber("Right", 0);
 }
 
 void DriveSubsystem::teleopInput(COREJoystick& joystick){
@@ -57,7 +73,7 @@ void DriveSubsystem::teleopInput(COREJoystick& joystick){
 	algo = *((std::string *) algoSelect.GetSelected());
 }
 
-void DriveSubsystem::teleopLogic(void){
+void DriveSubsystem::teleopLogic(void){	
 	if(control == "tank"){
 		tankRight = deadband(tankRight);
 		tankLeft = deadband(tankLeft);
@@ -72,7 +88,11 @@ void DriveSubsystem::teleopLogic(void){
 	}
 }
 
-void DriveSubsystem::teleopOutput(void){	
+void DriveSubsystem::teleopOutput(void){
+	
+	SmartDashboard::PutNumber("Left", left.GetRate());
+	SmartDashboard::PutNumber("Right", right.GetRate());
+	
 	if(control == "tank"){
 		drive.TankDrive(tankLeft, tankRight); return;
 	}else{
@@ -90,7 +110,7 @@ void DriveSubsystem::teleopOutput(void){
 		} else if (algo == "ether"){
 			double a = SmartDashboard::GetNumber("Ether A");
 			double b = SmartDashboard::GetNumber("Ether B");
-			drive.EtherArcade(mag, rotate, a, b);
+			drive.EtherArcade(mag, -rotate, a, b);
 		}
 	}
 }
