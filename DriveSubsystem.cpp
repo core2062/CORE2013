@@ -6,20 +6,21 @@
 float deadband(float value, float range = .1);
 
 DriveSubsystem::DriveSubsystem(void):
-	FLDrive(3),
-	RLDrive(4),
-	FRDrive(5),
-	RRDrive(6),
+	FLDrive(CORERobot::DRIVE_LEFT_FRONT),
+	RLDrive(CORERobot::DRIVE_LEFT_REAR),
+	FRDrive(CORERobot::DRIVE_RIGHT_FRONT),
+	RRDrive(CORERobot::DRIVE_RIGHT_REAR),
 	
-	drive(FLDrive,RLDrive,FRDrive,RRDrive),
+	left(CORERobot::DRIVE_LEFT_ENC_A, CORERobot::DRIVE_LEFT_ENC_B, false),
+	right(CORERobot::DRIVE_RIGHT_ENC_A, CORERobot::DRIVE_RIGHT_ENC_B, true),
 
-	right(2, 1),
-	left(4, 3),
+	leftOut(&FLDrive, &RLDrive),
+	rightOut(&FRDrive, &RRDrive),
 	
+	PIDLeft(0.01, 0, 0, 1.0, &left, &leftOut),
+	PIDRight(0.01, 0, 0, 1.0, &right, &rightOut),
 	
-	// TODO: implement pid control on drive
-//	PIDRight(0.09, 0 ,0, 0.021, &shooterOptEncoder, &shooterMotor),
-//	PIDLeft(0.09, 0 ,0, 0.021, &shooterOptEncoder, &shooterMotor),
+	drive(FLDrive, RLDrive, FRDrive, RRDrive, &PIDLeft, &PIDRight),
 	
 	controlSelect(),
 	algoSelect()
@@ -31,6 +32,10 @@ DriveSubsystem::DriveSubsystem(void):
 	
 	right.SetDistancePerPulse(1.0/360.0);
 	left.SetDistancePerPulse(1.0/360.0);
+	right.SetPIDSourceParameter(Encoder::kRate);
+	left.SetPIDSourceParameter(Encoder::kRate);
+	right.Start();
+	left.Start();
 	
 	controlSelect.AddDefault("Tank", new std::string("tank"));
 	controlSelect.AddObject("Arcade", new std::string("arcade"));
@@ -43,17 +48,49 @@ std::string DriveSubsystem::name(void){
 	return "Drive";
 }
 
+void DriveSubsystem::SetPIDCommand(void) {
+	double pLeft = SmartDashboard::GetNumber("Left P");
+	double iLeft = SmartDashboard::GetNumber("Left I");
+	double dLeft = SmartDashboard::GetNumber("Left D");
+	double fLeft = SmartDashboard::GetNumber("Left F");
+	
+	double pRight = SmartDashboard::GetNumber("Right P");
+	double iRight = SmartDashboard::GetNumber("Right I");
+	double dRight = SmartDashboard::GetNumber("Right D");
+	double fRight = SmartDashboard::GetNumber("Right F");
+
+	PIDLeft.SetPID(pLeft,iLeft,dLeft,fLeft);
+	PIDRight.SetPID(pRight,iRight,dRight,fRight);
+	
+	SmartDashboard::PutNumber("R Setpoint", PIDRight.GetSetpoint());
+	SmartDashboard::PutNumber("L Setpoint", PIDLeft.GetSetpoint());
+	return;
+}
+
 void DriveSubsystem::teleopInit(void){
-	right.Start();
-	left.Start();
+
+	SmartDashboard::PutNumber("Right P", PIDRight.GetP());
+	SmartDashboard::PutNumber("Right I", PIDRight.GetI());
+	SmartDashboard::PutNumber("Right D", PIDRight.GetD());
+	SmartDashboard::PutNumber("Right F", PIDRight.GetF());
+	SmartDashboard::PutNumber("R Setpoint", PIDRight.GetSetpoint());
+
+	SmartDashboard::PutNumber("Left P", PIDLeft.GetP());
+	SmartDashboard::PutNumber("Left I", PIDLeft.GetI());
+	SmartDashboard::PutNumber("Left D", PIDLeft.GetD());
+	SmartDashboard::PutNumber("Left F", PIDLeft.GetF());
+	SmartDashboard::PutNumber("L Setpoint", PIDLeft.GetSetpoint());
+	
 	SmartDashboard::PutData("Control Selecter", &controlSelect);
 	SmartDashboard::PutData("Algo Selecter", &algoSelect);
 	
 	SmartDashboard::PutNumber("Ether A", .5);
 	SmartDashboard::PutNumber("Ether B", .5);
 	
+	SmartDashboard::PutNumber("Left", 0);
 	SmartDashboard::PutNumber("Right", 0);
-	SmartDashboard::PutNumber("Right", 0);
+	PIDLeft.Enable();
+	PIDRight.Enable();
 }
 
 void DriveSubsystem::teleopInput(COREJoystick& joystick){
@@ -94,7 +131,7 @@ void DriveSubsystem::teleopOutput(void){
 	SmartDashboard::PutNumber("Right", right.GetRate());
 	
 	if(control == "tank"){
-		drive.TankDrive(tankLeft, tankRight); return;
+		drive.TankDrive(tankLeft, tankRight); return; // TODO: Add closed loop
 	}else{
 		double mag, rotate;
 		if(control == "arcade"){
@@ -113,6 +150,10 @@ void DriveSubsystem::teleopOutput(void){
 			drive.EtherArcade(mag, -rotate, a, b);
 		}
 	}
+	
+
+	SetPIDCommand();
+
 }
 
 float deadband(float value, float range){

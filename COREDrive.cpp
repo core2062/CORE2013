@@ -1,6 +1,10 @@
 #include "COREDrive.h"
 
-
+void COREDrivePIDOut::PIDWrite (float output){
+	cout << output << endl;
+	front->Set(output);
+	rear->Set(output);
+}
 
 double inline etherL(double fwd, double rcw, double a, double b){
 	return fwd + b*rcw*(1-fwd);
@@ -23,6 +27,7 @@ void COREDrive::EtherArcade(double mag, double rotate, double a, double b){
 		}
 	} else{
 		if (rotate>=0){
+			
 			left = -etherR(-mag, rotate, a, b);
 			right = -etherL(-mag, rotate, a, b);
 		} else{
@@ -30,7 +35,10 @@ void COREDrive::EtherArcade(double mag, double rotate, double a, double b){
 			right = -etherR(-mag, -rotate, a, b);
 		}
 	}
-	SetLeftRightMotorOutputs(left, right);
+	
+	leftPID->SetSetpoint(left*-6.5);
+	rightPID->SetSetpoint(right*6.5);
+//	cout <<left*50 << endl <<right*50<<endl;
 }
 
 /*
@@ -144,7 +152,9 @@ void COREDrive::ArcadeDrive(float moveValue, float rotateValue, bool squaredInpu
 			rightMotorOutput = - max(-moveValue, -rotateValue);
 		}
 	}
-	SetLeftRightMotorOutputs(leftMotorOutput, rightMotorOutput);
+//	SetLeftRightMotorOutputs(leftMotorOutput, rightMotorOutput);
+	leftPID->SetSetpoint(leftMotorOutput);
+	rightPID->SetSetpoint(rightMotorOutput);
 	cout << moveValue << "    " << rotateValue << endl << 
 			"    " << leftMotorOutput << "    " << rightMotorOutput << endl;
 }

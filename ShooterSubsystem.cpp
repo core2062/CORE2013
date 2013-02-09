@@ -13,11 +13,11 @@ double	PIDCounter::PIDGet(){
 }
 
 ShooterSubsystem::ShooterSubsystem(void):
-shooterMotor(8),
-hopperSwitch(1),
+shooterMotor(CORERobot::SHOOTER),
+hopperSwitch(CORERobot::HOPPER_SWITCH),
 feeder(1, Relay::kForwardOnly), // 0 is relay 1
 feederTimer(),
-shooterOptEncoder(10),
+shooterOptEncoder(CORERobot::SHOOTER_OPTICAL),
 pid(0.09, 0 ,0, 0.021, &shooterOptEncoder, &shooterMotor)
 {
 	shooterValue = 0;

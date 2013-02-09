@@ -14,13 +14,16 @@ class DriveSubsystem : public CORESubsystem{
 	Jaguar FRDrive;
 	Jaguar RRDrive;
 	
-	COREDrive drive;
-	
-	Encoder right;
 	Encoder left;
+	Encoder right;
 	
-//	PIDController PIDRight;
-//	PIDController PIDLeft;
+	COREDrivePIDOut leftOut;
+	COREDrivePIDOut rightOut;
+	
+	PIDController PIDLeft;
+	PIDController PIDRight;
+	
+	COREDrive drive;
 	
 	float	tankRight;
 	float	tankLeft;
@@ -36,6 +39,8 @@ class DriveSubsystem : public CORESubsystem{
 	
 	std::string control;
 	std::string algo;
+	
+	void SetPIDCommand(void);
 	
 public:
 	DriveSubsystem(void);

@@ -2,9 +2,9 @@
 #include "ClimbSubsystem.h"
 
 ClimbSubsystem::ClimbSubsystem(void):
-climberMotor(9),
-camMotor(7), //the motor for tilting the robot
-tiltLimit(2)
+climberMotor(CORERobot::CLIMBER),
+camMotor(CORERobot::TILTER), //the motor for tilting the robot
+tiltLimit(CORERobot::TILT_LIMIT)
 {}
 
 void ClimbSubsystem::teleopInit(void){
