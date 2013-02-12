@@ -35,9 +35,9 @@ void COREDrive::EtherArcade(double mag, double rotate, double a, double b){
 			right = -etherR(-mag, -rotate, a, b);
 		}
 	}
-	
-	leftPID->SetSetpoint(left*-6.5);
-	rightPID->SetSetpoint(right*6.5);
+
+	SetLeftRightMotorOutputs(left, right);	
+		
 //	cout <<left*50 << endl <<right*50<<endl;
 }
 
@@ -96,7 +96,7 @@ else
 end;
 */
 
-void COREDrive::ArcadeDrive(float moveValue, float rotateValue, bool squaredInputs)
+void COREDrive::backupArcadeDrive(float moveValue, float rotateValue, bool squaredInputs)
 {
 	// local variables to hold the computed PWM values for the motors
 	float leftMotorOutput;
@@ -152,9 +152,8 @@ void COREDrive::ArcadeDrive(float moveValue, float rotateValue, bool squaredInpu
 			rightMotorOutput = - max(-moveValue, -rotateValue);
 		}
 	}
-//	SetLeftRightMotorOutputs(leftMotorOutput, rightMotorOutput);
-	leftPID->SetSetpoint(leftMotorOutput);
-	rightPID->SetSetpoint(rightMotorOutput);
-	cout << moveValue << "    " << rotateValue << endl << 
-			"    " << leftMotorOutput << "    " << rightMotorOutput << endl;
+	SetLeftRightMotorOutputs(leftMotorOutput, rightMotorOutput);
+
+//	cout << moveValue << "    " << rotateValue << endl << 
+//			"    " << leftMotorOutput << "    " << rightMotorOutput << endl;
 }

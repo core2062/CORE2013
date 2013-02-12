@@ -20,15 +20,20 @@ DriveSubsystem::DriveSubsystem(void):
 	PIDLeft(0.01, 0, 0, 1.0, &left, &leftOut),
 	PIDRight(0.01, 0, 0, 1.0, &right, &rightOut),
 	
-	drive(FLDrive, RLDrive, FRDrive, RRDrive, &PIDLeft, &PIDRight),
+	leftGlue( &PIDLeft ),
+	rightGlue( &PIDRight )
+	
+	drive( leftGlue, rightGlue ),
 	
 	controlSelect(),
 	algoSelect()
 {
 	drive.SetInvertedMotor(RobotDrive::kFrontLeftMotor,true);
 	drive.SetInvertedMotor(RobotDrive::kFrontRightMotor,true);
-	drive.SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
-	drive.SetInvertedMotor(RobotDrive::kRearRightMotor,true);
+	//drive.SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
+	//drive.SetInvertedMotor(RobotDrive::kRearRightMotor,true);
+	
+	drive.SetMaxOutput( 6.5 );
 	
 	right.SetDistancePerPulse(1.0/360.0);
 	left.SetDistancePerPulse(1.0/360.0);

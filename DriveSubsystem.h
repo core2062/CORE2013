@@ -23,6 +23,9 @@ class DriveSubsystem : public CORESubsystem{
 	PIDController PIDLeft;
 	PIDController PIDRight;
 	
+	COREDrivePIDGlue	leftGlue;
+	COREDrivePIDGlue	rightGlue;
+	
 	COREDrive drive;
 	
 	float	tankRight;
