@@ -19,12 +19,11 @@ public:
 class COREDrive : public RobotDrive{
 		
 public:
-	COREDrive::COREDrive(SpeedController &frontLeftMotor, SpeedController &rearLeftMotor,
-				SpeedController &frontRightMotor, SpeedController &rearRightMotor
+	COREDrive::COREDrive(SpeedController &leftMotor,
+				SpeedController &rightMotor
 				):
-
-			RobotDrive(frontLeftMotor, rearLeftMotor,
-						frontRightMotor, rearRightMotor){
+			RobotDrive(leftMotor,
+						rightMotor){
 				
 				// SetSafetyEnabled(false);
 			}

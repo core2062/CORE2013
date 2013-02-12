@@ -9,9 +9,9 @@ class SpeedPID : public PIDController, public SpeedController{
 
 public:
 
-	SpeedPID(float p, float i, float d, PIDSource *source, PIDOutput *output, float period = 0.05)
+	SpeedPID(float p, float i, float d, float f, PIDSource *source, PIDOutput *output, float period = 0.05)
 		:
-		PIDController( p, i, d, source, output, period )
+		PIDController( p, i, d, f, source, output, period )
 	{
 	}
 	
@@ -27,6 +27,11 @@ public:
 	virtual void Disable(){
 		PIDController::Disable();
 	}
-}
+	
+	virtual void PIDWrite(float idiot){
+		//Well damn. 
+		Set(idiot);
+	}
+};
 
 #endif
