@@ -19,11 +19,8 @@ DriveSubsystem::DriveSubsystem(void):
 	
 	PIDLeft(0.01, 0, 0, 1.0, &left, &leftOut),
 	PIDRight(0.01, 0, 0, 1.0, &right, &rightOut),
-	
-	leftGlue( &PIDLeft ),
-	rightGlue( &PIDRight )
-	
-	drive( leftGlue, rightGlue ),
+
+	drive( PIDLeft, PIDRight ),
 	
 	controlSelect(),
 	algoSelect()

@@ -2,6 +2,7 @@
 #include "CORESubsystemRobot.h"
 #include <string.h>
 #include "COREDrive.h"
+#include "SpeedPID.h"
 
 #ifndef DRIVESUBSYSTEM_H
 #define DRIVESUBSYSTEM_H
@@ -20,11 +21,8 @@ class DriveSubsystem : public CORESubsystem{
 	COREDrivePIDOut leftOut;
 	COREDrivePIDOut rightOut;
 	
-	PIDController PIDLeft;
-	PIDController PIDRight;
-	
-	COREDrivePIDGlue	leftGlue;
-	COREDrivePIDGlue	rightGlue;
+	SpeedPID PIDLeft;
+	SpeedPID PIDRight;
 	
 	COREDrive drive;
 	
