@@ -45,6 +45,8 @@ DriveSubsystem::DriveSubsystem(void):
 	
 	algoSelect.AddDefault("Classic", new std::string("classic"));
 	algoSelect.AddObject("Ether", new std::string("ether"));
+	
+	SmartDashboard::PutBoolean("cubed", false);
 }
 std::string DriveSubsystem::name(void){
 	return "Drive";
@@ -66,7 +68,6 @@ void DriveSubsystem::SetPIDCommand(void) {
 	
 	SmartDashboard::PutNumber("R Setpoint", PIDRight.GetSetpoint());
 	SmartDashboard::PutNumber("L Setpoint", PIDLeft.GetSetpoint());
-	return;
 }
 
 void DriveSubsystem::teleopInit(void){
@@ -97,15 +98,23 @@ void DriveSubsystem::teleopInit(void){
 
 void DriveSubsystem::teleopInput(COREJoystick& joystick){
 	control = *((std::string *) controlSelect.GetSelected());
+	
+	if(SmartDashboard::GetBoolean("cubed")){
+		tankRight *= 3;
+		tankLeft *= 3;
+		mag *= 3;
+		rotate *= 3;
+	}
+	
 	if(control == "tank"){
 		tankRight = joystick.driveRight();
 		tankLeft = joystick.driveLeft();
 	}else if (control == "arcade"){
-		classicMag = joystick.driveClassicMag();
-		classicRot = joystick.driveClassicRot();
+		mag = joystick.driveClassicMag();
+		rotate = joystick.driveClassicRot();
 	}else if (control == "kaj"){
-		kajMag = joystick.driveKajMag();
-		kajRot = joystick.driveKajRot();
+		mag = joystick.driveKajMag();
+		rotate = joystick.driveKajRot();
 	}else{
 		cout << "  !!Error in controlSelect!!  " << endl;
 	}
@@ -122,8 +131,8 @@ void DriveSubsystem::teleopLogic(void){
 		classicRot = deadband(classicRot);
 	}
 	else if (control == "kaj"){
-		kajMag = deadband(kajMag);
-		kajRot = deadband(kajRot);
+		mag = deadband(mag);
+		rotate = deadband(rotate);
 	}
 }
 
@@ -134,16 +143,7 @@ void DriveSubsystem::teleopOutput(void){
 	
 	if(control == "tank"){
 		drive.TankDrive(tankLeft, tankRight); return; // TODO: Add closed loop
-	}else{
-		double mag, rotate;
-		if(control == "arcade"){
-			mag = classicMag;
-			rotate = classicRot;
-		}else{
-			mag = kajMag;
-			rotate = kajRot;
-		}
-		
+	}else{		
 		if(algo == "classic"){
 			drive.ArcadeDrive(mag, rotate);
 		} else if (algo == "ether"){
@@ -152,10 +152,7 @@ void DriveSubsystem::teleopOutput(void){
 			drive.EtherArcade(mag, -rotate, a, b);
 		}
 	}
-	
-
 	SetPIDCommand();
-
 }
 
 float deadband(float value, float range){
