@@ -16,15 +16,14 @@ public:
 class ShooterSubsystem : public CORESubsystem{
 	Jaguar 			shooterMotor;
 	DigitalInput 	hopperSwitch;
-	Relay 			feeder;
-	Timer			feederTimer;
+	Victor 			pusher;
+	Timer			pusherTimer;
 	PIDCounter		shooterOptEncoder;
-	
 	PIDController 	pid;
 
-	static const float shooterInc = 1; // value is in rps
+	static const float shooterInc = 1;		 // value is in rps
 	static const float shooterDefault = 20;
-	static const float feederTime = .5;  		// energize pusher fore 5 seconds 
+	static const float pushTime = 3 / 7.0;	 // Pusher activation timing 
 	
 	float shooterValue;
 	float shooterOutput;
@@ -36,6 +35,7 @@ class ShooterSubsystem : public CORESubsystem{
 	bool down;
 	bool feed;
 	bool feedingDisk;
+	bool pusherOutput;
 	
 public:
 	ShooterSubsystem(void);

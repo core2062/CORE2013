@@ -50,7 +50,8 @@ public:
 			
 			TILTER = 7,
 			SHOOTER = 8,
-			CLIMBER = 9
+			CLIMBER = 9,
+			PUSHER_MOTOR = 10
 		}output;
 	
 	#else

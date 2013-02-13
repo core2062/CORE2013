@@ -49,7 +49,7 @@ public:
 	bool shooterDefault(void){return pyramidSpeed.Rise();};
 	bool shooterUp(void){return shooterIncrease.Rise();};
 	bool shooterDown(void){return shooterDecrease.Rise();};
-	bool shooterShoot(void){return feedTrigger.Rise();};
+	bool shooterShoot(void){return feedTrigger.Get();};
 	
 	bool climbFull(void){return joystick2.GetRawButton(6);};
 	bool climbHalf(void){return joystick2.GetRawButton(7);};

@@ -1,5 +1,6 @@
 #include "CORESubsystemRobot.h"
 #include "ShooterSubsystem.h"
+#include <cmath>
 
 PIDCounter::PIDCounter(UINT32 channel):
 Counter(channel){
@@ -15,13 +16,15 @@ double	PIDCounter::PIDGet(){
 ShooterSubsystem::ShooterSubsystem(void):
 shooterMotor(CORERobot::SHOOTER),
 hopperSwitch(CORERobot::HOPPER_SWITCH),
-feeder(1, Relay::kForwardOnly), // 0 is relay 1
-feederTimer(),
+pusher(CORERobot::PUSHER_MOTOR),
+pusherTimer(),
 shooterOptEncoder(CORERobot::SHOOTER_OPTICAL),
-pid(0.09, 0 ,0, 0.021, &shooterOptEncoder, &shooterMotor)
+pid(0.09, 0 ,0, 0.021, &shooterOptEncoder, &shooterMotor, .05)
 {
 	shooterValue = 0;
 	shooterOutput = 0;
+	
+	pusherOutput = false;
 	
 	shooterOptEncoder.Start();
 	
@@ -66,43 +69,43 @@ void ShooterSubsystem::teleopInput(COREJoystick& joystick){
 }
 
 void ShooterSubsystem::teleopLogic(void){
+	// Pusher
 	
+	// Are we pushing and is it time to stop
+	//		Stop
+	// else	Are we recovered AND Should we start
 	
+	if (pusherOutput and pusherTimer.Get() > pushTime) {
+		pusherOutput = false;
+	} else if ((true or (std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1.0)) and feed){
+		pusherOutput = true;
+		pusherTimer.Reset();
+		pusherTimer.Start();
+	}
+	
+	// Shooter
 	if (pyramidSpeed) {
 		shooterValue = shooterDefault;
 	}
-	
 	if (up) {
 		if(!shooterRunning){
 			shooterOn = true;
 		}
 		shooterValue += shooterInc;
 	}
-	
 	if (down) {
 		shooterValue -= shooterInc;
 	}
-	
-	
-	if (feed and !feedingDisk and shooterRunning ) {
-		feederTimer.Reset();
-		feederTimer.Start();
-		feedingDisk = true;
-	}
-	
-	// shooter on toggles run mode
 	if ( shooterOn and ! shooterRunning ){
 		shooterRunning = true;
 	}
 	else if ( shooterOn and shooterRunning){
 		shooterRunning = false;
 	}
-	
 	if (shooterValue <= 7){
 		shooterRunning = false;
 		shooterValue = 8;
 	}
-	
 	shooterOutput = shooterRunning ? shooterValue : 0;
 }
 
@@ -111,21 +114,10 @@ void ShooterSubsystem::teleopOutput(void){
 	pid.SetSetpoint(shooterOutput);
 	
 	
-	// service feeder
-	if ( !feedingDisk )
-	{
-		feeder.Set( Relay::kOff );
-	}
-	else {
-		if ( feederTimer.HasPeriodPassed( feederTime ) ) {
-			feedingDisk = false;
-			feeder.Set( Relay::kOff );
-		}
-		else {
-			feeder.Set( Relay::kOn );
-		}
-	}
+	// service pusher
+	pusher.Set(pusherOutput ? -1.0 : 0.0);
 
+	// smart dashboard
 	SmartDashboard::PutNumber("Opt Shooter", shooterOptEncoder.PIDGet());
 	
 	double p = SmartDashboard::GetNumber("P");
