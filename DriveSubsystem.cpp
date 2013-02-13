@@ -3,7 +3,7 @@
 #include <string.h>
 #include <cmath>
 
-float deadband(float value, float range = .1);
+float deadband(float value, float range = .05);
 
 DriveSubsystem::DriveSubsystem(void):
 	FLDrive(CORERobot::DRIVE_LEFT_FRONT),
@@ -11,24 +11,24 @@ DriveSubsystem::DriveSubsystem(void):
 	FRDrive(CORERobot::DRIVE_RIGHT_FRONT),
 	RRDrive(CORERobot::DRIVE_RIGHT_REAR),
 	
-	left(CORERobot::DRIVE_LEFT_ENC_A, CORERobot::DRIVE_LEFT_ENC_B, false),
+	left(CORERobot::DRIVE_LEFT_ENC_A, CORERobot::DRIVE_LEFT_ENC_B, true),
 	right(CORERobot::DRIVE_RIGHT_ENC_A, CORERobot::DRIVE_RIGHT_ENC_B, true),
 
 	leftOut(&FLDrive, &RLDrive),
 	rightOut(&FRDrive, &RRDrive),
 	
-	PIDLeft(0.01, 0, 0, 1.0, &left, &leftOut),
-	PIDRight(0.01, 0, 0, 1.0, &right, &rightOut),
+	PIDLeft(0.1, 0.0, 0, .020, &left, &leftOut),
+	PIDRight(0.1, 0.0, 0, .020, &right, &rightOut),
 
 	drive( PIDLeft, PIDRight ),
 	
 	controlSelect(),
 	algoSelect()
 {
-	drive.SetInvertedMotor(RobotDrive::kFrontLeftMotor,true);
-	drive.SetInvertedMotor(RobotDrive::kFrontRightMotor,true);
-	//drive.SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
-	//drive.SetInvertedMotor(RobotDrive::kRearRightMotor,true);
+//	drive.SetInvertedMotor(RobotDrive::kFrontLeftMotor,true);
+//	drive.SetInvertedMotor(RobotDrive::kFrontRightMotor,true);
+	drive.SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
+	drive.SetInvertedMotor(RobotDrive::kRearRightMotor,true);
 	
 	drive.SetMaxOutput( 6.5 );
 	
@@ -70,7 +70,6 @@ void DriveSubsystem::SetPIDCommand(void) {
 }
 
 void DriveSubsystem::teleopInit(void){
-
 	SmartDashboard::PutNumber("Right P", PIDRight.GetP());
 	SmartDashboard::PutNumber("Right I", PIDRight.GetI());
 	SmartDashboard::PutNumber("Right D", PIDRight.GetD());
