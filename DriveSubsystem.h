@@ -7,6 +7,8 @@
 #ifndef DRIVESUBSYSTEM_H
 #define DRIVESUBSYSTEM_H
 
+
+
 class DriveSubsystem : public CORESubsystem{
 	Jaguar FLDrive;
 	Jaguar RLDrive;
@@ -30,8 +32,8 @@ class DriveSubsystem : public CORESubsystem{
 	float	classicMag;
 	float	classicRot;
 	
-	float 	mag;
-	float	rotate;
+	float 	kajMag;
+	float	kajRot;
 	
 	SendableChooser controlSelect;
 	SendableChooser algoSelect;
