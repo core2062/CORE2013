@@ -8,6 +8,7 @@
 class PIDCounter : public Counter, public PIDSource{
 	INT32 prevCounterVal;
 	double prevPeriod;
+
 public:
 	PIDCounter(UINT32 channel);
 	double	PIDGet ();
@@ -23,7 +24,7 @@ class ShooterSubsystem : public CORESubsystem{
 
 	static const float shooterInc = 1;		 // value is in rps
 	static const float shooterDefault = 20;
-	static const float pushTime = 3 / 7.0;	 // Pusher activation timing 
+	static const float pushTime = 1 / 2.0;	 // Pusher activation timing 
 	
 	float shooterValue;
 	float shooterOutput;
