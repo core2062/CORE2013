@@ -1,11 +1,35 @@
 #include "CORESubsystemRobot.h"
 #include "ClimbSubsystem.h"
 
+static Segment steps[] = {	
+		Segment(.3,2),
+		Segment(1,7),
+		Segment(.3,8),
+		Segment(1,9),
+		Segment(.3,10),
+		Segment(-.3,8),
+		Segment(-1,.3),
+		Segment(-.3,2),
+		Segment(-1,1),
+		Segment(-.3,0),
+		Segment(.3,2),
+		Segment(1,7),
+		Segment(.3,8),
+		Segment(1,9),
+		Segment(.3,10)
+	};
+
 ClimbSubsystem::ClimbSubsystem(void):
-climberMotor(CORERobot::CLIMBER),
-camMotor(CORERobot::TILTER), //the motor for tilting the robot
-tiltLimit(CORERobot::TILT_LIMIT)
-{}
+climbMotor(CORERobot::CLIMBER),
+tiltMotor(CORERobot::TILTER), //the motor for tilting the robot
+
+tiltTopLimit(CORERobot::TILT_LIMIT_TOP),
+tiltBottomLimit(CORERobot::TILT_LIMIT_BOTTOM),
+climbTopLimit(CORERobot::CLIMB_LIMIT_TOP),
+climbBottomLimit(CORERobot::CLIMB_LIMIT_BOTTOM),
+climbEncoder(CORERobot::CLIMB_ENC_A, CORERobot::CLIMB_ENC_B)
+{
+}
 
 void ClimbSubsystem::teleopInit(void){
 	
@@ -25,7 +49,7 @@ void ClimbSubsystem::teleopLogic(void){
 }
 
 void ClimbSubsystem::teleopOutput(void){
-	climberMotor.Set(currentSpeed);
+	climbMotor.Set(currentSpeed);
 	
 	float tiltSpeed;
 	
@@ -34,7 +58,7 @@ void ClimbSubsystem::teleopOutput(void){
 	else
 		tiltSpeed = isTilting? .9 : 0;
 	
-	camMotor.Set( tiltSpeed );
+	tiltMotor.Set( tiltSpeed );
 }
 
 float ClimbSubsystem::getClimbSpeed()

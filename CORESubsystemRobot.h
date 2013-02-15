@@ -36,9 +36,14 @@ public:
 			DRIVE_LEFT_ENC_A = 3,
 			DRIVE_LEFT_ENC_B = 4,
 			
-			TILT_LIMIT = 8, 	// Need wiring	
-			HOPPER_SWITCH = 9,	// Need wiring	
-			SHOOTER_OPTICAL = 10
+			CLIMB_ENC_A = 5,
+			CLIMB_ENC_B = 6,
+						
+			TILT_LIMIT_TOP = 8,	
+			TILT_LIMIT_BOTTOM = 9,
+			SHOOTER_OPTICAL = 10,
+			CLIMB_LIMIT_TOP = 11,
+			CLIMB_LIMIT_BOTTOM = 12
 		}input;
 	
 		typedef enum {

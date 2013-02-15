@@ -5,10 +5,28 @@
 #ifndef CLIMBSUBSYSTEM_H
 #define CLIMBSUBSYSTEM_H
 
+class Segment {
+public:
+	const float pos;
+	const float speed;
+	
+	Segment(float pos, float speed):
+	pos(pos),
+	speed(speed)
+	{}
+};
+
 class ClimbSubsystem : public CORESubsystem{
-	Jaguar climberMotor;
-	Jaguar camMotor;
-	DigitalInput tiltLimit; 
+	Jaguar climbMotor;
+	Jaguar tiltMotor;
+	
+	DigitalInput tiltTopLimit;
+	DigitalInput tiltBottomLimit;
+	DigitalInput climbTopLimit;
+	DigitalInput climbBottomLimit;
+	
+	Encoder	climbEncoder;
+	
 	bool isTilting;
 	bool isDeTilting;
 	bool speedFull;
