@@ -17,8 +17,8 @@ DriveSubsystem::DriveSubsystem(void):
 	leftOut(&FLDrive, &RLDrive),
 	rightOut(&FRDrive, &RRDrive),
 	
-	PIDLeft(0.1, 0.0, 0, .020, &left, &leftOut),
-	PIDRight(0.1, 0.0, 0, .020, &right, &rightOut),
+	PIDLeft(0, 0.0, 0, 1, &left, &leftOut),
+	PIDRight(0, 0.0, 0, 1, &right, &rightOut),
 
 	drive( PIDLeft, PIDRight ),
 	
@@ -30,7 +30,7 @@ DriveSubsystem::DriveSubsystem(void):
 	drive.SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
 	drive.SetInvertedMotor(RobotDrive::kRearRightMotor,true);
 	
-	drive.SetMaxOutput( 6.5 );
+	drive.SetMaxOutput( 1 );
 	
 	right.SetDistancePerPulse(1.0/360.0);
 	left.SetDistancePerPulse(1.0/360.0);
