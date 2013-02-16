@@ -4,6 +4,7 @@
 #include "COREJoystick.h"
 #include "Subsystems.h"
 
+#include "InsightLT/InsightLT.h"
 
 class CORE2013 : public SimpleRobot
 {
@@ -14,6 +15,12 @@ class CORE2013 : public SimpleRobot
 	ShooterSubsystem shooter;
 	ClimbSubsystem climb;
 	
+	insight::InsightLT display;
+	insight::DecimalData disp_userInfo;
+	insight::DecimalData disp_batteryVoltage;
+	
+	Timer insightTime;
+
 public:
 	
 	CORE2013(void):
@@ -22,12 +29,16 @@ public:
 		
 		drive(),
 		shooter(),
-		climb()
+		climb(),
 		
+		display(insight::TWO_ONE_LINE_ZONES),
+		
+		insightTime()
 	{
 		robot.add(drive);
 		robot.add(shooter);
 		robot.add(climb);
+		insightTime.Start();
 	}
 
 	void Autonomous(void){
@@ -36,6 +47,19 @@ public:
 	
 	void Disabled(void){
 		cout << "Disabled" << endl;
+
+		disp_batteryVoltage.setData((DriverStation::GetInstance())->GetBatteryVoltage());
+		disp_batteryVoltage.setHeader("Batt:");
+		disp_userInfo.setHeader("Match Time:");
+		display.registerData(disp_userInfo, 1);
+		display.registerData(disp_batteryVoltage, 2);
+		display.startDisplay();
+		
+		while (IsDisabled()){
+			disp_batteryVoltage.setData((DriverStation::GetInstance())->GetBatteryVoltage());
+			disp_userInfo.setData(insightTime.Get());
+			Wait(.05);
+		}
 	}
 
 	void OperatorControl(void){
