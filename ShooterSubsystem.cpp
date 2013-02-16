@@ -15,7 +15,6 @@ double	PIDCounter::PIDGet(){
 
 ShooterSubsystem::ShooterSubsystem(void):
 shooterMotor(CORERobot::SHOOTER),
-hopperSwitch(CORERobot::HOPPER_SWITCH),
 pusher(CORERobot::PUSHER_MOTOR),
 pusherTimer(),
 shooterOptEncoder(CORERobot::SHOOTER_OPTICAL),

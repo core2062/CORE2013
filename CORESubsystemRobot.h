@@ -25,7 +25,7 @@ class CORERobot {
 	Timer timer;
 	
 public:	
-//	#define _PRACTICE_ // Uncomment for Practice Robot
+	#define _PRACTICE_ // Uncomment for Practice Robot
 
 	#ifndef _PRACTICE_
 		// Real robot
@@ -39,8 +39,8 @@ public:
 			CLIMB_ENC_A = 5,
 			CLIMB_ENC_B = 6,
 						
-			TILT_LIMIT_TOP = 8,	
-			TILT_LIMIT_BOTTOM = 9,
+			TILT_LIMIT_POSITIVE = 8,	
+			TILT_LIMIT_NEGATIVE = 9,
 			SHOOTER_OPTICAL = 10,
 			CLIMB_LIMIT_TOP = 11,
 			CLIMB_LIMIT_BOTTOM = 12
@@ -77,24 +77,30 @@ public:
 			DRIVE_RIGHT_ENC_A = 2,
 			DRIVE_RIGHT_ENC_B = 1,
 			
-			DRIVE_LEFT_ENC_A = 14,
-			DRIVE_LEFT_ENC_B = 13,
-			
-			TILT_LIMIT = 8,
-			HOPPER_SWITCH = 11,
-			SHOOTER_OPTICAL = 12
+			DRIVE_LEFT_ENC_A = 3,
+			DRIVE_LEFT_ENC_B = 4,
+		
+			CLIMB_ENC_A = 14,
+			CLIMB_ENC_B = 13,
+									
+			TILT_LIMIT_POSITIVE = 11,	
+			TILT_LIMIT_NEGATIVE = 12,
+			SHOOTER_OPTICAL = 10,
+			CLIMB_LIMIT_TOP = 8,
+			CLIMB_LIMIT_BOTTOM = 9
 		}input;
 	
 		typedef enum {
-			DRIVE_LEFT_FRONT = 7,
-			DRIVE_LEFT_REAR = 8,
+			DRIVE_LEFT_FRONT = 21,
+			DRIVE_LEFT_REAR = 20,
 	
-			DRIVE_RIGHT_FRONT = 2,
-			DRIVE_RIGHT_REAR = 6,
+			DRIVE_RIGHT_FRONT = 22,
+			DRIVE_RIGHT_REAR = 23,
 			
-			TILTER = 17,
+			TILTER = 8,
 			SHOOTER = 18,
-			CLIMBER = 19
+			CLIMBER = 17,
+			PUSHER_MOTOR = 19
 		}output;
 	#endif // _PRACTICE_
 	

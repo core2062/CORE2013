@@ -1,7 +1,7 @@
 #include "COREDrive.h"
 
 void COREDrivePIDOut::PIDWrite (float output){
-	cout << output << endl;
+//	cout << output << endl;
 	front->Set(output);
 	rear->Set(output);
 }

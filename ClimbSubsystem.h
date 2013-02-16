@@ -7,12 +7,12 @@
 
 class Segment {
 public:
-	const float pos;
 	const float speed;
+	const float pos;
 	
-	Segment(float pos, float speed):
-	pos(pos),
-	speed(speed)
+	Segment(float speed, float pos):
+	speed(speed),
+	pos(pos)
 	{}
 };
 
@@ -20,19 +20,23 @@ class ClimbSubsystem : public CORESubsystem{
 	Jaguar climbMotor;
 	Jaguar tiltMotor;
 	
-	DigitalInput tiltTopLimit;
-	DigitalInput tiltBottomLimit;
+	DigitalInput tiltPosLimit;
+	DigitalInput tiltNegLimit;
 	DigitalInput climbTopLimit;
 	DigitalInput climbBottomLimit;
 	
 	Encoder	climbEncoder;
 	
-	bool isTilting;
+	bool tilting;
 	bool isDeTilting;
-	bool speedFull;
-	bool speedHalf;
+	bool climbing;
+	
+	// Remove if wanted:
+	bool reset;
+	
 	float currentSpeed;
 	
+	int stepCount;
 	
 public:
 	ClimbSubsystem(void);
@@ -46,10 +50,6 @@ public:
 	void teleopLogic(void);
 	
 	void teleopOutput(void);
-	//Return values
-	//0- Half speed
-	//1- Normal Speed
-	//2- Full Speed
-	float getClimbSpeed(void);
+
 };
 #endif

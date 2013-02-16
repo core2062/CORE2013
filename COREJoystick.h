@@ -51,10 +51,10 @@ public:
 	bool shooterDown(void){return shooterDecrease.Rise();};
 	bool shooterShoot(void){return feedTrigger.Get();};
 	
-	bool climbFull(void){return joystick2.GetRawButton(6);};
-	bool climbHalf(void){return joystick2.GetRawButton(7);};
-	bool climbTilt(void){return joystick2.GetRawButton(9);};
-	bool climbDeTilt(void){return joystick2.GetRawButton(10);};
+	bool climb(void){return joystick1.GetRawButton(4);};
+	bool climbTilt(void){return joystick2.GetRawButton(7);};
+	bool climbDetilt(void){return joystick2.GetRawButton(11);};
+	bool climbReset(void){return joystick1.GetRawButton(5);};
 };
 		
 #endif

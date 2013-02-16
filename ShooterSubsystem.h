@@ -16,7 +16,6 @@ public:
 
 class ShooterSubsystem : public CORESubsystem{
 	Jaguar 			shooterMotor;
-	DigitalInput 	hopperSwitch;
 	Victor 			pusher;
 	Timer			pusherTimer;
 	PIDCounter		shooterOptEncoder;
