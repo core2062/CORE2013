@@ -136,7 +136,7 @@ void Zone::update()
 		if(milliSecs > m_displayTime)
 		{
 			advanceZoneDown();
-			cout << "Class: " << this << " - scroll:" << m_scrollPosition << endl;
+//			cout << "Class: " << this << " - scroll:" << m_scrollPosition << endl;
 			clock_gettime(CLOCK_REALTIME, &m_scrollTimer);
 		}
 	}
