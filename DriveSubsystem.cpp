@@ -39,9 +39,9 @@ DriveSubsystem::DriveSubsystem(void):
 	right.Start();
 	left.Start();
 	
-	controlSelect.AddDefault("Tank", new std::string("tank"));
+//	controlSelect.AddDefault("Tank", new std::string("tank"));
 	controlSelect.AddObject("Arcade", new std::string("arcade"));
-	controlSelect.AddObject("Kaj", new std::string("kaj"));
+	controlSelect.AddDefault("Kaj", new std::string("kaj"));
 	
 	algoSelect.AddDefault("Classic", new std::string("classic"));
 	algoSelect.AddObject("Ether", new std::string("ether"));
@@ -90,21 +90,21 @@ void DriveSubsystem::teleopInit(void){
 	
 	SmartDashboard::PutNumber("Left", 0);
 	SmartDashboard::PutNumber("Right", 0);
+	
+	SmartDashboard::PutBoolean("Cubed inputs", false);
+
 	PIDLeft.Enable();
 	PIDRight.Enable();
 }
 
 void DriveSubsystem::teleopInput(COREJoystick& joystick){
 	control = *((std::string *) controlSelect.GetSelected());
-	if(control == "tank"){
-		tankRight = joystick.driveRight();
-		tankLeft = joystick.driveLeft();
-	}else if (control == "arcade"){
-		classicMag = joystick.driveClassicMag();
-		classicRot = joystick.driveClassicRot();
+	if (control == "arcade"){
+		mag = joystick.driveClassicMag();
+		rotate = joystick.driveClassicRot();
 	}else if (control == "kaj"){
-		kajMag = joystick.driveKajMag();
-		kajRot = joystick.driveKajRot();
+		mag= joystick.driveKajMag();
+		rotate = joystick.driveKajRot();
 	}else{
 		cout << "  !!Error in controlSelect!!  " << endl;
 	}
@@ -112,17 +112,14 @@ void DriveSubsystem::teleopInput(COREJoystick& joystick){
 }
 
 void DriveSubsystem::teleopLogic(void){	
-	if(control == "tank"){
-		tankRight = deadband(tankRight);
-		tankLeft = deadband(tankLeft);
-	}
-	else if (control == "arcade"){
-		classicMag = deadband(classicMag);
-		classicRot = deadband(classicRot);
-	}
-	else if (control == "kaj"){
-		kajMag = deadband(kajMag);
-		kajRot = deadband(kajRot);
+	if (SmartDashboard::GetBoolean("Cubed inputs")){
+		cout << "Before mag " << mag << " rotate " << rotate << endl; 
+		mag = (mag*mag*mag);
+		rotate = (rotate*rotate*rotate);
+		cout << "After mag " << mag << " rotate " << rotate << endl;
+	}else{
+		mag = deadband(mag);
+		rotate = deadband(rotate);
 	}
 }
 
@@ -131,26 +128,15 @@ void DriveSubsystem::teleopOutput(void){
 	SmartDashboard::PutNumber("Left", left.GetRate());
 	SmartDashboard::PutNumber("Right", right.GetRate());
 	
-	if(control == "tank"){
-		drive.TankDrive(tankLeft, tankRight); return; // TODO: Add closed loop
-	}else{
-		double mag, rotate;
-		if(control == "arcade"){
-			mag = classicMag;
-			rotate = classicRot;
-		}else{
-			mag = kajMag;
-			rotate = kajRot;
-		}
-		
-		if(algo == "classic"){
-			drive.ArcadeDrive(mag, rotate);
-		} else if (algo == "ether"){
-			double a = SmartDashboard::GetNumber("Ether A");
-			double b = SmartDashboard::GetNumber("Ether B");
-			drive.EtherArcade(mag, -rotate, a, b);
-		}
+	
+	if(algo == "classic"){
+		drive.ArcadeDrive(mag, rotate);
+	} else if (algo == "ether"){
+		double a = SmartDashboard::GetNumber("Ether A");
+		double b = SmartDashboard::GetNumber("Ether B");
+		drive.EtherArcade(mag, -rotate, a, b);
 	}
+
 	
 
 	SetPIDCommand();

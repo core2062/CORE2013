@@ -26,14 +26,8 @@ class DriveSubsystem : public CORESubsystem{
 	
 	COREDrive drive;
 	
-	float	tankRight;
-	float	tankLeft;
-	
-	float	classicMag;
-	float	classicRot;
-	
-	float 	kajMag;
-	float	kajRot;
+	float	mag;
+	float	rotate;
 	
 	SendableChooser controlSelect;
 	SendableChooser algoSelect;
