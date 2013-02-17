@@ -4,7 +4,7 @@
 
 PIDCounter::PIDCounter(UINT32 channel):
 Counter(channel){
-	SetMaxPeriod(.15);
+	SetMaxPeriod(.10);
 }
 
 double	PIDCounter::PIDGet(){
@@ -18,7 +18,7 @@ shooterMotor(CORERobot::SHOOTER),
 pusher(CORERobot::PUSHER_MOTOR),
 pusherTimer(),
 shooterOptEncoder(CORERobot::SHOOTER_OPTICAL),
-pid(0.09, 0 ,0, 0.021, &shooterOptEncoder, &shooterMotor, .05)
+pid(0.0, 0 ,0, 0.021, &shooterOptEncoder, &shooterMotor, .05)
 {
 	shooterValue = 0;
 	shooterOutput = 0;
@@ -38,6 +38,7 @@ pid(0.09, 0 ,0, 0.021, &shooterOptEncoder, &shooterMotor, .05)
 	down = false;
 	feed = false;
 	feedingDisk = false;
+	shooterSpeedOverride = false;
 }
 
 std::string ShooterSubsystem::name(void)
@@ -54,8 +55,10 @@ void ShooterSubsystem::teleopInit(void)
 	SmartDashboard::PutNumber("D", pid.GetD());
 	SmartDashboard::PutNumber("F", pid.GetF());
 	SmartDashboard::PutNumber("Setpoint", pid.GetSetpoint());
+	SmartDashboard::PutBoolean("Shooter speed override", shooterSpeedOverride);
 	
 	shooterValue = shooterDefault;
+	shooterRunning = false;
 	pid.Enable();
 }
 
@@ -68,18 +71,15 @@ void ShooterSubsystem::teleopInput(COREJoystick& joystick){
 }
 
 void ShooterSubsystem::teleopLogic(void){
-	// Pusher
-	
-	// Are we pushing and is it time to stop
-	//		Stop
-	// else	Are we recovered AND Should we start
+	shooterSpeedOverride = SmartDashboard::GetBoolean("Shooter speed override");
 	
 	if (pusherOutput and pusherTimer.Get() > pushTime) {
 		pusherOutput = false;
-	} else if ((true or (std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1.0)) and feed){
+	} else if ((shooterSpeedOverride or (std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1.0)) and feed){
 		pusherOutput = true;
 		pusherTimer.Reset();
 		pusherTimer.Start();
+		cout << "I'm shooting!"  << endl;
 	}
 	
 	// Shooter
@@ -101,9 +101,8 @@ void ShooterSubsystem::teleopLogic(void){
 	else if ( shooterOn and shooterRunning){
 		shooterRunning = false;
 	}
-	if (shooterValue <= 7){
-		shooterRunning = false;
-		shooterValue = 8;
+	if (shooterValue <= 15){
+		shooterValue = 16;
 	}
 	shooterOutput = shooterRunning ? shooterValue : 0;
 }

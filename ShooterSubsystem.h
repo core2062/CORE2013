@@ -22,7 +22,7 @@ class ShooterSubsystem : public CORESubsystem{
 	PIDController 	pid;
 
 	static const float shooterInc = 1;		 // value is in rps
-	static const float shooterDefault = 20;
+	static const float shooterDefault = 45;
 	static const float pushTime = 1 / 2.0;	 // Pusher activation timing 
 	
 	float shooterValue;
@@ -36,6 +36,7 @@ class ShooterSubsystem : public CORESubsystem{
 	bool feed;
 	bool feedingDisk;
 	bool pusherOutput;
+	bool shooterSpeedOverride;
 	
 public:
 	ShooterSubsystem(void);
