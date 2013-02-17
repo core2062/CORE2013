@@ -53,6 +53,9 @@ void ClimbSubsystem::teleopInput(COREJoystick& joystick)
 }
 
 void ClimbSubsystem::teleopLogic(void){
+	if (climbBottomLimit.Get()){
+		climbEncoder.Reset();
+	}
 	if (climbing){
 		if(steps[stepCount].speed > 0){
 			if(climbEncoder.GetDistance() > steps[stepCount].pos){
@@ -87,12 +90,12 @@ void ClimbSubsystem::teleopOutput(void){
 	float tiltSpeed;
 	
 	if (isDeTilting)
-		tiltSpeed = -.3;
+		tiltSpeed = .5;
 	else
-		tiltSpeed = tilting ? .3 : 0;
+		tiltSpeed = tilting ? -.5 : 0;
 	
 	if (tiltSpeed > 0){
-		tiltMotor.Set(tiltPosLimit.Get() ? 0 : tiltSpeed);
+		tiltMotor.Set(!tiltPosLimit.Get() ? 0 : tiltSpeed);
 	} else {
 		tiltMotor.Set(tiltNegLimit.Get() ? 0 : tiltSpeed);
 	}
