@@ -113,14 +113,23 @@ void DriveSubsystem::teleopInput(COREJoystick& joystick){
 
 void DriveSubsystem::teleopLogic(void){	
 	if (SmartDashboard::GetBoolean("Cubed inputs")){
-		cout << "Before mag " << mag << " rotate " << rotate << endl; 
+//		cout << "Before mag " << mag << " rotate " << rotate << endl; 
 		mag = (mag*mag*mag);
 		rotate = (rotate*rotate*rotate);
-		cout << "After mag " << mag << " rotate " << rotate << endl;
+//		cout << "After mag " << mag << " rotate " << rotate << endl;
 	}else{
 		mag = deadband(mag);
 		rotate = deadband(rotate);
 	}
+	
+	SmartDashboard::PutNumber("Mag", mag); SmartDashboard::PutNumber("Rot", rotate);
+	
+}
+float deadband(float value, float range){
+	if(std::abs(value) < range){
+		return 0;
+	}
+	return value;
 }
 
 void DriveSubsystem::teleopOutput(void){
@@ -143,9 +152,12 @@ void DriveSubsystem::teleopOutput(void){
 
 }
 
-float deadband(float value, float range){
-	if(std::abs(value) < range){
-		return 0;
-	}
-	return value;
+
+void DriveSubsystem::driveTest(void){
+//	drive.SetExpiration(100000000);
+	drive.Drive(1,0);
+	
+//	SmartDashboard::PutNumber("Left", left.GetRate());
+//	SmartDashboard::PutNumber("Right", right.GetRate());
+//	drive.SetSafetyEnabled(false);
 }

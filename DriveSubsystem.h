@@ -49,5 +49,9 @@ public:
 	void teleopLogic(void);
 	
 	void teleopOutput(void);
+	
+	/*************/
+	
+	void driveTest(void);
 };
 #endif

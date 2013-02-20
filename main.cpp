@@ -87,7 +87,9 @@ public:
 	 * Runs during test mode
 	 */
 	void Test() {
-		
+		while (IsTest() and IsEnabled()){
+			drive.driveTest();
+		}
 	}
 };
 
