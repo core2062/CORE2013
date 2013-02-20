@@ -1,26 +1,22 @@
 #include "CORESubsystemRobot.h"
 #include "ClimbSubsystem.h"
 
+static const float zero = 0.0;
+static const float pinf = 1.0 / zero;
 
-float zero = 0.0;
-float pinf = 1.0 / zero;
+static const float lowSpeed = .7;
+static const float highSpeed = 1;
 
-static Segment steps[] = {	
-		Segment(.5,2),
-		Segment(1,7),
-		Segment(.5,8),
-//		Segment(1,9),
-		Segment(.5,10),
-		Segment(-.5,8),
-		Segment(-1,3),
-		Segment(-.5,2),
-//		Segment(-1,1),
-		Segment(-.5,0),
-		Segment(.5,2),
-		Segment(1,7),
-		Segment(.5,8),
-//		Segment(1,9),
-		Segment(.5,10),
+static const Segment steps[] = {	
+		Segment(lowSpeed,8),
+		Segment(highSpeed,28.64),
+		Segment(lowSpeed,36.64),
+		Segment(-lowSpeed,28.64),
+		Segment(-highSpeed,8),
+		Segment(-lowSpeed,0),
+		Segment(lowSpeed,8),
+		Segment(highSpeed,28.64),
+		Segment(lowSpeed,36.64),
 		Segment(0,pinf)
 	};
 
@@ -35,7 +31,9 @@ climbBottomLimit(CORERobot::CLIMB_LIMIT_BOTTOM),
 climbEncoder(CORERobot::CLIMB_ENC_A, CORERobot::CLIMB_ENC_B)
 {
 	stepCount = 0;
-	climbEncoder.SetDistancePerPulse(.1/(360));
+
+	// (1 in / 4 teeth) * (22 teeth / 1 revA) * (1 revA / 1 revB) * (22 revB * 54 revC) = (11*11)/(54)
+	climbEncoder.SetDistancePerPulse((1/360) * ((11*11)/54));
 	climbEncoder.Start();
 	climbEncoder.Reset();
 }
@@ -79,6 +77,7 @@ void ClimbSubsystem::teleopLogic(void){
 
 void ClimbSubsystem::teleopOutput(void){
 	
+	currentSpeed *= .5;
 	
 	if (currentSpeed > 0){
 		climbMotor.Set(climbTopLimit.Get() ? 0 : currentSpeed);
