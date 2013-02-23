@@ -81,8 +81,8 @@ void ClimbSubsystem::teleopOutput(void) {
 		climbMotor.Set(climbBottomLimit.Get() ? 0 : currentSpeed);
 	}
 	SmartDashboard::PutNumber("Climber Speed", climbMotor.Get());
-	SmartDashboard::PutBoolean("Climb top limit", climbTopLimit.Get());
-	SmartDashboard::PutBoolean("Climb bottom limit", climbBottomLimit.Get());
+	SmartDashboard::PutBoolean("Climb top limit", !climbTopLimit.Get());
+	SmartDashboard::PutBoolean("Climb bottom limit", !climbBottomLimit.Get());
 	SmartDashboard::PutNumber("Climb stage", stepCount);
 	SmartDashboard::PutNumber("Climb position", climbEncoder.Get());
 	

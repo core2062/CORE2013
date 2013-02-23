@@ -104,8 +104,14 @@ public:
 	 * Runs during test mode
 	 */
 	void Test() {
+		Watchdog &wd = GetWatchdog();
+		wd.SetEnabled(true);
+		wd.SetExpiration(.5);
+
 		while (IsTest() and IsEnabled()){
-			drive.driveTest();
+//			drive.driveTest();
+			wd.Feed();
+			Wait(0.05);
 		}
 	}
 };
