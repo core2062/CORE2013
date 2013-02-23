@@ -41,6 +41,8 @@ public:
 	DriveSubsystem(void);
 	
 	std::string name(void);
+	
+	void robotInit(void);
 
 	void teleopInit(void);
 	

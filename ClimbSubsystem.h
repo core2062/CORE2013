@@ -43,6 +43,8 @@ public:
 	
 	std::string name(void){return "Climb";};
 
+	void robotInit(void);
+
 	void teleopInit(void);
 	
 	void teleopInput(COREJoystick& joystick);

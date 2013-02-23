@@ -27,9 +27,9 @@ DriveSubsystem::DriveSubsystem(void):
 {
 //	drive.SetInvertedMotor(RobotDrive::kFrontLeftMotor,true);
 //	drive.SetInvertedMotor(RobotDrive::kFrontRightMotor,true);
-	drive.SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
-	drive.SetInvertedMotor(RobotDrive::kRearRightMotor,true);
-	
+drive.SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
+drive.SetInvertedMotor(RobotDrive::kRearRightMotor,true);
+
 	drive.SetMaxOutput( 1 );
 	
 	right.SetDistancePerPulse(1.0/360.0);
@@ -39,13 +39,14 @@ DriveSubsystem::DriveSubsystem(void):
 	right.Start();
 	left.Start();
 	
-//	controlSelect.AddDefault("Tank", new std::string("tank"));
-	controlSelect.AddObject("Arcade", new std::string("arcade"));
+//	controlSelect.AddObject("Tank", new std::string("tank"));
+//	controlSelect.AddObject("Arcade", new std::string("arcade"));
 	controlSelect.AddDefault("Kaj", new std::string("kaj"));
 	
-	algoSelect.AddDefault("Classic", new std::string("classic"));
-	algoSelect.AddObject("Ether", new std::string("ether"));
+	algoSelect.AddObject("Classic", new std::string("classic"));
+	algoSelect.AddDefault("Ether", new std::string("ether"));
 }
+
 std::string DriveSubsystem::name(void){
 	return "Drive";
 }
@@ -67,6 +68,10 @@ void DriveSubsystem::SetPIDCommand(void) {
 	SmartDashboard::PutNumber("R Setpoint", PIDRight.GetSetpoint());
 	SmartDashboard::PutNumber("L Setpoint", PIDLeft.GetSetpoint());
 	return;
+}
+
+void DriveSubsystem::robotInit(void){
+	
 }
 
 void DriveSubsystem::teleopInit(void){
@@ -147,8 +152,8 @@ void DriveSubsystem::teleopOutput(void){
 	}
 
 	
-
-	SetPIDCommand();
+	if (CORERobot::isDevMode())
+		SetPIDCommand();
 
 }
 

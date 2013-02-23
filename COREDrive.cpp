@@ -96,7 +96,7 @@ else
 end;
 */
 
-void COREDrive::backupArcadeDrive(float moveValue, float rotateValue, bool squaredInputs)
+void COREDrive::ArcadeDrive(float moveValue, float rotateValue, bool squaredInputs)
 {
 	// local variables to hold the computed PWM values for the motors
 	float leftMotorOutput;
@@ -109,7 +109,7 @@ void COREDrive::backupArcadeDrive(float moveValue, float rotateValue, bool squar
 	{
 		// square the inputs (while preserving the sign) to increase fine control while permitting full power
 		if (moveValue >= 0.0)
-		{
+		{			
 			moveValue = (moveValue * moveValue);
 		}
 		else
@@ -126,6 +126,7 @@ void COREDrive::backupArcadeDrive(float moveValue, float rotateValue, bool squar
 		}
 	}
 
+	
 	if (moveValue > 0.0)
 	{
 		if (rotateValue > 0.0)

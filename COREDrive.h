@@ -29,6 +29,6 @@ public:
 			}
 	
 	void EtherArcade(double mag, double rotate, double a, double b);
-	void backupArcadeDrive(float moveValue, float rotateValue, bool squaredInputs = false);
+	void ArcadeDrive(float moveValue, float rotateValue, bool squaredInputs = false);
 };
 #endif
