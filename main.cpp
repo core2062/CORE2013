@@ -42,7 +42,7 @@ public:
 	}
 
 	void Autonomous(void){
-		// Hey
+		
 	}
 	
 	void Disabled(void){
