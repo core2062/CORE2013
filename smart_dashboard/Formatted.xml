@@ -1,0 +1,316 @@
+<xml version="1.0">
+<dashboard>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="826" y="464"/>
+		<property name="Image File" value="C:\Users\core2062\Pictures\SD GUI\autonomous_title.png"/>
+		<property name="Maintain Aspect Ratio" value="true"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="128" y="464"/>
+		<property name="Image File" value="C:\Users\core2062\Pictures\SD GUI\drive_title.png"/>
+		<property name="Maintain Aspect Ratio" value="true"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="444" y="464"/>
+		<property name="Image File" value="C:\Users\core2062\Pictures\SD GUI\climber_title.png"/>
+		<property name="Maintain Aspect Ratio" value="true"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="970" y="284"/>
+		<property name="Image File" value="C:\Users\core2062\Pictures\SD GUI\shooter_setpoint.png"/>
+		<property name="Maintain Aspect Ratio" value="true"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="1062" y="176"/>
+		<property name="Image File" value="C:\Users\core2062\Pictures\SD GUI\shooter_override.png"/>
+		<property name="Maintain Aspect Ratio" value="true"/>
+	</static-widget>
+	<widget field="Shooter speed override" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.CheckBox">
+		<location x="1096" y="224"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="951" y="191"/>
+		<property name="Image File" value="C:\Users\core2062\Pictures\SD GUI\shooter_at_speed.png"/>
+		<property name="Maintain Aspect Ratio" value="true"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="982" y="137"/>
+		<height>32</height>
+		<property name="Image File" value="C:\Users\core2062\Pictures\SD GUI\shooter_title.png"/>
+		<property name="Maintain Aspect Ratio" value="true"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="697" y="138"/>
+		<property name="Image File" value="C:\Users\core2062\Pictures\SD GUI\tilter_title.png"/>
+		<property name="Maintain Aspect Ratio" value="true"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="687" y="194"/>
+		<property name="Image File" value="C:\Users\core2062\Pictures\SD GUI\is tilted.png"/>
+		<property name="Maintain Aspect Ratio" value="true"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="1104" y="558"/>
+		<property name="Text" value="Developer mode"/>
+	</static-widget>
+	<widget field="Dev on" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.CheckBox">
+		<location x="1184" y="555"/>
+	</widget>
+	<widget field="Teleop time" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="867" y="700"/>
+	</widget>
+	<widget field="Is tilted" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="691" y="175"/>
+		<width>129</width>
+		<height>65</height>
+	</widget>
+	<widget field="Shooter at speed" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="946" y="176"/>
+		<width>190</width>
+		<height>71</height>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="59" y="498"/>
+		<width>69</width>
+		<height>14</height>
+		<property name="Text" value="Cubed Inputs"/>
+	</static-widget>
+	<widget field="Climb top limit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="352" y="496"/>
+		<width>96</width>
+		<height>32</height>
+	</widget>
+	<widget field="Climb bottom limit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="352" y="544"/>
+		<width>114</width>
+		<height>32</height>
+	</widget>
+	<widget field="Climb position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="505" y="540"/>
+	</widget>
+	<widget field="Climb stage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="515" y="508"/>
+	</widget>
+	<widget field="Rot" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="905" y="640"/>
+	</widget>
+	<widget field="Mag" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="902" y="668"/>
+	</widget>
+	<widget field="Climber Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1040" y="700"/>
+	</widget>
+	<widget field="Opt Shooter" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1049" y="674"/>
+	</widget>
+	<widget field="Right" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="897" y="608"/>
+	</widget>
+	<widget field="Left" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1014" y="607"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="16" y="16"/>
+		<width>528</width>
+		<height>432</height>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="619" y="589"/>
+		<width>131</width>
+		<height>30</height>
+		<property name="Text" value="Drive PID Tuning"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="352" y="712"/>
+		<width>64</width>
+		<height>24</height>
+		<property name="Text" value="Shooter PID"/>
+	</static-widget>
+	<widget field="L Setpoint" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="527" y="703"/>
+	</widget>
+	<widget field="Left F" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="547" y="680"/>
+	</widget>
+	<widget field="Left D" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="546" y="657"/>
+	</widget>
+	<widget field="Left I" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="549" y="634"/>
+	</widget>
+	<widget field="Left P" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="547" y="611"/>
+	</widget>
+	<widget field="R Setpoint" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="675" y="702"/>
+	</widget>
+	<widget field="Right F" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="691" y="680"/>
+		<height>20</height>
+	</widget>
+	<widget field="Right D" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="690" y="657"/>
+	</widget>
+	<widget field="Right I" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="693" y="635"/>
+	</widget>
+	<widget field="Right P" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="691" y="612"/>
+	</widget>
+	<widget field="Ether B" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="208" y="736"/>
+		<width>77</width>
+	</widget>
+	<widget field="Ether A" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="207" y="758"/>
+		<width>77</width>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="174" y="496"/>
+		<width>66</width>
+		<height>19</height>
+		<property name="Text" value="Arcade Algo"/>
+	</static-widget>
+	<widget field="Algo Selecter" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="163" y="512"/>
+	</widget>
+	<widget field="Control Selecter" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="179" y="704"/>
+	</widget>
+	<widget field="Setpoint" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="962" y="316"/>
+		<property name="Background" value="240.240.240.255"/>
+	</widget>
+	<widget field="F" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="368" y="808"/>
+	</widget>
+	<widget field="D" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="367" y="785"/>
+	</widget>
+	<widget field="I" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="370" y="762"/>
+	</widget>
+	<widget field="P" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="368" y="736"/>
+		<height>23</height>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
+		<location x="576" y="18"/>
+		<width>624</width>
+		<height>62</height>
+	</static-widget>
+	<widget field="Cubed inputs" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.CheckBox">
+		<location x="75" y="512"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="886" y="112"/>
+		<width>15</width>
+		<height>258</height>
+		<property name="Image File" value="C:\Users\core2062\Pictures\SD GUI\Line.png"/>
+		<property name="Maintain Aspect Ratio" value="true"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="694" y="304"/>
+		<property name="Image File" value="C:\Users\core2062\Pictures\SD GUI\limits.png"/>
+		<property name="Maintain Aspect Ratio" value="true"/>
+	</static-widget>
+	<widget field="Tilt neg limit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="765" y="304"/>
+		<width>83</width>
+		<height>32</height>
+	</widget>
+	<widget field="Tilt pos limit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="688" y="304"/>
+		<width>80</width>
+		<height>30</height>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="640" y="127"/>
+		<width>208</width>
+		<height>225</height>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="928" y="128"/>
+		<width>230</width>
+		<height>224</height>
+	</static-widget>
+	<widget field="Autonomous mode" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="832" y="496"/>
+		<property name="Use Radio Buttons" value="false"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="288" y="464"/>
+		<width>10</width>
+		<height>141</height>
+		<property name="Image File" value="C:\Users\core2062\Pictures\SD GUI\Line.png"/>
+		<property name="Maintain Aspect Ratio" value="true"/>
+	</static-widget>
+</dashboard>
+<live-window>
+	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="Jaguar[1,3]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="16"/>
+			<height>46</height>
+			<width>293</width>
+		</widget>
+		<widget field="Jaguar[1,4]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="62"/>
+			<height>46</height>
+			<width>293</width>
+		</widget>
+		<widget field="Jaguar[1,5]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="108"/>
+			<height>46</height>
+			<width>293</width>
+		</widget>
+		<widget field="Jaguar[1,6]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="154"/>
+			<height>46</height>
+			<width>293</width>
+		</widget>
+		<widget field="Encoder[0,13]" type="Quadrature Encoder" class="edu.wpi.first.smartdashboard.livewindow.elements.EncoderDisplay">
+			<location x="6" y="200"/>
+			<height>98</height>
+			<width>293</width>
+		</widget>
+		<widget field="Encoder[0,15]" type="Quadrature Encoder" class="edu.wpi.first.smartdashboard.livewindow.elements.EncoderDisplay">
+			<location x="6" y="298"/>
+			<height>98</height>
+			<width>293</width>
+		</widget>
+		<widget field="Jaguar[1,8]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="396"/>
+			<height>46</height>
+			<width>293</width>
+		</widget>
+		<widget field="Victor[1,10]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="442"/>
+			<height>46</height>
+			<width>293</width>
+		</widget>
+		<widget field="Jaguar[1,9]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="488"/>
+			<height>46</height>
+			<width>293</width>
+		</widget>
+		<widget field="Jaguar[1,7]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="6" y="534"/>
+			<height>46</height>
+			<width>293</width>
+		</widget>
+		<widget field="Encoder[0,9]" type="Quadrature Encoder" class="edu.wpi.first.smartdashboard.livewindow.elements.EncoderDisplay">
+			<location x="6" y="580"/>
+			<height>98</height>
+			<width>293</width>
+		</widget>
+		<widget field="AnalogChannel[8,1]" type="Analog Input" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
+			<location x="6" y="678"/>
+			<height>20</height>
+			<width>293</width>
+		</widget>
+		<location x="0" y="0"/>
+		<width>305</width>
+		<height>705</height>
+	</widget>
+</live-window>
+</xml>
