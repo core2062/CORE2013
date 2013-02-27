@@ -3,6 +3,7 @@
 #include "CORESubsystemRobot.h"
 #include "COREJoystick.h"
 #include "Subsystems.h"
+#include <string>
 
 #include "InsightLT/InsightLT.h"
 
@@ -20,6 +21,9 @@ class CORE2013 : public SimpleRobot
 	insight::DecimalData disp_batteryVoltage;
 	
 	Timer insightTime;
+	
+	SendableChooser autoMode;
+	std::string autonomousMode;
 
 public:
 	
@@ -43,6 +47,17 @@ public:
 
 	void Autonomous(void){
 		
+	}
+	
+	void RobotInit(void){
+		robot.robotInit();
+		SmartDashboard::PutBoolean("Dev on", CORERobot::isDevMode());
+		
+		autoMode.AddDefault("Do nothing", new std::string("do nothing"));
+		autoMode.AddObject("Shooter only", new std::string("shooter only"));
+		autoMode.AddObject("Left of pramid", new std::string("left of pyramid"));
+		autoMode.AddObject("Right of pyramid", new std::string("right of pyramid"));
+		SmartDashboard::PutData("Autonomous mode", &autoMode);
 	}
 	
 	void Disabled(void){
@@ -78,8 +93,10 @@ public:
 				
 			robot.teleop(joystick);
 
+			CORERobot::setDevMode(SmartDashboard::GetBoolean("Dev on"));
+			autonomousMode = *((std::string *) autoMode.GetSelected());
+			
 			Wait(0.05);				// wait for a motor update time
-			SmartDashboard::PutNumber("Teleop time", teleop.Get());
 		}
 	}
 	
@@ -87,8 +104,14 @@ public:
 	 * Runs during test mode
 	 */
 	void Test() {
+		Watchdog &wd = GetWatchdog();
+		wd.SetEnabled(true);
+		wd.SetExpiration(.5);
+
 		while (IsTest() and IsEnabled()){
-			drive.driveTest();
+//			drive.driveTest();
+			wd.Feed();
+			Wait(0.05);
 		}
 	}
 };

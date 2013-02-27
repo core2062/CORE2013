@@ -12,6 +12,7 @@ class CORESubsystem {
 public:
 					CORESubsystem(void);
 	virtual 		~CORESubsystem(void){};	// class destructor defined to suppress compiler error
+	virtual void	robotInit(void) = 0;	
 	virtual void	teleopInit(void) = 0;	
 	virtual void	teleopInput(COREJoystick&) = 0;
 	virtual void	teleopLogic(void) = 0;
@@ -20,9 +21,12 @@ public:
 	virtual std::string name(void) = 0;
 };
 
-class CORERobot {
+class CORERobot
+{
 	vector <CORESubsystem*> subsystems;
 	Timer timer;
+	
+	static bool developerMode;
 	
 public:	
 //	#define _PRACTICE_ // Uncomment for Practice Robot
@@ -106,9 +110,12 @@ public:
 	
 	CORERobot(void);
 	void add(CORESubsystem&);
+	void robotInit(void);
 	void teleopInit(void);
 	void teleop(COREJoystick&);
 	static void console( );
+	static bool isDevMode( );
+	static void setDevMode(bool mode);
 };
 
 #endif

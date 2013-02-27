@@ -37,11 +37,14 @@ class ShooterSubsystem : public CORESubsystem{
 	bool feedingDisk;
 	bool pusherOutput;
 	bool shooterSpeedOverride;
+	bool shooterAtSpeed;
 	
 public:
 	ShooterSubsystem(void);
 	
 	std::string name(void);
+
+	void robotInit(void);
 
 	void teleopInit(void);
 	

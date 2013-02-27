@@ -39,6 +39,7 @@ pid(0.0, 0 ,0, 0.021, &shooterOptEncoder, &shooterMotor, .05)
 	feed = false;
 	feedingDisk = false;
 	shooterSpeedOverride = false;
+	shooterAtSpeed = false;
 }
 
 std::string ShooterSubsystem::name(void)
@@ -46,17 +47,20 @@ std::string ShooterSubsystem::name(void)
 	return "Shooter";
 }
 
-void ShooterSubsystem::teleopInit(void)
-{
-	pid.SetSetpoint(5);
-	
+void ShooterSubsystem::robotInit(void){
 	SmartDashboard::PutNumber("P", pid.GetP());
 	SmartDashboard::PutNumber("I", pid.GetI());
 	SmartDashboard::PutNumber("D", pid.GetD());
 	SmartDashboard::PutNumber("F", pid.GetF());
 	SmartDashboard::PutNumber("Setpoint", pid.GetSetpoint());
 	SmartDashboard::PutBoolean("Shooter speed override", shooterSpeedOverride);
-	
+	SmartDashboard::PutBoolean("Shooter at speed", shooterAtSpeed);
+}
+
+void ShooterSubsystem::teleopInit(void)
+{
+//	pid.SetSetpoint(5);
+
 	shooterValue = shooterDefault;
 	shooterRunning = false;
 	pid.Enable();
@@ -75,7 +79,7 @@ void ShooterSubsystem::teleopLogic(void){
 	
 	if (pusherOutput and pusherTimer.Get() > pushTime) {
 		pusherOutput = false;
-	} else if ((shooterSpeedOverride or (std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1.0)) and feed){
+	} else if ((shooterSpeedOverride or (shooterAtSpeed = std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1.0)) and feed){
 		pusherOutput = true;
 		pusherTimer.Reset();
 		pusherTimer.Start();
@@ -116,15 +120,18 @@ void ShooterSubsystem::teleopOutput(void){
 	pusher.Set(pusherOutput ? -1.0 : 0.0);
 
 	// smart dashboard
-	SmartDashboard::PutNumber("Opt Shooter", shooterOptEncoder.PIDGet());
-	
-	double p = SmartDashboard::GetNumber("P");
-	double i = SmartDashboard::GetNumber("I");
-	double d = SmartDashboard::GetNumber("D");
-	double f = SmartDashboard::GetNumber("F");
+	if (CORERobot::isDevMode()){
+		double p = SmartDashboard::GetNumber("P");
+		double i = SmartDashboard::GetNumber("I");
+		double d = SmartDashboard::GetNumber("D");
+		double f = SmartDashboard::GetNumber("F");
+		pid.SetPID(p,i,d,f);
+
+		SmartDashboard::PutNumber("Opt Shooter", shooterOptEncoder.PIDGet());
+	}
 	SmartDashboard::PutNumber("Setpoint", shooterOutput);
-	
-	pid.SetPID(p,i,d,f);
+	SmartDashboard::PutBoolean("Shooter at speed", shooterAtSpeed);
+
 	
 //	cout << "  P: " << pid.GetP() << " I: " << pid.GetI() << " D: " << pid.GetD()
 //			<< " F: " << pid.GetF() << " Set: " << pid.GetSetpoint() << endl;
