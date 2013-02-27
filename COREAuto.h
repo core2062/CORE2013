@@ -7,7 +7,7 @@
 #define COREAUTO
 namespace CORE{
 	
-	class Action{
+class Action{
 	public:
 		enum ControlFlow{
 			CONTINUE,
@@ -19,7 +19,7 @@ namespace CORE{
 		virtual ~Action(){};
 	};
 	
-	class TimeAction{
+	class TimeAction : public Action{
 		Action* m_action;
 		float m_duration;
 		bool m_blocking;
@@ -29,7 +29,7 @@ namespace CORE{
 	public:
 		TimeAction(Action& action, float duration, bool blocking = true);
 		TimeAction(Action* action, float duration, bool blocking = true);
-		virtual int operator()(void);
+		virtual ControlFlow operator()(void);
 		virtual ~TimeAction(void){delete m_action;};
 	};
 	

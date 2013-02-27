@@ -17,16 +17,19 @@ TimeAction::TimeAction(Action* action, float duration, bool blocking):
 	started = false;
 }
 
-int TimeAction::operator()(void){
+Action::ControlFlow TimeAction::operator()(void){
 	if(!started){
 		timer.Start();
 		started = true;
 	}
 	if(timer.Get()<=m_duration){
 		(*m_action)();
-		return 0;
+		if(!m_blocking){
+			return BACKGROUND;
+		}
+		return CONTINUE;
 	}else{
-		return 1;
+		return END;
 	}
 }
 
