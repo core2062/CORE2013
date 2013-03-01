@@ -20,17 +20,17 @@ DriveSubsystem::DriveSubsystem(void):
 	PIDLeft(0, 0.0, 0, 1, &left, &leftOut),
 	PIDRight(0, 0.0, 0, 1, &right, &rightOut),
 
-	drive( PIDLeft, PIDRight ),
+	m_drive( PIDLeft, PIDRight ),
 	
 	controlSelect(),
 	algoSelect()
 {
 //	drive.SetInvertedMotor(RobotDrive::kFrontLeftMotor,true);
 //	drive.SetInvertedMotor(RobotDrive::kFrontRightMotor,true);
-drive.SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
-drive.SetInvertedMotor(RobotDrive::kRearRightMotor,true);
+m_drive.SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
+m_drive.SetInvertedMotor(RobotDrive::kRearRightMotor,true);
 
-	drive.SetMaxOutput( 1 );
+	m_drive.SetMaxOutput( 1 );
 	
 	right.SetDistancePerPulse(1.0/360.0);
 	left.SetDistancePerPulse(1.0/360.0);
@@ -144,11 +144,11 @@ void DriveSubsystem::teleopOutput(void){
 	
 	
 	if(algo == "classic"){
-		drive.ArcadeDrive(mag, rotate);
+		m_drive.ArcadeDrive(mag, rotate);
 	} else if (algo == "ether"){
 		double a = SmartDashboard::GetNumber("Ether A");
 		double b = SmartDashboard::GetNumber("Ether B");
-		drive.EtherArcade(mag, -rotate, a, b);
+		m_drive.EtherArcade(mag, -rotate, a, b);
 	}
 
 	
@@ -157,10 +157,23 @@ void DriveSubsystem::teleopOutput(void){
 
 }
 
+/****	AUTONOMOUS		****/
+
+void DriveSubsystem::drive(double mag, double rot){
+	m_drive.ArcadeDrive(mag, rot);
+}
+
+void DriveSubsystem::stop(void){
+	drive(0,0);
+}
+
+double DriveSubsystem::getDistance(void){
+	return (right.GetDistance() + left.GetDistance()) / 2.0;
+}
 
 void DriveSubsystem::driveTest(void){
 //	drive.SetExpiration(100000000);
-	drive.Drive(1,0);
+	m_drive.Drive(1,0);
 	
 //	SmartDashboard::PutNumber("Left", left.GetRate());
 //	SmartDashboard::PutNumber("Right", right.GetRate());

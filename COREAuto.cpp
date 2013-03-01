@@ -37,7 +37,9 @@ Action::ControlFlow TimeAction::operator()(void){
 
 AutoSequencer::AutoSequencer():
 	aqueue(),
-	background(){}
+	background(){
+	
+}
 
 void AutoSequencer::add_action(Action& task){
 	add_action(&task);

@@ -3,7 +3,8 @@
 bool CORERobot::developerMode = false;
 
 CORERobot::CORERobot(void):
-	subsystems()
+	subsystems(),
+	timer()
 {
 	timer.Start();
 }

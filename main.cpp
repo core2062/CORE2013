@@ -4,11 +4,14 @@
 #include "COREJoystick.h"
 #include "Subsystems.h"
 #include <string>
+#include "COREAuto.h"
 
 #include "InsightLT/InsightLT.h"
-
+using namespace CORE;
 class CORE2013 : public SimpleRobot
 {
+	AutoSequencer autoSeq;
+	
 	CORERobot robot;
 	COREJoystick joystick;
 	
@@ -28,6 +31,8 @@ class CORE2013 : public SimpleRobot
 public:
 	
 	CORE2013(void):
+		autoSeq(),
+		
 		robot(),
 		joystick(),
 		
@@ -43,6 +48,8 @@ public:
 		robot.add(shooter);
 		robot.add(climb);
 		insightTime.Start();
+		
+		
 	}
 
 	void Autonomous(void){
