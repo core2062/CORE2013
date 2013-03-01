@@ -46,7 +46,7 @@ public:
 	float driveKajRot(void){return joystick1.GetRawAxis(4);};
 	
 	bool shooterOn(void){return shooterRun.Rise();};
-	bool shooterDefault(void){return pyramidSpeed.Rise();};
+	bool shooterDefault(void){return pyramidSpeed.Rise();};	
 	bool shooterUp(void){return shooterIncrease.Rise();};
 	bool shooterDown(void){return shooterDecrease.Rise();};
 	bool shooterShoot(void){return feedTrigger.Get();};
@@ -55,6 +55,7 @@ public:
 	bool climbTilt(void){return joystick2.GetRawButton(7);};
 	bool climbDetilt(void){return joystick2.GetRawButton(11);};
 	bool climbReset(void){return joystick1.GetRawButton(5);};
+	float rawClimb(void){return -joystick2.GetRawAxis(2);};
 };
 		
 #endif

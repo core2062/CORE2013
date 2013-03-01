@@ -59,7 +59,8 @@ public:
 			
 			TILTER = 7,
 			SHOOTER = 8,
-			CLIMBER = 9,
+			CLIMBER_ONE = 1,
+			CLIMBER_TWO = 9,
 			PUSHER_MOTOR = 10
 		}output;
 	

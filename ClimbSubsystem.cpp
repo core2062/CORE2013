@@ -15,7 +15,8 @@ static const Segment steps[] = { Segment(lowSpeed, 8),
 	};
 
 ClimbSubsystem::ClimbSubsystem(void):
-			climbMotor(CORERobot::CLIMBER),
+			climbMotorOne(CORERobot::CLIMBER_ONE),
+			climbMotorTwo(CORERobot::CLIMBER_TWO),
 			tiltMotor(CORERobot::TILTER), //the motor for tilting the robot
 
 			tiltPosLimit(CORERobot::TILT_LIMIT_POSITIVE),
@@ -44,6 +45,7 @@ void ClimbSubsystem::teleopInput(COREJoystick& joystick) {
 	isDeTilting = joystick.climbDetilt();
 	climbing = joystick.climb();
 	reset = joystick.climbReset();
+	rawClimb = joystick.rawClimb();
 }
 
 void ClimbSubsystem::teleopLogic(void) {
@@ -66,21 +68,25 @@ void ClimbSubsystem::teleopLogic(void) {
 		stepCount = 0;
 		currentSpeed = -.5;
 	} else {
-		currentSpeed = 0;
+		currentSpeed = rawClimb;
 	}
+	cout << currentSpeed<<endl;
 	cout << stepCount << ": " << climbEncoder.GetDistance() << endl;
 }
 
 void ClimbSubsystem::teleopOutput(void) {
 
 	//	currentSpeed *= .5;
-
+	cout << (climbTopLimit.Get() ? 1:0) << "  " << (climbBottomLimit.Get() ? 1:0) << endl;
 	if (currentSpeed > 0) {
-		climbMotor.Set(climbTopLimit.Get() ? 0 : currentSpeed);
+		climbMotorOne.Set(climbTopLimit.Get() ? 0 : currentSpeed);
+		climbMotorTwo.Set(climbTopLimit.Get() ? 0 : currentSpeed);
 	} else {
-		climbMotor.Set(climbBottomLimit.Get() ? 0 : currentSpeed);
+		climbMotorOne.Set(climbBottomLimit.Get() ? 0 : currentSpeed);
+		climbMotorTwo.Set(climbBottomLimit.Get() ? 0 : currentSpeed);
 	}
-	SmartDashboard::PutNumber("Climber Speed", climbMotor.Get());
+	
+	SmartDashboard::PutNumber("Climber Speed", climbMotorOne.Get());
 	SmartDashboard::PutBoolean("Climb top limit", !climbTopLimit.Get());
 	SmartDashboard::PutBoolean("Climb bottom limit", !climbBottomLimit.Get());
 	SmartDashboard::PutNumber("Climb stage", stepCount);

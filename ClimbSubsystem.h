@@ -17,7 +17,8 @@ public:
 };
 
 class ClimbSubsystem : public CORESubsystem{
-	Jaguar climbMotor;
+	Jaguar climbMotorOne;
+	Jaguar climbMotorTwo;
 	Jaguar tiltMotor;
 	
 	DigitalInput tiltPosLimit;
@@ -35,6 +36,7 @@ class ClimbSubsystem : public CORESubsystem{
 	bool reset;
 	
 	float currentSpeed;
+	float rawClimb;
 	
 	int stepCount;
 	
