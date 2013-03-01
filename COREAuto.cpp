@@ -41,12 +41,12 @@ AutoSequencer::AutoSequencer():
 	
 }
 
-void AutoSequencer::add_action(Action& task){
-	add_action(&task);
+void AutoSequencer::add_action(Action& action){
+	add_action(&action);
 }
 
-void AutoSequencer::add_action(Action* task){
-	aqueue.push(task);
+void AutoSequencer::add_action(Action* action){
+	aqueue.push(action);
 }
 
 void AutoSequencer::iter(void){

@@ -41,8 +41,8 @@ class Action{
 	public:
 		AutoSequencer(void);
 		
-		void add_action(Action& task);
-		void add_action(Action* task);
+		void add_action(Action& action);
+		void add_action(Action* action);
 		
 		void iter(void);
 	};
