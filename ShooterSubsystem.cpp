@@ -138,3 +138,14 @@ void ShooterSubsystem::teleopOutput(void){
 
 	// cout << "we are " << ( feedingDisk ? "feedingDisk" : "not shoooting" ) << endl;		
 }
+
+void ShooterSubsystem::shoot(float shooterOutput){
+	pid.SetSetpoint(shooterOutput);
+}
+
+void ShooterSubsystem::push(float pusherOutput){
+	pusher.Set(pusherOutput);
+}
+bool ShooterSubsystem::getUpToSpeed(void){
+	return (std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1.0);
+}

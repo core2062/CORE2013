@@ -72,17 +72,35 @@ public:
 
 class DriveAction : public Action{
 	double m_mag;
+	double m_dist;
+	DriveSubsystem* m_drive;
+public:
+	DriveAction(DriveSubsystem& drive, double mag, double dist){
+		m_drive = &drive;
+		m_mag = mag;
+		m_dist = dist;
+	}
+	ControlFlow operator()(void){
+		if(m_drive->getDistance()<m_dist){
+			m_drive->drive(m_mag, 0);
+			return CONTINUE;
+		}else{
+			return END;
+		}
+	}
+};
+
+class RotateAction : public Action{
 	double m_rot;
 	DriveSubsystem* m_drive;
 public:
-	DriveAction(DriveSubsystem& drive, double mag, double rot){
+	RotateAction(DriveSubsystem& drive, double rot){
 		m_drive = &drive;
-		m_mag = mag;
 		m_rot = rot;
 	}
 	ControlFlow operator()(void){
-		m_drive->drive(m_mag, m_rot);
-		return CONTINUE;
+		m_drive->drive(0, m_rot);
+		return END;
 	}
 };
 
