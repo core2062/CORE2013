@@ -53,7 +53,30 @@ public:
 	}
 
 	void Autonomous(void){
-		
+//		if(autoMode.GetSelected() == "shooter only"){
+//			
+//		}
+//		if(autoMode.GetSelected() == "left of pyramid"){
+//			
+//		}
+//		if(autoMode.GetSelected() == "right of pyramid"){
+//			
+//		}
+		if(autoMode.GetSelected() == "do nothing"){
+			 // we doin' nothin'
+		}
+		if(autoMode.GetSelected() == "shoot only"){
+			ShootAction shoot1 (shooter, 2);
+			autoSeq.add_action(shoot1);
+		}
+		if(autoMode.GetSelected() == "drive only"){
+			DriveAction drive1 (drive, .5, 15);
+			autoSeq.add_action(drive1);
+		}
+		if(autoMode.GetSelected() == "rotate only"){
+			TimeAction rotate1 (new RotateAction(drive, .5), 2);
+			autoSeq.add_action(rotate1);
+		}
 	}
 	
 	void RobotInit(void){
@@ -61,9 +84,13 @@ public:
 		SmartDashboard::PutBoolean("Dev on", CORERobot::isDevMode());
 		
 		autoMode.AddDefault("Do nothing", new std::string("do nothing"));
-		autoMode.AddObject("Shooter only", new std::string("shooter only"));
-		autoMode.AddObject("Left of pramid", new std::string("left of pyramid"));
-		autoMode.AddObject("Right of pyramid", new std::string("right of pyramid"));
+//		autoMode.AddObject("Shooter only", new std::string("shooter only"));
+//		autoMode.AddObject("Left of pramid", new std::string("left of pyramid"));
+//		autoMode.AddObject("Right of pyramid", new std::string("right of pyramid"));
+		
+		autoMode.AddDefault("Shoot only", new std::string("shoot only"));
+		autoMode.AddDefault("Drive only", new std::string("drive only"));
+		autoMode.AddDefault("Rotate only", new std::string("rotate only"));
 		SmartDashboard::PutData("Autonomous mode", &autoMode);
 	}
 	
