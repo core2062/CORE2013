@@ -24,7 +24,7 @@ pid(0.1, .03 ,0, 0.021, &shooterOptEncoder, &shooterMotor, .05)
 	shooterOutput = 0;
 	
 	pusherOutput = false;
-	
+	pid.SetOutputRange(0,1);
 	shooterOptEncoder.Start();
 	
 //	shooter360Encoder.Start();
@@ -48,6 +48,8 @@ std::string ShooterSubsystem::name(void)
 }
 
 void ShooterSubsystem::robotInit(void){
+	pid.SetSetpoint(0);
+	pid.Enable();
 	SmartDashboard::PutNumber("P", pid.GetP());
 	SmartDashboard::PutNumber("I", pid.GetI());
 	SmartDashboard::PutNumber("D", pid.GetD());
@@ -111,12 +113,12 @@ void ShooterSubsystem::teleopLogic(void){
 	if ( shooterRunning )
 	{	
 		shooterOutput =  shooterValue;
-		pid.Enable();
+//		pid.Enable();
 	}
 	else
 	{
 		shooterOutput =  0;
-		pid.Disable();
+//		pid.Disable();
 	}
 }
 
@@ -152,11 +154,11 @@ void ShooterSubsystem::teleopOutput(void){
 }
 
 void ShooterSubsystem::shoot(float shooterOutput){
-	pid.SetSetpoint(shooterOutput);
+	pid.SetSetpoint(shooterOutput * shooterDefault);
 }
 
 void ShooterSubsystem::push(float pusherOutput){
-	pusher.Set(pusherOutput);
+	pusher.Set(-pusherOutput);
 }
 bool ShooterSubsystem::getUpToSpeed(void){
 	return (std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1.0);

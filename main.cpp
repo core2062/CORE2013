@@ -53,6 +53,9 @@ public:
 	}
 
 	void Autonomous(void){
+		Watchdog &wd = GetWatchdog();
+		wd.SetEnabled(false);
+		wd.SetExpiration(.5);
 //		if(autoMode.GetSelected() == "shooter only"){
 //			
 //		}
@@ -62,21 +65,42 @@ public:
 //		if(autoMode.GetSelected() == "right of pyramid"){
 //			
 //		}
-		if(autoMode.GetSelected() == "do nothing"){
+		DriveAction drive1 (drive, .5, 10);
+		TimeAction rotate1 (new RotateAction(drive, .5), 2);
+		ShootAction shoot1 (shooter, 2);
+		
+		std::string* mode ((std::string *) autoMode.GetSelected());
+		
+		if(*mode == "do nothing"){
 			 // we doin' nothin'
 		}
-		if(autoMode.GetSelected() == "shoot only"){
-			ShootAction shoot1 (shooter, 2);
+		if(*mode == "shoot only"){
+			
 			autoSeq.add_action(shoot1);
 		}
-		if(autoMode.GetSelected() == "drive only"){
-			DriveAction drive1 (drive, .5, 15);
+		if(*mode == "drive only"){
+//			DriveAction drive1 (drive, .5, 15);
 			autoSeq.add_action(drive1);
+			autoSeq.add_action(shoot1);
 		}
-		if(autoMode.GetSelected() == "rotate only"){
-			TimeAction rotate1 (new RotateAction(drive, .5), 2);
+		if(*mode == "rotate only"){
+			
 			autoSeq.add_action(rotate1);
 		}
+		
+		while (IsAutonomous() and !IsDisabled()){
+			wd.Feed();
+				
+			autoSeq.iter();
+//			if(drive1.call() == Action::END){
+//				cout << "we're done" <<endl;
+//			}
+
+//			CORERobot::setDevMode(SmartDashboard::GetBoolean("Dev on"));
+			
+			Wait(0.05);				// wait for a motor update time
+		}
+		
 	}
 	
 	void RobotInit(void){
@@ -88,9 +112,9 @@ public:
 //		autoMode.AddObject("Left of pramid", new std::string("left of pyramid"));
 //		autoMode.AddObject("Right of pyramid", new std::string("right of pyramid"));
 		
-		autoMode.AddDefault("Shoot only", new std::string("shoot only"));
-		autoMode.AddDefault("Drive only", new std::string("drive only"));
-		autoMode.AddDefault("Rotate only", new std::string("rotate only"));
+		autoMode.AddObject("Shoot only", new std::string("shoot only"));
+		autoMode.AddObject("Drive only", new std::string("drive only"));
+		autoMode.AddObject("Rotate only", new std::string("rotate only"));
 		SmartDashboard::PutData("Autonomous mode", &autoMode);
 	}
 	

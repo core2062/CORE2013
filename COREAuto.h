@@ -15,7 +15,7 @@ class Action{
 			BACKGROUND
 		};
 		Action();
-		virtual ControlFlow operator()(void) = 0;
+		virtual ControlFlow call(void){cout << "action base class operator"<< endl; return END;} // =0
 		virtual ~Action(){};
 	};
 	
@@ -29,7 +29,7 @@ class Action{
 	public:
 		TimeAction(Action& action, float duration, bool blocking = true);
 		TimeAction(Action* action, float duration, bool blocking = true);
-		virtual ControlFlow operator()(void);
+		virtual ControlFlow call(void);
 		virtual ~TimeAction(void){delete m_action;};
 	};
 	

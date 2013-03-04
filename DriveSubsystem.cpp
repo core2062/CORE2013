@@ -25,15 +25,15 @@ DriveSubsystem::DriveSubsystem(void):
 	controlSelect(),
 	algoSelect()
 {
-//	drive.SetInvertedMotor(RobotDrive::kFrontLeftMotor,true);
-//	drive.SetInvertedMotor(RobotDrive::kFrontRightMotor,true);
-m_drive.SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
-m_drive.SetInvertedMotor(RobotDrive::kRearRightMotor,true);
-
+	//drive.SetInvertedMotor(RobotDrive::kFrontLeftMotor,true);
+	//drive.SetInvertedMotor(RobotDrive::kFrontRightMotor,true);
+	m_drive.SetInvertedMotor(RobotDrive::kRearLeftMotor,true);
+	m_drive.SetInvertedMotor(RobotDrive::kRearRightMotor,true);
+	m_drive.SetSafetyEnabled(false);
 	m_drive.SetMaxOutput( 1 );
 	
-	right.SetDistancePerPulse(1.0/360.0);
-	left.SetDistancePerPulse(1.0/360.0);
+	right.SetDistancePerPulse((1.0/360.0) * (6*3.141));
+	left.SetDistancePerPulse((1.0/360.0) * (6*3.141));
 	right.SetPIDSourceParameter(Encoder::kRate);
 	left.SetPIDSourceParameter(Encoder::kRate);
 	right.Start();
@@ -71,10 +71,16 @@ void DriveSubsystem::SetPIDCommand(void) {
 }
 
 void DriveSubsystem::robotInit(void){
-	
+	PIDLeft.SetSetpoint(0);
+	PIDRight.SetSetpoint(0);
+	PIDLeft.Enable();
+	PIDRight.Enable();
 }
 
 void DriveSubsystem::teleopInit(void){
+//	m_drive.SetSafetyEnabled(true);
+	m_drive.ArcadeDrive(0,0);
+	
 	SmartDashboard::PutNumber("Right P", PIDRight.GetP());
 	SmartDashboard::PutNumber("Right I", PIDRight.GetI());
 	SmartDashboard::PutNumber("Right D", PIDRight.GetD());
@@ -98,8 +104,6 @@ void DriveSubsystem::teleopInit(void){
 	
 	SmartDashboard::PutBoolean("Cubed inputs", false);
 
-	PIDLeft.Enable();
-	PIDRight.Enable();
 }
 
 void DriveSubsystem::teleopInput(COREJoystick& joystick){
@@ -152,15 +156,17 @@ void DriveSubsystem::teleopOutput(void){
 	}
 
 	
-	if (CORERobot::isDevMode())
+	if (CORERobot::isDevMode()){
 		SetPIDCommand();
+		SmartDashboard::PutNumber("DriveDistance", getDistance());
+	}
 
 }
 
 /****	AUTONOMOUS		****/
 
 void DriveSubsystem::drive(double mag, double rot){
-	m_drive.ArcadeDrive(mag, rot);
+	m_drive.ArcadeDrive(-mag, rot);
 }
 
 void DriveSubsystem::stop(void){

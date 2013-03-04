@@ -73,18 +73,24 @@ public:
 class DriveAction : public Action{
 	double m_mag;
 	double m_dist;
+	double m_start;
 	DriveSubsystem* m_drive;
 public:
 	DriveAction(DriveSubsystem& drive, double mag, double dist){
 		m_drive = &drive;
 		m_mag = mag;
 		m_dist = dist;
+		m_start = m_drive->getDistance();
 	}
-	ControlFlow operator()(void){
-		if(m_drive->getDistance()<m_dist){
+	Action::ControlFlow call(void){
+		cout << m_drive->getDistance()<<endl;
+		cout << m_dist << endl;
+		if((m_drive->getDistance()-m_start)<m_dist){
 			m_drive->drive(m_mag, 0);
 			return CONTINUE;
 		}else{
+			cout << "pop!" <<endl;
+			m_drive->drive(0,0);
 			return END;
 		}
 	}
@@ -98,7 +104,7 @@ public:
 		m_drive = &drive;
 		m_rot = rot;
 	}
-	ControlFlow operator()(void){
+	virtual ControlFlow call(void){
 		m_drive->drive(0, m_rot);
 		return END;
 	}

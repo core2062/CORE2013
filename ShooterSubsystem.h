@@ -71,38 +71,45 @@ class ShootAction : public Action{
 	bool started;
 	int discs_shot;
 	int n_discs;
-	static const float recovery_time = .2;
+	static const float recovery_time = 1;
 public:
 	ShootAction(ShooterSubsystem& shoot, int discs):
 		pusher_timer(),
 		recovery_timer()
 	{
 		m_shooter = &shoot;
-		n_discs= discs;
+		n_discs = discs;
+		discs_shot = 0;
 	}
-	ControlFlow operator()(void){
-
- if (discs_shot < n_discs){ //if we didn't shoot all the discs we wanted to
-	 m_shooter->shoot(0);
-		if (m_shooter->getUpToSpeed() or (recovery_timer.Get() > recovery_time)){		//ready is shooter up-to-speed or recovery time > time to recover
-			recovery_timer.Stop();
-			recovery_timer.Reset();
-			if (pusher_timer.Get()==0){
-				m_shooter->push(1);
-				pusher_timer.Start();
+	ControlFlow call(void){
+		cout << "Call called" << endl;
+		if (discs_shot < n_discs){ //if we didn't shoot all the discs we wanted to
+			m_shooter->shoot(1);
+			//m_shooter->getUpToSpeed() or 
+			cout << "recovery: " << recovery_timer.Get()<<endl;\
+			if ((recovery_timer.Get() > recovery_time)){		//ready is shooter up-to-speed or recovery time > time to recover
+				recovery_timer.Stop();
+				cout << "pusher: " << pusher_timer.Get() << endl;
+				if (pusher_timer.Get()==0){
+					m_shooter->push(1);
+					pusher_timer.Start();
+				}else if (pusher_timer.Get() >= ShooterSubsystem::pushTime){
+					++discs_shot;
+					m_shooter->push(0);
+					pusher_timer.Stop();
+					pusher_timer.Reset();
+					recovery_timer.Reset();
+					recovery_timer.Start();
+				}else{
+					m_shooter->push(1);
+				}
+			} else if (recovery_timer.Get()==0){
+				recovery_timer.Start();
 			}
-			else if (pusher_timer.Get() >= ShooterSubsystem::pushTime){
-				++discs_shot;
-				pusher_timer.Stop();
-				pusher_timer.Reset();
-			}
-			else
-				m_shooter->push(1);
-			}
-		}
-	else{
-		m_shooter->shoot(0);
-		return END;
+			return CONTINUE;
+		}else{
+			m_shooter->shoot(0);
+			return END;
 		}
 	}
 };
