@@ -236,7 +236,6 @@
 	</static-widget>
 	<widget field="Autonomous mode" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
 		<location x="832" y="496"/>
-		<property name="Use Radio Buttons" value="false"/>
 	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
 		<location x="288" y="464"/>
