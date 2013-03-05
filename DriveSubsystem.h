@@ -21,9 +21,12 @@ class DriveSubsystem : public CORESubsystem{
 	COREDrivePIDOut leftOut;
 	COREDrivePIDOut rightOut;
 	
+	CORERateLimiter magLimiter;
+	CORERateLimiter rotLimiter;
+	
 	SpeedPID PIDLeft;
 	SpeedPID PIDRight;
-	
+		
 	COREDrive m_drive;
 	
 	float	mag;

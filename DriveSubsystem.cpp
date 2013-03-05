@@ -16,6 +16,9 @@ DriveSubsystem::DriveSubsystem(void):
 
 	leftOut(&FLDrive, &RLDrive),
 	rightOut(&FRDrive, &RRDrive),
+
+	magLimiter(.2),
+	rotLimiter(.2),
 	
 	PIDLeft(0, 0.0, 0, 1, &left, &leftOut),
 	PIDRight(0, 0.0, 0, 1, &right, &rightOut),
@@ -146,6 +149,7 @@ void DriveSubsystem::teleopOutput(void){
 	SmartDashboard::PutNumber("Left", left.GetRate());
 	SmartDashboard::PutNumber("Right", right.GetRate());
 	
+//	mag = magLimiter.limit(mag);
 	
 	if(algo == "classic"){
 		m_drive.ArcadeDrive(mag, rotate);

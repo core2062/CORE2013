@@ -17,8 +17,9 @@ public:
 };
 
 class COREDrive : public RobotDrive{
-		
+	
 public:
+
 	COREDrive::COREDrive(SpeedController &leftMotor,
 				SpeedController &rightMotor
 				):
@@ -30,5 +31,35 @@ public:
 	
 	void EtherArcade(double mag, double rotate, double a, double b);
 	void ArcadeDrive(float moveValue, float rotateValue, bool squaredInputs = false);
+};
+
+class CORERateLimiter{
+	float increment;
+	float old;
+public:
+
+	CORERateLimiter(float increment){
+		old = 0;
+		increment = increment;
+	}
+	
+	float limit(float input){
+		float diff = input - old;
+		
+		if(diff < 0){
+			if(diff < -increment){
+				old -= increment;	
+			}else{
+				old = input;
+			}
+		} else if( diff > 0){
+			if(diff > increment){
+				old += increment;
+			} else {
+				old = input;
+			}
+		}
+		return old;
+	}
 };
 #endif
