@@ -66,7 +66,7 @@ public:
 //			
 //		}
 		DriveAction drive1 (drive, .5, 10);
-		TimeAction rotate1 (new RotateAction(drive, .5), 2);
+		RotateAction rotate1 (drive, .5, 2);
 		ShootAction shoot1 (shooter, 2);
 		
 		std::string* mode ((std::string *) autoMode.GetSelected());
@@ -75,16 +75,13 @@ public:
 			 // we doin' nothin'
 		}
 		if(*mode == "shoot only"){
-			
 			autoSeq.add_action(shoot1);
 		}
 		if(*mode == "drive only"){
-//			DriveAction drive1 (drive, .5, 15);
 			autoSeq.add_action(drive1);
-			autoSeq.add_action(shoot1);
+//			autoSeq.add_action(shoot1);
 		}
 		if(*mode == "rotate only"){
-			
 			autoSeq.add_action(rotate1);
 		}
 		

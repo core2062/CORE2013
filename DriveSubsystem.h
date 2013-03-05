@@ -99,14 +99,28 @@ public:
 class RotateAction : public Action{
 	double m_rot;
 	DriveSubsystem* m_drive;
+	Timer timer;
+	double m_time;
+	
 public:
-	RotateAction(DriveSubsystem& drive, double rot){
+	RotateAction(DriveSubsystem& drive, double rot, double time):
+		timer()
+	{
 		m_drive = &drive;
 		m_rot = rot;
+		m_time = time;
 	}
 	virtual ControlFlow call(void){
-		m_drive->drive(0, m_rot);
-		return END;
+		if(timer.Get()==0){
+				timer.Start();
+		}
+		if(timer.Get()<=m_time){
+			m_drive->drive(0, m_rot);
+			return CONTINUE;
+		}else{
+			m_drive->drive(0, 0);
+			return END;
+		}
 	}
 };
 

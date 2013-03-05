@@ -19,18 +19,14 @@ class Action{
 		virtual ~Action(){};
 	};
 	
-	class TimeAction : public Action{
-		Action* m_action;
+	class WaitAction : public Action{
 		float m_duration;
-		bool m_blocking;
 		
 		Timer timer;
-		bool started;
 	public:
-		TimeAction(Action& action, float duration, bool blocking = true);
-		TimeAction(Action* action, float duration, bool blocking = true);
+		WaitAction(float duration);
 		virtual ControlFlow call(void);
-		virtual ~TimeAction(void){delete m_action;};
+		virtual ~WaitAction(void){};
 	};
 	
 	class AutoSequencer{

@@ -4,29 +4,16 @@ using namespace CORE;
 
 Action::Action(void){};
 
-TimeAction::TimeAction(Action& action, float duration, bool blocking){
-	TimeAction::TimeAction(&action, duration);
-}
-
-TimeAction::TimeAction(Action* action, float duration, bool blocking):
+WaitAction::WaitAction(float duration):
 	timer(){
-	m_action	= action;
 	m_duration	= duration;
-	m_blocking	= blocking;
-	
-	started = false;
 }
 
-Action::ControlFlow TimeAction::call(void){
-	if(!started){
+Action::ControlFlow WaitAction::call(void){
+	if(timer.Get() == 0){
 		timer.Start();
-		started = true;
 	}
 	if(timer.Get()<=m_duration){
-		(*m_action).call();
-		if(!m_blocking){
-			return BACKGROUND;
-		}
 		return CONTINUE;
 	}else{
 		return END;
@@ -38,7 +25,6 @@ Action::ControlFlow TimeAction::call(void){
 AutoSequencer::AutoSequencer():
 	aqueue(),
 	background(){
-	
 }
 
 void AutoSequencer::add_action(Action& action){
