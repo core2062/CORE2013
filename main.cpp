@@ -52,46 +52,79 @@ public:
 		
 	}
 
+	void RobotInit(void){
+			robot.robotInit();
+			SmartDashboard::PutNumber("drive-timing", 30);
+			SmartDashboard::PutNumber("rotate-timing", 1.22);
+			SmartDashboard::PutBoolean("Dev on", CORERobot::isDevMode());
+			
+			autoMode.AddDefault("Do nothing", new std::string("do nothing"));
+			autoMode.AddObject("Shooter only", new std::string("shooter only"));
+			autoMode.AddObject("Left of pramid", new std::string("left of pyramid"));
+			autoMode.AddObject("Right of pyramid", new std::string("right of pyramid"));
+			
+//			autoMode.AddObject("Shoot only", new std::string("shoot only"));
+//			autoMode.AddObject("Drive only", new std::string("drive only"));
+//			autoMode.AddObject("Rotate only", new std::string("rotate only"));
+			SmartDashboard::PutData("Autonomous mode", &autoMode);
+		}
+
 	void Autonomous(void){
 		Watchdog &wd = GetWatchdog();
 		wd.SetEnabled(false);
 		wd.SetExpiration(.5);
-//		if(autoMode.GetSelected() == "shooter only"){
-//			
-//		}
-//		if(autoMode.GetSelected() == "left of pyramid"){
-//			
-//		}
-//		if(autoMode.GetSelected() == "right of pyramid"){
-//			
-//		}
-		DriveAction drive1 (drive, .5, 10);
-		RotateAction rotate1 (drive, .5, 2);
-		ShootAction shoot1 (shooter, 2);
-		
 		std::string* mode ((std::string *) autoMode.GetSelected());
 		
+		/* Shooter only actions*/
+		ShootAction shoot_only (shooter, 4);
+		
+		/* Left of pyramid actions*/
+		DriveAction drive_LOP1 (drive, .5, SmartDashboard::GetNumber("drive-timing"));
+		RotateAction rotate_LOP1 (drive, .5, SmartDashboard::GetNumber("rotate-timing"));
+		ShootAction shoot_LOP1 (shooter, 4);
+		
+		/* Right of pyramid actions*/
+		DriveAction drive_ROP1 (drive, .5, SmartDashboard::GetNumber("drive-timing"));
+		RotateAction rotate_ROP1 (drive, -.5, SmartDashboard::GetNumber("rotate-timing"));
+		ShootAction shoot_ROP1 (shooter, 4);
+		
+		/* Test mode actions */
+//		DriveAction drive1 (drive, .5, SmartDashboard::GetNumber("drive-timing"));
+//		RotateAction rotate1 (drive, .5, SmartDashboard::GetNumber("rotate-timing"));
+//		ShootAction shoot1 (shooter, 2);
+		
+		
+		if(*mode == "shooter only"){
+			autoSeq.add_action(shoot_only);
+		}
+		
+		if(*mode == "left of pyramid"){
+			autoSeq.add_action(drive_LOP1);
+			autoSeq.add_action(rotate_LOP1);
+			autoSeq.add_action(shoot_LOP1);
+		}
+		if(*mode == "right of pyramid"){
+			autoSeq.add_action(drive_ROP1);
+			autoSeq.add_action(rotate_ROP1);
+			autoSeq.add_action(shoot_ROP1);
+		}
 		if(*mode == "do nothing"){
-			 // we doin' nothin'
+//			do nothing :D
 		}
-		if(*mode == "shoot only"){
-			autoSeq.add_action(shoot1);
-		}
-		if(*mode == "drive only"){
-			autoSeq.add_action(drive1);
+		
+//		if(*mode == "shoot only"){
 //			autoSeq.add_action(shoot1);
-		}
-		if(*mode == "rotate only"){
-			autoSeq.add_action(rotate1);
-		}
+//		}
+//		if(*mode == "drive only"){
+//			autoSeq.add_action(drive1);
+//		}
+//		if(*mode == "rotate only"){
+//			autoSeq.add_action(rotate1);
+//		}
 		
 		while (IsAutonomous() and !IsDisabled()){
 			wd.Feed();
-				
 			autoSeq.iter();
-//			if(drive1.call() == Action::END){
-//				cout << "we're done" <<endl;
-//			}
 
 //			CORERobot::setDevMode(SmartDashboard::GetBoolean("Dev on"));
 			
@@ -99,22 +132,7 @@ public:
 		}
 		
 	}
-	
-	void RobotInit(void){
-		robot.robotInit();
-		SmartDashboard::PutBoolean("Dev on", CORERobot::isDevMode());
-		
-		autoMode.AddDefault("Do nothing", new std::string("do nothing"));
-//		autoMode.AddObject("Shooter only", new std::string("shooter only"));
-//		autoMode.AddObject("Left of pramid", new std::string("left of pyramid"));
-//		autoMode.AddObject("Right of pyramid", new std::string("right of pyramid"));
-		
-		autoMode.AddObject("Shoot only", new std::string("shoot only"));
-		autoMode.AddObject("Drive only", new std::string("drive only"));
-		autoMode.AddObject("Rotate only", new std::string("rotate only"));
-		SmartDashboard::PutData("Autonomous mode", &autoMode);
-	}
-	
+
 	void Disabled(void){
 		cout << "Disabled" << endl;
 

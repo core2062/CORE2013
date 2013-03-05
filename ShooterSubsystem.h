@@ -41,7 +41,7 @@ class ShooterSubsystem : public CORESubsystem{
 	bool shooterAtSpeed;
 	
 public:
-	static const float pushTime = 1 / 2.0;	 // Pusher activation timing
+	static const float pushTime = .46;	 // Pusher activation timing
 	
 	ShooterSubsystem(void);
 	
