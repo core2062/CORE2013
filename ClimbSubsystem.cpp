@@ -68,7 +68,8 @@ void ClimbSubsystem::teleopLogic(void) {
 		stepCount = 0;
 		currentSpeed = -.5;
 	} else {
-		currentSpeed = rawClimb;
+//		currentSpeed = rawClimb;
+		currentSpeed = 0;
 	}
 	cout << currentSpeed<<endl;
 	cout << stepCount << ": " << climbEncoder.GetDistance() << endl;

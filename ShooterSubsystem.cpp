@@ -38,7 +38,7 @@ pid(0.1, .03 ,0, 0.021, &shooterOptEncoder, &shooterMotor, .05)
 	down = false;
 	feed = false;
 	feedingDisk = false;
-	shooterSpeedOverride = true;
+	shooterSpeedOverride = false;
 	shooterAtSpeed = false;
 }
 
@@ -80,7 +80,7 @@ void ShooterSubsystem::teleopLogic(void){
 	
 	if (pusherOutput and pusherTimer.Get() > pushTime) {
 		pusherOutput = false;
-	} else if ((shooterSpeedOverride or (shooterAtSpeed = std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1.0)) and feed){
+	} else if ((shooterSpeedOverride or (shooterAtSpeed = std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 2.0)) and feed){
 		pusherOutput = true;
 		pusherTimer.Reset();
 		pusherTimer.Start();
@@ -154,7 +154,7 @@ void ShooterSubsystem::teleopOutput(void){
 }
 
 void ShooterSubsystem::shoot(float shooterOutput){
-	pid.SetSetpoint(shooterOutput * shooterDefault);
+	pid.SetSetpoint(shooterOutput * (shooterDefault));
 }
 
 void ShooterSubsystem::push(float pusherOutput){

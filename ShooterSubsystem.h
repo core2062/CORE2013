@@ -24,7 +24,7 @@ class ShooterSubsystem : public CORESubsystem{
 	PIDController 	pid;
 
 	static const float shooterInc = 1;		 // value is in rps
-	static const float shooterDefault = 60;
+	static const float shooterDefault = 58;
 	
 	float shooterValue;
 	float shooterOutput;
