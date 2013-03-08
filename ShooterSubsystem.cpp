@@ -18,7 +18,7 @@ shooterMotor(CORERobot::SHOOTER),
 pusher(CORERobot::PUSHER_MOTOR),
 pusherTimer(),
 shooterOptEncoder(CORERobot::SHOOTER_OPTICAL),
-pid(0.1, .03 ,0, 0.021, &shooterOptEncoder, &shooterMotor, .05)
+pid(0.13, .03 ,0, 0.018, &shooterOptEncoder, &shooterMotor, .05)
 {
 	shooterValue = 0;
 	shooterOutput = 0;
