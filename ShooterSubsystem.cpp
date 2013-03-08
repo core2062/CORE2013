@@ -38,7 +38,7 @@ pid(0.1, .03 ,0, 0.021, &shooterOptEncoder, &shooterMotor, .05)
 	down = false;
 	feed = false;
 	feedingDisk = false;
-	shooterSpeedOverride = false;
+	shooterSpeedOverride = true;
 	shooterAtSpeed = false;
 }
 

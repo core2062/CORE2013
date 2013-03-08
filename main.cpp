@@ -58,8 +58,8 @@ public:
 			SmartDashboard::PutNumber("rotate-timing", 1.22);
 			SmartDashboard::PutBoolean("Dev on", CORERobot::isDevMode());
 			
-			autoMode.AddDefault("Do nothing", new std::string("do nothing"));
-			autoMode.AddObject("Shooter only", new std::string("shooter only"));
+			autoMode.AddObject("Do nothing", new std::string("do nothing"));
+			autoMode.AddDefault("Shooter only", new std::string("shooter only"));
 			autoMode.AddObject("Left of pramid", new std::string("left of pyramid"));
 			autoMode.AddObject("Right of pyramid", new std::string("right of pyramid"));
 			
@@ -76,7 +76,7 @@ public:
 		std::string* mode ((std::string *) autoMode.GetSelected());
 		
 		/* Shooter only actions*/
-		ShootAction shoot_only (shooter, 4);
+		ShootAction shoot_only (shooter, 6);
 		
 		/* Left of pyramid actions*/
 		DriveAction drive_LOP1 (drive, .5, SmartDashboard::GetNumber("drive-timing"));
