@@ -24,7 +24,7 @@ class ShooterSubsystem : public CORESubsystem{
 	PIDController 	pid;
 
 	static const float shooterInc = 1;		 // value is in rps
-	static const float shooterDefault = 58;
+	static const float shooterDefault = 56;
 	
 	float shooterValue;
 	float shooterOutput;
@@ -41,8 +41,8 @@ class ShooterSubsystem : public CORESubsystem{
 	bool shooterAtSpeed;
 	
 public:
-	static const float pushTime = 1.0/2;	 // Pusher activation timing
-	// Practice robot is more like .46 for some reason
+	static const float pushTime = .42;	 // Pusher activation timing
+//	 Practice robot is more like .46 for some reason
 	
 	ShooterSubsystem(void);
 	

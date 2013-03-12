@@ -80,7 +80,7 @@ void ShooterSubsystem::teleopLogic(void){
 	
 	if (pusherOutput and pusherTimer.Get() > pushTime) {
 		pusherOutput = false;
-	} else if ((shooterSpeedOverride or (shooterAtSpeed = std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 2.0)) and feed){
+	} else if ((shooterSpeedOverride or (shooterAtSpeed = std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1.5)) and feed){
 		pusherOutput = true;
 		pusherTimer.Reset();
 		pusherTimer.Start();
