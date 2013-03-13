@@ -42,6 +42,7 @@ public:
 			
 			CLIMB_ENC_A = 7,
 			CLIMB_ENC_B = 8,
+			DRIVE_GYRO = 1,
 						
 			TILT_LIMIT_POSITIVE = 5,	
 			TILT_LIMIT_NEGATIVE = 13,

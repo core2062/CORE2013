@@ -18,6 +18,8 @@ class DriveSubsystem : public CORESubsystem{
 	Encoder left;
 	Encoder right;
 	
+	Gyro gyro;
+	
 	COREDrivePIDOut leftOut;
 	COREDrivePIDOut rightOut;
 	
@@ -37,6 +39,9 @@ class DriveSubsystem : public CORESubsystem{
 	
 	std::string control;
 	std::string algo;
+	
+	bool autoRotateLeft;
+	bool autoRotateRight;
 	
 	void SetPIDCommand(void);
 	

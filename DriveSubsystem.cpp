@@ -13,6 +13,8 @@ DriveSubsystem::DriveSubsystem(void):
 	
 	left(CORERobot::DRIVE_LEFT_ENC_A, CORERobot::DRIVE_LEFT_ENC_B, true),
 	right(CORERobot::DRIVE_RIGHT_ENC_A, CORERobot::DRIVE_RIGHT_ENC_B, true),
+	
+	gyro(CORERobot::DRIVE_GYRO),
 
 	leftOut(&FLDrive, &RLDrive),
 	rightOut(&FRDrive, &RRDrive),
@@ -83,6 +85,7 @@ void DriveSubsystem::robotInit(void){
 void DriveSubsystem::teleopInit(void){
 //	m_drive.SetSafetyEnabled(true);
 	m_drive.ArcadeDrive(0,0);
+	gyro.Reset();
 	
 	SmartDashboard::PutNumber("Right P", PIDRight.GetP());
 	SmartDashboard::PutNumber("Right I", PIDRight.GetI());
@@ -111,16 +114,19 @@ void DriveSubsystem::teleopInit(void){
 
 void DriveSubsystem::teleopInput(COREJoystick& joystick){
 	control = *((std::string *) controlSelect.GetSelected());
-	if (control == "arcade"){
-		mag = joystick.driveClassicMag();
-		rotate = joystick.driveClassicRot();
-	}else if (control == "kaj"){
+//	if (control == "arcade"){
+//		mag = joystick.driveClassicMag();
+//		rotate = joystick.driveClassicRot();
+//	}
+	if (control == "kaj"){
 		mag= joystick.driveKajMag();
 		rotate = joystick.driveKajRot();
 	}else{
 		cout << "  !!Error in controlSelect!!  " << endl;
 	}
 	algo = *((std::string *) algoSelect.GetSelected());
+	autoRotateLeft = joystick.autoRotLeft();
+	autoRotateRight = joystick.autoRotRight();
 }
 
 void DriveSubsystem::teleopLogic(void){	
@@ -133,7 +139,20 @@ void DriveSubsystem::teleopLogic(void){
 		mag = deadband(mag);
 		rotate = deadband(rotate);
 	}
-	
+	if (mag == 0 and rotate == 0){
+		if (autoRotateLeft and (gyro.GetAngle() < 41.5)){
+			rotate = .75;
+		}
+		if (autoRotateLeft and (gyro.GetAngle() > 42.5)){
+			rotate = -.75;
+		}
+		if (autoRotateRight and (gyro.GetAngle() < -41.5)){
+			rotate = -.75;
+		}
+		if (autoRotateRight and (gyro.GetAngle() > -42.5)){
+			rotate = .75;
+		}
+	}
 	SmartDashboard::PutNumber("Mag", mag); SmartDashboard::PutNumber("Rot", rotate);
 	
 }

@@ -40,10 +40,10 @@ public:
 	// Drive
 	float driveLeft(void){return joystick1.GetRawAxis(2);};
 	float driveRight(void){return joystick1.GetRawAxis(5);};
-	float driveClassicMag(void){return joystick1.GetRawAxis(5);};
-	float driveClassicRot(void){return joystick1.GetRawAxis(4);};
 	float driveKajMag(void){return joystick1.GetRawAxis(2);};
 	float driveKajRot(void){return joystick1.GetRawAxis(4);};
+	bool autoRotLeft(void){return joystick1.GetRawButton(3);};
+	bool autoRotRight(void){return joystick1.GetRawButton(2);};
 	
 	bool shooterOn(void){return shooterRun.Rise();};
 	bool shooterDefault(void){return pyramidSpeed.Rise();};	
