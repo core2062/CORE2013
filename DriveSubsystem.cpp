@@ -141,16 +141,16 @@ void DriveSubsystem::teleopLogic(void){
 	}
 	if (mag == 0 and rotate == 0){
 		if (autoRotateLeft and (gyro.GetAngle() < 41.5)){
-			rotate = .75;
+			rotate = .5;
 		}
 		if (autoRotateLeft and (gyro.GetAngle() > 42.5)){
-			rotate = -.75;
+			rotate = -.5;
 		}
 		if (autoRotateRight and (gyro.GetAngle() < -41.5)){
-			rotate = -.75;
+			rotate = -.5;
 		}
 		if (autoRotateRight and (gyro.GetAngle() > -42.5)){
-			rotate = .75;
+			rotate = .5;
 		}
 	}
 	SmartDashboard::PutNumber("Mag", mag); SmartDashboard::PutNumber("Rot", rotate);
