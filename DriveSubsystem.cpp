@@ -2,6 +2,7 @@
 #include "DriveSubsystem.h"
 #include <string.h>
 #include <cmath>
+#include "private/trigP.h"
 
 float deadband(float value, float range = .05);
 
@@ -43,7 +44,7 @@ DriveSubsystem::DriveSubsystem(void):
 	left.SetPIDSourceParameter(Encoder::kRate);
 	right.Start();
 	left.Start();
-	
+		
 //	controlSelect.AddObject("Tank", new std::string("tank"));
 //	controlSelect.AddObject("Arcade", new std::string("arcade"));
 	controlSelect.AddDefault("Kaj", new std::string("kaj"));
@@ -80,12 +81,14 @@ void DriveSubsystem::robotInit(void){
 	PIDRight.SetSetpoint(0);
 	PIDLeft.Enable();
 	PIDRight.Enable();
+	SmartDashboard::PutNumber("gyro-gain", 7);
 }
 
 void DriveSubsystem::teleopInit(void){
 //	m_drive.SetSafetyEnabled(true);
 	m_drive.ArcadeDrive(0,0);
 	gyro.Reset();
+	gyro.SetSensitivity(SmartDashboard::GetNumber("gyro-gain")/1000.0);
 	
 	SmartDashboard::PutNumber("Right P", PIDRight.GetP());
 	SmartDashboard::PutNumber("Right I", PIDRight.GetI());
@@ -109,6 +112,9 @@ void DriveSubsystem::teleopInit(void){
 	SmartDashboard::PutNumber("Right", 0);
 	
 	SmartDashboard::PutBoolean("Cubed inputs", false);
+	
+	SmartDashboard::PutNumber("Gyro Angle Raw", 0);
+	SmartDashboard::PutNumber("Gyro Angle Rounded", 0);
 
 }
 
@@ -129,7 +135,10 @@ void DriveSubsystem::teleopInput(COREJoystick& joystick){
 	autoRotateRight = joystick.autoRotRight();
 }
 
-void DriveSubsystem::teleopLogic(void){	
+void DriveSubsystem::teleopLogic(void){
+	float gyroAngle = gyro.GetAngle();
+	float gyroAngleRounded = drem( gyroAngle, 360 );
+	
 	if (SmartDashboard::GetBoolean("Cubed inputs")){
 //		cout << "Before mag " << mag << " rotate " << rotate << endl; 
 		mag = (mag*mag*mag);
@@ -137,6 +146,7 @@ void DriveSubsystem::teleopLogic(void){
 //		cout << "After mag " << mag << " rotate " << rotate << endl;
 	}else{
 		mag = deadband(mag);
+		
 		rotate = deadband(rotate);
 	}
 	if (mag == 0 and rotate == 0){
@@ -155,6 +165,8 @@ void DriveSubsystem::teleopLogic(void){
 	}
 	SmartDashboard::PutNumber("Mag", mag); SmartDashboard::PutNumber("Rot", rotate);
 	
+	SmartDashboard::PutNumber("Gyro Angle Raw", gyroAngle);
+	SmartDashboard::PutNumber("Gyro Angle Rounded", gyroAngleRounded);
 }
 float deadband(float value, float range){
 	if(std::abs(value) < range){
