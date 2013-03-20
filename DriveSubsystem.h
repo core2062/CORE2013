@@ -42,6 +42,7 @@ class DriveSubsystem : public CORESubsystem{
 	
 	bool autoRotateLeft;
 	bool autoRotateRight;
+	bool pyramidSpeed;
 	
 	void SetPIDCommand(void);
 	

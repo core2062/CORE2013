@@ -51,6 +51,10 @@ DriveSubsystem::DriveSubsystem(void):
 	
 	algoSelect.AddObject("Classic", new std::string("classic"));
 	algoSelect.AddDefault("Ether", new std::string("ether"));
+	
+	autoRotateLeft = false;
+	autoRotateRight = false;
+	pyramidSpeed = false;
 }
 
 std::string DriveSubsystem::name(void){
@@ -115,6 +119,8 @@ void DriveSubsystem::teleopInit(void){
 	
 	SmartDashboard::PutNumber("Gyro Angle Raw", 0);
 	SmartDashboard::PutNumber("Gyro Angle Rounded", 0);
+	
+	SmartDashboard::PutNumber("Pyramid Speed", 0.707);
 
 }
 
@@ -131,24 +137,22 @@ void DriveSubsystem::teleopInput(COREJoystick& joystick){
 		cout << "  !!Error in controlSelect!!  " << endl;
 	}
 	algo = *((std::string *) algoSelect.GetSelected());
-	autoRotateLeft = joystick.autoRotLeft();
-	autoRotateRight = joystick.autoRotRight();
+	//autoRotateLeft = joystick.autoRotLeft();
+	//autoRotateRight = joystick.autoRotRight();
+	pyramidSpeed = joystick.pyramidDrive();
 }
 
 void DriveSubsystem::teleopLogic(void){
 	float gyroAngle = gyro.GetAngle();
 	float gyroAngleRounded = drem( gyroAngle, 360 );
 	
-	if (SmartDashboard::GetBoolean("Cubed inputs")){
-//		cout << "Before mag " << mag << " rotate " << rotate << endl; 
-		mag = (mag*mag*mag);
-		rotate = (rotate*rotate*rotate);
-//		cout << "After mag " << mag << " rotate " << rotate << endl;
-	}else{
-		mag = deadband(mag);
-		
-		rotate = deadband(rotate);
+	mag = deadband(mag);
+	rotate = deadband(rotate);
+	
+	if (pyramidSpeed){
+		mag = SmartDashboard::GetNumber("Pyramid Speed");
 	}
+	
 	if (mag == 0 and rotate == 0){
 		if (autoRotateLeft and (gyro.GetAngle() < 41.5)){
 			rotate = .5;
