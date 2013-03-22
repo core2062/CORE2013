@@ -52,6 +52,9 @@ public:
 	bool shooterDown(void){return shooterDecrease.Rise();};
 	bool shooterShoot(void){return feedTrigger.Get();};
 	
+	int manPush(void){return joystick2.GetRawButton(12)? -1:(joystick2.GetRawButton(11)? 1:0);
+	}
+	
 	bool climb(void){return joystick1.GetRawButton(4);};
 	bool climbTilt(void){return joystick2.GetRawButton(7);};
 	bool climbDetilt(void){return joystick2.GetRawButton(11);};

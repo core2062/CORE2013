@@ -23,7 +23,7 @@ pid(0.13, .03 ,0, 0.018, &shooterOptEncoder, &shooterMotor, .05)
 	shooterValue = 0;
 	shooterOutput = 0;
 	
-	pusherOutput = false;
+	pusherOutput = 0;
 	pid.SetOutputRange(0,1);
 	shooterOptEncoder.Start();
 	
@@ -73,19 +73,23 @@ void ShooterSubsystem::teleopInput(COREJoystick& joystick){
 	down = joystick.shooterDown();
 	feed = joystick.shooterShoot();
 	shooterOn = joystick.shooterOn();
+	manPush = joystick.manPush();
 }
 
 void ShooterSubsystem::teleopLogic(void){
 	shooterSpeedOverride = SmartDashboard::GetBoolean("Shooter speed override");
 	
 	if (pusherOutput and pusherTimer.Get() > pushTime) {
-		pusherOutput = false;
+		pusherOutput = 0;
 	} else if ((shooterSpeedOverride or (shooterAtSpeed = std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1.5)) and feed){
-		pusherOutput = true;
+		pusherOutput = 1;
 		pusherTimer.Reset();
 		pusherTimer.Start();
 		cout << "I'm shooting!"  << endl;
 	}
+	
+	pusherOutput = (manPush != 0) ? manPush : pusherOutput;
+	
 	
 	// Shooter
 	if (pyramidSpeed) {
@@ -128,10 +132,8 @@ void ShooterSubsystem::teleopOutput(void){
 	
 	
 	// service pusher
-	pusher.Set(pusherOutput ? -1.0 : 0.0);
+	pusher.Set((float) -pusherOutput);
 
-	cout << "Dev mode is " << CORERobot::isDevMode() << endl;
-	// smart dashboard
 	if (CORERobot::isDevMode()){
 		double p = SmartDashboard::GetNumber("P");
 		cout << "Is called " << p << endl;
@@ -142,6 +144,7 @@ void ShooterSubsystem::teleopOutput(void){
 
 		
 		SmartDashboard::PutNumber("Opt Shooter", shooterOptEncoder.PIDGet());
+		SmartDashboard::PutNumber("pusher-output", pusherOutput);
 	}
 	SmartDashboard::PutNumber("Setpoint", shooterOutput);
 	SmartDashboard::PutBoolean("Shooter at speed", shooterAtSpeed);

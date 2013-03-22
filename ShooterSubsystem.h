@@ -36,7 +36,8 @@ class ShooterSubsystem : public CORESubsystem{
 	bool down;
 	bool feed;
 	bool feedingDisk;
-	bool pusherOutput;
+	int pusherOutput;
+	int manPush;
 	bool shooterSpeedOverride;
 	bool shooterAtSpeed;
 	
