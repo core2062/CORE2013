@@ -29,7 +29,7 @@ class CORERobot
 	static bool developerMode;
 	
 public:	
-	#define _PRACTICE_ // Uncomment for Practice Robot
+//	#define _PRACTICE_ // Uncomment for Practice Robot
 
 	#ifndef _PRACTICE_
 		// Real robot

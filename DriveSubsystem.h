@@ -18,7 +18,7 @@ class DriveSubsystem : public CORESubsystem{
 	Encoder left;
 	Encoder right;
 	
-	Gyro gyro;
+//	Gyro gyro;
 	
 	COREDrivePIDOut leftOut;
 	COREDrivePIDOut rightOut;

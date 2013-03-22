@@ -87,7 +87,7 @@ public:
 		if (discs_shot < n_discs){ //if we didn't shoot all the discs we wanted to
 			m_shooter->shoot(1);
 			//m_shooter->getUpToSpeed() or 
-			cout << "recovery: " << recovery_timer.Get()<<endl;\
+			cout << "recovery: " << recovery_timer.Get()<<endl;
 			if ((recovery_timer.Get() > recovery_time)){		//ready is shooter up-to-speed or recovery time > time to recover
 				recovery_timer.Stop();
 				cout << "pusher: " << pusher_timer.Get() << endl;

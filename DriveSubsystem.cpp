@@ -15,7 +15,7 @@ DriveSubsystem::DriveSubsystem(void):
 	left(CORERobot::DRIVE_LEFT_ENC_A, CORERobot::DRIVE_LEFT_ENC_B, true),
 	right(CORERobot::DRIVE_RIGHT_ENC_A, CORERobot::DRIVE_RIGHT_ENC_B, true),
 	
-	gyro(CORERobot::DRIVE_GYRO),
+//	gyro(CORERobot::DRIVE_GYRO),
 
 	leftOut(&FLDrive, &RLDrive),
 	rightOut(&FRDrive, &RRDrive),
@@ -85,14 +85,14 @@ void DriveSubsystem::robotInit(void){
 	PIDRight.SetSetpoint(0);
 	PIDLeft.Enable();
 	PIDRight.Enable();
-	SmartDashboard::PutNumber("gyro-gain", 7);
+//	SmartDashboard::PutNumber("gyro-gain", 7);
 }
 
 void DriveSubsystem::teleopInit(void){
 //	m_drive.SetSafetyEnabled(true);
 	m_drive.ArcadeDrive(0,0);
-	gyro.Reset();
-	gyro.SetSensitivity(SmartDashboard::GetNumber("gyro-gain")/1000.0);
+//	gyro.Reset();
+//	gyro.SetSensitivity(SmartDashboard::GetNumber("gyro-gain")/1000.0);
 	
 	SmartDashboard::PutNumber("Right P", PIDRight.GetP());
 	SmartDashboard::PutNumber("Right I", PIDRight.GetI());
@@ -117,8 +117,8 @@ void DriveSubsystem::teleopInit(void){
 	
 	SmartDashboard::PutBoolean("Cubed inputs", false);
 	
-	SmartDashboard::PutNumber("Gyro Angle Raw", 0);
-	SmartDashboard::PutNumber("Gyro Angle Rounded", 0);
+//	SmartDashboard::PutNumber("Gyro Angle Raw", 0);
+//	SmartDashboard::PutNumber("Gyro Angle Rounded", 0);
 	
 	SmartDashboard::PutNumber("Pyramid Speed", 0.707);
 
@@ -143,8 +143,8 @@ void DriveSubsystem::teleopInput(COREJoystick& joystick){
 }
 
 void DriveSubsystem::teleopLogic(void){
-	float gyroAngle = gyro.GetAngle();
-	float gyroAngleRounded = drem( gyroAngle, 360 );
+//	float gyroAngle = gyro.GetAngle();
+//	float gyroAngleRounded = drem( gyroAngle, 360 );
 	
 	mag = deadband(mag);
 	rotate = deadband(rotate);
@@ -153,24 +153,24 @@ void DriveSubsystem::teleopLogic(void){
 		mag = SmartDashboard::GetNumber("Pyramid Speed");
 	}
 	
-	if (mag == 0 and rotate == 0){
-		if (autoRotateLeft and (gyro.GetAngle() < 41.5)){
-			rotate = .5;
-		}
-		if (autoRotateLeft and (gyro.GetAngle() > 42.5)){
-			rotate = -.5;
-		}
-		if (autoRotateRight and (gyro.GetAngle() < -41.5)){
-			rotate = -.5;
-		}
-		if (autoRotateRight and (gyro.GetAngle() > -42.5)){
-			rotate = .5;
-		}
-	}
+//	if (mag == 0 and rotate == 0){
+//		if (autoRotateLeft and (gyro.GetAngle() < 41.5)){
+//			rotate = .5;
+//		}
+//		if (autoRotateLeft and (gyro.GetAngle() > 42.5)){
+//			rotate = -.5;
+//		}
+//		if (autoRotateRight and (gyro.GetAngle() < -41.5)){
+//			rotate = -.5;
+//		}
+//		if (autoRotateRight and (gyro.GetAngle() > -42.5)){
+//			rotate = .5;
+//		}
+//	}
 	SmartDashboard::PutNumber("Mag", mag); SmartDashboard::PutNumber("Rot", rotate);
 	
-	SmartDashboard::PutNumber("Gyro Angle Raw", gyroAngle);
-	SmartDashboard::PutNumber("Gyro Angle Rounded", gyroAngleRounded);
+//	SmartDashboard::PutNumber("Gyro Angle Raw", gyroAngle);
+//	SmartDashboard::PutNumber("Gyro Angle Rounded", gyroAngleRounded);
 }
 float deadband(float value, float range){
 	if(std::abs(value) < range){
