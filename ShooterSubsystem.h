@@ -24,7 +24,7 @@ class ShooterSubsystem : public CORESubsystem{
 	PIDController 	pid;
 
 	static const float shooterInc = 1;		 // value is in rps
-	static const float shooterDefault = 57;
+	static const float shooterDefault = 58;
 	
 	float shooterValue;
 	float shooterOutput;
@@ -82,6 +82,7 @@ public:
 		m_shooter = &shoot;
 		n_discs = discs;
 		discs_shot = 0;
+		started = false;
 	}
 	ControlFlow call(void){
 		cout << "Call called" << endl;
