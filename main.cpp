@@ -17,7 +17,7 @@ class CORE2013 : public SimpleRobot
 	
 	DriveSubsystem drive;
 	ShooterSubsystem shooter;
-	ClimbSubsystem climb;
+//	ClimbSubsystem climb;
 	
 	insight::InsightLT display;
 	insight::DecimalData disp_userInfo;
@@ -38,7 +38,7 @@ public:
 		
 		drive(),
 		shooter(),
-		climb(),
+//		climb(),
 		
 		display(insight::TWO_ONE_LINE_ZONES),
 		
@@ -46,7 +46,7 @@ public:
 	{
 		robot.add(drive);
 		robot.add(shooter);
-		robot.add(climb);
+//		robot.add(climb);
 		insightTime.Start();
 		
 		
@@ -88,10 +88,6 @@ public:
 		RotateAction rotate_ROP1 (drive, -.5, SmartDashboard::GetNumber("rotate-timing"));
 		ShootAction shoot_ROP1 (shooter, 4);
 		
-		/* Test mode actions */
-//		DriveAction drive1 (drive, .5, SmartDashboard::GetNumber("drive-timing"));
-//		RotateAction rotate1 (drive, .5, SmartDashboard::GetNumber("rotate-timing"));
-//		ShootAction shoot1 (shooter, 2);
 		
 		
 		if(*mode == "shooter only"){
@@ -112,16 +108,6 @@ public:
 //			do nothing :D
 		}
 		
-//		if(*mode == "shoot only"){
-//			autoSeq.add_action(shoot1);
-//		}
-//		if(*mode == "drive only"){
-//			autoSeq.add_action(drive1);
-//		}
-//		if(*mode == "rotate only"){
-//			autoSeq.add_action(rotate1);
-//		}
-		
 		while (IsAutonomous() and !IsDisabled()){
 			wd.Feed();
 			autoSeq.iter();
@@ -130,7 +116,6 @@ public:
 			
 			Wait(0.05);				// wait for a motor update time
 		}
-		
 	}
 
 	void Disabled(void){
@@ -186,6 +171,10 @@ public:
 			wd.Feed();
 			Wait(0.05);
 		}
+		
+		robot.robotInit();
+		robot.teleop(joystick);
+		
 	}
 };
 
