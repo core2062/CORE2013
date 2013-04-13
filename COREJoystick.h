@@ -24,6 +24,7 @@ class COREJoystick {
 	COREJoystickButton	pyramidSpeed;
 	COREJoystickButton	shooterIncrease;
 	COREJoystickButton	shooterDecrease;
+	COREJoystickButton	blocker;
 	
 	
 public:
@@ -34,7 +35,8 @@ public:
 	shooterRun( &joystick2, 2),
 	pyramidSpeed( &joystick2, 6),
 	shooterIncrease( &joystick2, 5),
-	shooterDecrease( &joystick2, 3){
+	shooterDecrease( &joystick2, 3),
+	blocker( &joystick2, 7){
 	}
 
 	// Drive
@@ -53,11 +55,7 @@ public:
 	bool shooterShoot(void){return feedTrigger.Get();};
 	bool shooterBackwards(void){return joystick2.GetRawButton(12);};
 	
-	bool climb(void){return joystick1.GetRawButton(4);};
-	bool climbTilt(void){return joystick2.GetRawButton(7);};
-	bool climbDetilt(void){return joystick2.GetRawButton(11);};
-	bool climbReset(void){return joystick1.GetRawButton(5);};
-	float rawClimb(void){return -joystick2.GetRawAxis(2);};
+	bool block(void){return blocker.Rise();};
 };
 		
 #endif
