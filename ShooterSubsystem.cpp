@@ -57,6 +57,7 @@ void ShooterSubsystem::robotInit(void){
 	SmartDashboard::PutNumber("Setpoint", pid.GetSetpoint());
 	SmartDashboard::PutBoolean("Shooter speed override", shooterSpeedOverride);
 	SmartDashboard::PutBoolean("Shooter at speed", shooterAtSpeed);
+	SmartDashboard::PutNumber("p-mul", .5);
 }
 
 void ShooterSubsystem::teleopInit(void)
@@ -132,7 +133,8 @@ void ShooterSubsystem::teleopOutput(void){
 	
 	
 	// service pusher
-	pusher.Set((float) -pusherOutput);
+	float pm = SmartDashboard::GetNumber("p-mul");
+	pusher.Set(((float) -pusherOutput) * pm);
 
 	if (CORERobot::isDevMode()){
 		double p = SmartDashboard::GetNumber("P");
