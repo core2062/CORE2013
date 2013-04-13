@@ -33,7 +33,7 @@ bool SensorEdge::Rise(){
 	
 	bool state = Get();
 	bool rise = state and !oldState;
-	cout << rise << ": (" << state << " and not " << oldState << ")"<< endl;
+//	cout << rise << ": (" << state << " and not " << oldState << ")"<< endl;
 	oldState = state;
 	return( rise );
 }
@@ -119,7 +119,7 @@ void ShooterSubsystem::teleopLogic(void){
 	
 	shooterAtSpeed = std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1;
 	
-	cout << feed << " " << isFeeding << " " << endl;
+//	cout << feed << " " << isFeeding << " " << endl;
 	SmartDashboard::PutNumber("photo", pusherSensor.GetVoltage()*1000);
 	if (isFeeding) {
 	    if (pusherSensor.Fall()) {
@@ -188,7 +188,7 @@ void ShooterSubsystem::teleopOutput(void){
 
 	if (CORERobot::isDevMode()){
 		double p = SmartDashboard::GetNumber("P");
-		cout << "Is called " << p << endl;
+//		cout << "Is called " << p << endl;
 		double i = SmartDashboard::GetNumber("I");
 		double d = SmartDashboard::GetNumber("D");
 		double f = SmartDashboard::GetNumber("F");
