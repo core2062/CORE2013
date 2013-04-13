@@ -43,7 +43,8 @@ public:
 			DRIVE_GYRO = 1,
 						
 			SHOOTER_OPTICAL = 6,
-			BLOCKER_OPTICAL = 7
+			BLOCKER_LIMIT_BOTTOM = 7,
+			BLOCKER_LIMIT_TOP = 8
 		}input;
 	
 		typedef enum {
@@ -75,35 +76,30 @@ public:
 
 		// Practice robot
 		typedef enum {
-			DRIVE_RIGHT_ENC_A = 2,
-			DRIVE_RIGHT_ENC_B = 1,
+			DRIVE_RIGHT_ENC_A = 1,
+			DRIVE_RIGHT_ENC_B = 2,
 			
 			DRIVE_LEFT_ENC_A = 3,
 			DRIVE_LEFT_ENC_B = 4,
-		
-			CLIMB_ENC_A = 14,
-			CLIMB_ENC_B = 13,
+			
 			DRIVE_GYRO = 1,
-									
-			TILT_LIMIT_POSITIVE = 11,	
-			TILT_LIMIT_NEGATIVE = 12,
-			SHOOTER_OPTICAL = 10,
-			CLIMB_LIMIT_TOP = 8,
-			CLIMB_LIMIT_BOTTOM = 9
+						
+			SHOOTER_OPTICAL = 6,
+			BLOCKER_OPTICAL = 7,
+			BLOCKER_LIMIT = 8
 		}input;
 	
 		typedef enum {
-			DRIVE_LEFT_FRONT = 110,
-			DRIVE_LEFT_REAR = 118,
+			DRIVE_LEFT_FRONT = 3,
+			DRIVE_LEFT_REAR = 4,
 	
-			DRIVE_RIGHT_FRONT = 116,
-			DRIVE_RIGHT_REAR = 117,
+			DRIVE_RIGHT_FRONT = 5,
+			DRIVE_RIGHT_REAR = 6,
 			
-			TILTER = 210,
-			SHOOTER = 118,
-			CLIMBER_ONE = 111,
-			CLIMBER_TWO = 111,
-			PUSHER_MOTOR = 10
+			SHOOTER = 8,
+			PUSHER_MOTOR = 10,
+			
+			BLOCKER_WINCH = 1
 		}output;
 	#endif // _PRACTICE_
 	
