@@ -16,12 +16,26 @@ public:
 	double	PIDGet ();
 };
 
+class SensorEdge {
+	AnalogChannel	puckPhotoEye;
+	bool		oldState;
+	
+public:
+	SensorEdge();
+	bool Get();
+	bool Rise();
+	
+	float GetVoltage();
+};
+
+
 class ShooterSubsystem : public CORESubsystem{
 	Jaguar 			shooterMotor;
 	Jaguar 			pusher;
 	Timer			pusherTimer;
 	PIDCounter		shooterOptEncoder;
 	PIDController 	pid;
+	SensorEdge		pusherSensor;
 
 	static const float shooterInc = 1;		 // value is in rps
 	static const float shooterDefault = 58;
@@ -34,12 +48,13 @@ class ShooterSubsystem : public CORESubsystem{
 	bool shooterRunning;
 	bool up;
 	bool down;
-	bool feed;
-	bool feedingDisk;
-	int pusherOutput;
-	int manPush;
 	bool shooterSpeedOverride;
 	bool shooterAtSpeed;
+	
+	int feed;
+	bool isFeeding;
+	int pusherOutput;
+	
 	
 public:
 	static const float pushTime = .42;	 // Pusher activation timing

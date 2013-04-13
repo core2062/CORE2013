@@ -13,12 +13,38 @@ double	PIDCounter::PIDGet(){
 
 }
 
+SensorEdge::SensorEdge():
+	puckPhotoEye(1,1)
+{
+	oldState = true;
+}
+
+// returns current state
+bool SensorEdge::Get(){
+	return( puckPhotoEye.GetVoltage() < .5 );
+}
+
+float SensorEdge::GetVoltage(){
+	return puckPhotoEye.GetVoltage();
+}
+
+// returns true on rising edge
+bool SensorEdge::Rise(){
+	
+	bool state = Get();
+	bool rise = state and !oldState;
+	cout << rise << ": (" << state << " and not " << oldState << ")"<< endl;
+	oldState = state;
+	return( rise );
+}
+
 ShooterSubsystem::ShooterSubsystem(void):
 shooterMotor(CORERobot::SHOOTER),
 pusher(CORERobot::PUSHER_MOTOR),
 pusherTimer(),
 shooterOptEncoder(CORERobot::SHOOTER_OPTICAL),
-pid(0.13, .03 ,0, 0.018, &shooterOptEncoder, &shooterMotor, .05)
+pid(0.13, .03 ,0, 0.018, &shooterOptEncoder, &shooterMotor, .05),
+pusherSensor()
 {
 	shooterValue = 0;
 	shooterOutput = 0;
@@ -36,8 +62,8 @@ pid(0.13, .03 ,0, 0.018, &shooterOptEncoder, &shooterMotor, .05)
 	shooterRunning = false;
 	up = false;
 	down = false;
-	feed = false;
-	feedingDisk = false;
+	feed = 0;
+	isFeeding = false;
 	shooterSpeedOverride = false;
 	shooterAtSpeed = false;
 }
@@ -72,25 +98,41 @@ void ShooterSubsystem::teleopInput(COREJoystick& joystick){
 	pyramidSpeed = joystick.shooterDefault();
 	up = joystick.shooterUp();
 	down = joystick.shooterDown();
-	feed = joystick.shooterShoot();
+	feed = joystick.shooterShoot() ? 1 : 0;
+	
+	feed = joystick.shooterBackwards() ? -1 : feed;
 	shooterOn = joystick.shooterOn();
-	manPush = joystick.manPush();
 }
 
 void ShooterSubsystem::teleopLogic(void){
 	shooterSpeedOverride = SmartDashboard::GetBoolean("Shooter speed override");
 	
-	if (pusherOutput and pusherTimer.Get() > pushTime) {
-		pusherOutput = 0;
-	} else if ((shooterSpeedOverride or (shooterAtSpeed = std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1.5)) and feed){
-		pusherOutput = 1;
-		pusherTimer.Reset();
-		pusherTimer.Start();
-		cout << "I'm shooting!"  << endl;
+	shooterAtSpeed = std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1.5;
+	
+	cout << feed << " " << isFeeding << " " << endl;
+	SmartDashboard::PutNumber("photo", pusherSensor.GetVoltage()*1000);
+	if (isFeeding) {
+	    if (pusherSensor.Rise()) {
+	        pusherOutput = 0;
+	        isFeeding = false;
+	    } else {
+	        pusherOutput = pusherOutput;
+	        isFeeding = true;
+	    }
+	} else {
+	    if ((feed == -1) or (feed == 1)) {
+	        if (shooterSpeedOverride or shooterAtSpeed or true) {
+	            pusherOutput = feed;
+	            isFeeding = true;
+	        } else {
+	            pusherOutput = 0;
+	            isFeeding = false;
+	        }
+	    } else {
+	        pusherOutput = 0;
+	        isFeeding = false;
+	    }
 	}
-	
-	pusherOutput = (manPush != 0) ? manPush : pusherOutput;
-	
 	
 	// Shooter
 	if (pyramidSpeed) {
