@@ -17,6 +17,7 @@ class CORE2013 : public SimpleRobot
 	
 	DriveSubsystem drive;
 	ShooterSubsystem shooter;
+	BlockerSubsystem blocker;
 //	ClimbSubsystem climb;
 	
 	insight::InsightLT display;
@@ -38,7 +39,7 @@ public:
 		
 		drive(),
 		shooter(),
-//		climb(),
+		blocker(),
 		
 		display(insight::TWO_ONE_LINE_ZONES),
 		
@@ -46,7 +47,7 @@ public:
 	{
 		robot.add(drive);
 		robot.add(shooter);
-//		robot.add(climb);
+		robot.add(blocker);
 		insightTime.Start();
 		
 		
