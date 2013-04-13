@@ -116,7 +116,7 @@ void ShooterSubsystem::teleopInput(COREJoystick& joystick){
 void ShooterSubsystem::teleopLogic(void){
 	shooterSpeedOverride = SmartDashboard::GetBoolean("Shooter speed override");
 	
-	shooterAtSpeed = std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1.5;
+	shooterAtSpeed = std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1;
 	
 	cout << feed << " " << isFeeding << " " << endl;
 	SmartDashboard::PutNumber("photo", pusherSensor.GetVoltage()*1000);
