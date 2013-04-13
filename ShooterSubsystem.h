@@ -38,7 +38,7 @@ class ShooterSubsystem : public CORESubsystem{
 	SensorEdge		pusherSensor;
 
 	static const float shooterInc = 1;		 // value is in rps
-	static const float shooterDefault = 58;
+	static const float shooterDefault = 64;
 	
 	float shooterValue;
 	float shooterOutput;

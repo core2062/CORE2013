@@ -52,7 +52,8 @@ shooterMotor(CORERobot::SHOOTER),
 pusher(CORERobot::PUSHER_MOTOR),
 pusherTimer(),
 shooterOptEncoder(CORERobot::SHOOTER_OPTICAL),
-pid(0.13, .03 ,0, 0.018, &shooterOptEncoder, &shooterMotor, .05),
+//pid(0.13, .03 ,0, 0.018, &shooterOptEncoder, &shooterMotor, .05),
+pid(0.1, 0 ,0, 0.013, &shooterOptEncoder, &shooterMotor, .05),
 pusherSensor()
 {
 	shooterValue = 0;
@@ -130,7 +131,7 @@ void ShooterSubsystem::teleopLogic(void){
 	    }
 	} else {
 	    if ((feed == -1) or (feed == 1)) {
-	        if (shooterSpeedOverride or shooterAtSpeed or true) {
+	        if (shooterSpeedOverride or shooterAtSpeed) {
 	            pusherOutput = feed;
 	            isFeeding = true;
 	        } else {
@@ -170,9 +171,7 @@ void ShooterSubsystem::teleopLogic(void){
 	{	
 		shooterOutput =  shooterValue;
 //		pid.Enable();
-	}
-	else
-	{
+	}else{
 		shooterOutput =  0;
 //		pid.Disable();
 	}
