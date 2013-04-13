@@ -24,7 +24,7 @@ public:
 	SensorEdge();
 	bool Get();
 	bool Rise();
-	
+	bool Fall();
 	float GetVoltage();
 };
 

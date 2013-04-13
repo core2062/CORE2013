@@ -37,6 +37,15 @@ bool SensorEdge::Rise(){
 	oldState = state;
 	return( rise );
 }
+// returns false on rising edge
+bool SensorEdge::Fall(){
+	
+	bool state = Get();
+	bool fall = !state and oldState;
+	oldState = state;
+	return( fall );
+	
+}
 
 ShooterSubsystem::ShooterSubsystem(void):
 shooterMotor(CORERobot::SHOOTER),
@@ -112,7 +121,7 @@ void ShooterSubsystem::teleopLogic(void){
 	cout << feed << " " << isFeeding << " " << endl;
 	SmartDashboard::PutNumber("photo", pusherSensor.GetVoltage()*1000);
 	if (isFeeding) {
-	    if (pusherSensor.Rise()) {
+	    if (pusherSensor.Fall()) {
 	        pusherOutput = 0;
 	        isFeeding = false;
 	    } else {
