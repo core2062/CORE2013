@@ -36,7 +36,7 @@ public:
 	pyramidSpeed( &joystick2, 6),
 	shooterIncrease( &joystick2, 5),
 	shooterDecrease( &joystick2, 3),
-	blocker( &joystick2, 7){
+	blocker( &joystick2, 8){
 	}
 
 	// Drive

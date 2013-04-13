@@ -13,7 +13,7 @@ class BlockerSubsystem : public CORESubsystem{
 	bool up;
 	bool blockInUp;
 	bool blockInDown;
-	bool blockOut;
+	float blockOut;
 	
 //	distance code from climb
 	

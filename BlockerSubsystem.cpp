@@ -15,7 +15,7 @@ std::string BlockerSubsystem::name(void){
 }
 
 void BlockerSubsystem::robotInit(void){
-	SmartDashboard::PutNumber("blocker-mult", .3);
+	SmartDashboard::PutNumber("blocker-mult", .15);
 }
 
 void BlockerSubsystem::teleopInit(void){
@@ -45,14 +45,12 @@ void BlockerSubsystem::teleopLogic(void){
 }
 
 void BlockerSubsystem::teleopOutput(void){
-	if (CORERobot::isDevMode()){
-		blockOut *= SmartDashboard::GetNumber("blocker-mult");
-	}
-	if (bottom.Get() and blockOut < 0){
-		blockOut = 0;
-	} else if (top.Get() and blockOut > 0){
-		blockOut = 0;
-	}
-	
-	winch.Set(blockOut);
+	blockOut *= SmartDashboard::GetNumber("blocker-mult");
+	cout << bottom.Get() << top.Get() <<endl;
+//	if (bottom.Get() and blockOut < 0){
+//		blockOut = 0;
+//	} else if (top.Get() and blockOut > 0){
+//		blockOut = 0;
+//	}
+	winch.Set(-blockOut);
 }
