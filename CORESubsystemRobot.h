@@ -57,7 +57,7 @@ public:
 			SHOOTER = 8,
 			PUSHER_MOTOR = 10,
 			
-			BLOCKER_WINCH = 1
+			BLOCKER_WINCH = 2
 			
 		}output;
 	
