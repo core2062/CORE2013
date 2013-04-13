@@ -29,7 +29,7 @@ class CORERobot
 	static bool developerMode;
 	
 public:	
-	#define _PRACTICE_ // Uncomment for Practice Robot
+//	#define _PRACTICE_ // Uncomment for Practice Robot
 
 	#ifndef _PRACTICE_
 		// Real robot
@@ -40,15 +40,10 @@ public:
 			DRIVE_LEFT_ENC_A = 3,
 			DRIVE_LEFT_ENC_B = 4,
 			
-			CLIMB_ENC_A = 7,
-			CLIMB_ENC_B = 8,
 			DRIVE_GYRO = 1,
 						
-			TILT_LIMIT_POSITIVE = 5,	
-			TILT_LIMIT_NEGATIVE = 13,
 			SHOOTER_OPTICAL = 6,
-			CLIMB_LIMIT_TOP = 12,	// Forward end of travel, outer hooks
-			CLIMB_LIMIT_BOTTOM = 11	// Reverse end of travel, inner hooks
+			BLOCKER_OPTICAL = 7
 		}input;
 	
 		typedef enum {
@@ -58,11 +53,11 @@ public:
 			DRIVE_RIGHT_FRONT = 5,
 			DRIVE_RIGHT_REAR = 6,
 			
-			TILTER = 7,
 			SHOOTER = 8,
-			CLIMBER_ONE = 1,
-			CLIMBER_TWO = 9,
-			PUSHER_MOTOR = 10
+			PUSHER_MOTOR = 10,
+			
+			BLOCKER_WINCH = 1
+			
 		}output;
 	
 	#else
