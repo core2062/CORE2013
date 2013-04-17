@@ -18,7 +18,8 @@ public:
 
 class SensorEdge {
 	AnalogChannel	puckPhotoEye;
-	bool		oldState;
+	bool		oldRState;
+	bool		oldFState;
 	
 public:
 	SensorEdge();
@@ -33,10 +34,11 @@ class ShooterSubsystem : public CORESubsystem{
 	Jaguar 			shooterMotor;
 	Jaguar 			pusher;
 	Timer			pusherTimer;
+	Timer			jamTimer;
 	PIDCounter		shooterOptEncoder;
 	PIDController 	pid;
 	SensorEdge		pusherSensor;
-
+	
 	static const float shooterInc = 1;		 // value is in rps
 	static const float shooterDefault = 64;
 	
@@ -50,6 +52,7 @@ class ShooterSubsystem : public CORESubsystem{
 	bool down;
 	bool shooterSpeedOverride;
 	bool shooterAtSpeed;
+	bool isJammed;
 	
 	int feed;
 	bool isFeeding;
@@ -59,6 +62,7 @@ class ShooterSubsystem : public CORESubsystem{
 public:
 	static const float pushTime = .42;	 // Pusher activation timing
 //	 Practice robot is more like .46 for some reason
+	static const float jamThresh = 1; // seconds
 	
 	ShooterSubsystem(void);
 	
