@@ -34,15 +34,14 @@ class DriveSubsystem : public CORESubsystem{
 	float	mag;
 	float	rotate;
 	
-	SendableChooser controlSelect;
-	SendableChooser algoSelect;
+//	SendableChooser controlSelect;
+//	SendableChooser algoSelect;
 	
 	std::string control;
 	std::string algo;
 	
 	bool autoRotateLeft;
 	bool autoRotateRight;
-	bool pyramidSpeed;
 	
 	void SetPIDCommand(void);
 	

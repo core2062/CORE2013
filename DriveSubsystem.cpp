@@ -26,10 +26,10 @@ DriveSubsystem::DriveSubsystem(void):
 	PIDLeft(0, 0.0, 0, 1, &left, &leftOut),
 	PIDRight(0, 0.0, 0, 1, &right, &rightOut),
 
-	m_drive( PIDLeft, PIDRight ),
+	m_drive( PIDLeft, PIDRight )
 	
-	controlSelect(),
-	algoSelect()
+//	controlSelect(),
+//	algoSelect()
 {
 	//drive.SetInvertedMotor(RobotDrive::kFrontLeftMotor,true);
 	//drive.SetInvertedMotor(RobotDrive::kFrontRightMotor,true);
@@ -47,14 +47,13 @@ DriveSubsystem::DriveSubsystem(void):
 		
 //	controlSelect.AddObject("Tank", new std::string("tank"));
 //	controlSelect.AddObject("Arcade", new std::string("arcade"));
-	controlSelect.AddDefault("Kaj", new std::string("kaj"));
+//	controlSelect.AddDefault("Kaj", new std::string("kaj"));
 	
-	algoSelect.AddObject("Classic", new std::string("classic"));
-	algoSelect.AddDefault("Ether", new std::string("ether"));
+//	algoSelect.AddObject("Classic", new std::string("classic"));
+//	algoSelect.AddDefault("Ether", new std::string("ether"));
 	
 	autoRotateLeft = false;
 	autoRotateRight = false;
-	pyramidSpeed = false;
 }
 
 std::string DriveSubsystem::name(void){
@@ -94,20 +93,20 @@ void DriveSubsystem::teleopInit(void){
 //	gyro.Reset();
 //	gyro.SetSensitivity(SmartDashboard::GetNumber("gyro-gain")/1000.0);
 	
-	SmartDashboard::PutNumber("Right P", PIDRight.GetP());
-	SmartDashboard::PutNumber("Right I", PIDRight.GetI());
-	SmartDashboard::PutNumber("Right D", PIDRight.GetD());
-	SmartDashboard::PutNumber("Right F", PIDRight.GetF());
-	SmartDashboard::PutNumber("R Setpoint", PIDRight.GetSetpoint());
-
-	SmartDashboard::PutNumber("Left P", PIDLeft.GetP());
-	SmartDashboard::PutNumber("Left I", PIDLeft.GetI());
-	SmartDashboard::PutNumber("Left D", PIDLeft.GetD());
-	SmartDashboard::PutNumber("Left F", PIDLeft.GetF());
-	SmartDashboard::PutNumber("L Setpoint", PIDLeft.GetSetpoint());
+//	SmartDashboard::PutNumber("Right P", PIDRight.GetP());
+//	SmartDashboard::PutNumber("Right I", PIDRight.GetI());
+//	SmartDashboard::PutNumber("Right D", PIDRight.GetD());
+//	SmartDashboard::PutNumber("Right F", PIDRight.GetF());
+//	SmartDashboard::PutNumber("R Setpoint", PIDRight.GetSetpoint());
+//
+//	SmartDashboard::PutNumber("Left P", PIDLeft.GetP());
+//	SmartDashboard::PutNumber("Left I", PIDLeft.GetI());
+//	SmartDashboard::PutNumber("Left D", PIDLeft.GetD());
+//	SmartDashboard::PutNumber("Left F", PIDLeft.GetF());
+//	SmartDashboard::PutNumber("L Setpoint", PIDLeft.GetSetpoint());
 	
-	SmartDashboard::PutData("Control Selecter", &controlSelect);
-	SmartDashboard::PutData("Algo Selecter", &algoSelect);
+//	SmartDashboard::PutData("Control Selecter", &controlSelect);
+//	SmartDashboard::PutData("Algo Selecter", &algoSelect);
 	
 	SmartDashboard::PutNumber("Ether A", .5);
 	SmartDashboard::PutNumber("Ether B", .5);
@@ -115,7 +114,7 @@ void DriveSubsystem::teleopInit(void){
 	SmartDashboard::PutNumber("Left", 0);
 	SmartDashboard::PutNumber("Right", 0);
 	
-	SmartDashboard::PutBoolean("Cubed inputs", false);
+//	SmartDashboard::PutBoolean("Cubed inputs", false);
 	
 //	SmartDashboard::PutNumber("Gyro Angle Raw", 0);
 //	SmartDashboard::PutNumber("Gyro Angle Rounded", 0);
@@ -125,21 +124,20 @@ void DriveSubsystem::teleopInit(void){
 }
 
 void DriveSubsystem::teleopInput(COREJoystick& joystick){
-	control = *((std::string *) controlSelect.GetSelected());
+//	control = *((std::string *) controlSelect.GetSelected());
 //	if (control == "arcade"){
 //		mag = joystick.driveClassicMag();
 //		rotate = joystick.driveClassicRot();
 //	}
-	if (control == "kaj"){
+//	if (control == "kaj"){
 		mag= joystick.driveKajMag();
 		rotate = joystick.driveKajRot();
-	}else{
-		cout << "  !!Error in controlSelect!!  " << endl;
-	}
-	algo = *((std::string *) algoSelect.GetSelected());
-	//autoRotateLeft = joystick.autoRotLeft();
-	//autoRotateRight = joystick.autoRotRight();
-	pyramidSpeed = joystick.pyramidDrive();
+//	}else{
+//		cout << "  !!Error in controlSelect!!  " << endl;
+//	}
+//	algo = *((std::string *) algoSelect.GetSelected());
+//	autoRotateLeft = joystick.autoRotLeft();
+//	autoRotateRight = joystick.autoRotRight();
 }
 
 void DriveSubsystem::teleopLogic(void){
@@ -148,11 +146,7 @@ void DriveSubsystem::teleopLogic(void){
 	
 	mag = deadband(mag);
 	rotate = deadband(rotate);
-	
-	if (pyramidSpeed){
-		mag = SmartDashboard::GetNumber("Pyramid Speed");
-	}
-	
+
 //	if (mag == 0 and rotate == 0){
 //		if (autoRotateLeft and (gyro.GetAngle() < 41.5)){
 //			rotate = .5;
@@ -185,18 +179,18 @@ void DriveSubsystem::teleopOutput(void){
 	SmartDashboard::PutNumber("Right", right.GetRate());
 	
 //	mag = magLimiter.limit(mag);
-	
-	if(algo == "classic"){
-		m_drive.ArcadeDrive(mag, rotate);
-	} else if (algo == "ether"){
+//	
+//	if(algo == "classic"){
+//		m_drive.ArcadeDrive(mag, rotate);
+//	} else if (algo == "ether"){
 		double a = SmartDashboard::GetNumber("Ether A");
 		double b = SmartDashboard::GetNumber("Ether B");
 		m_drive.EtherArcade(mag, -rotate, a, b);
-	}
+//	}
 
 	
 	if (CORERobot::isDevMode()){
-		SetPIDCommand();
+//		SetPIDCommand();
 		SmartDashboard::PutNumber("DriveDistance", getDistance());
 	}
 
