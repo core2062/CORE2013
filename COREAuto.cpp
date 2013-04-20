@@ -69,7 +69,7 @@ void AutoSequencer::iter(void){
 			background.erase(it);
 		}
 	}
-	cout<<"after iter"<<endl;
+//	cout<<"after iter"<<endl;
 }
 
 //int AutoTask::async(void* class_ref){

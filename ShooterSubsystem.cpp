@@ -76,7 +76,6 @@ pusherSensor()
 	feed = 0;
 	isFeeding = false;
 	shooterSpeedOverride = false;
-	shooterAtSpeed = false;
 	isJammed = false;
 }
 
@@ -94,7 +93,7 @@ void ShooterSubsystem::robotInit(void){
 	SmartDashboard::PutNumber("F", pid.GetF());
 	SmartDashboard::PutNumber("Setpoint", pid.GetSetpoint());
 	SmartDashboard::PutBoolean("Shooter speed override", shooterSpeedOverride);
-	SmartDashboard::PutBoolean("Shooter at speed", shooterAtSpeed);
+	SmartDashboard::PutBoolean("Shooter at speed", false);
 	SmartDashboard::PutNumber("p-mul", .5); // TODO: tune a better speed
 }
 
@@ -120,19 +119,13 @@ void ShooterSubsystem::teleopInput(COREJoystick& joystick){
 void ShooterSubsystem::teleopLogic(void){
 	shooterSpeedOverride = SmartDashboard::GetBoolean("Shooter speed override");
 	
-	shooterAtSpeed = std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1;
 	
 //	cout << feed << " " << isFeeding << " " << endl;
 	SmartDashboard::PutNumber("photo", pusherSensor.GetVoltage()*1000);
 	
 	if (isFeeding) {
-	    if (pusherSensor.Fall() and pusherOutput > 0) {
-	        pusherOutput = 0;
-	        isFeeding = false;
-	        jamTimer.Stop();
-	        isJammed = false;
-	    } else if (pusherSensor.Rise() and pusherOutput < 0){
-	    	pusherOutput = 0;
+		if (sensorEdge(pusherOutput)){
+			pusherOutput = 0;
 			isFeeding = false;
 			jamTimer.Stop();
 			isJammed = false;
@@ -145,7 +138,7 @@ void ShooterSubsystem::teleopLogic(void){
 	    }
 	} else {
 	    if ((feed == -1) or (feed == 1)) {
-	        if (shooterSpeedOverride or shooterAtSpeed) {
+	        if (shooterSpeedOverride or isAtSpeed(shooterValue)) {
 	            pusherOutput = feed;
 	            isFeeding = true;
 	            isJammed = false;
@@ -221,7 +214,7 @@ void ShooterSubsystem::teleopOutput(void){
 		SmartDashboard::PutNumber("pusher-output", pusherOutput);
 	}
 	SmartDashboard::PutNumber("Setpoint", shooterOutput);
-	SmartDashboard::PutBoolean("Shooter at speed", shooterAtSpeed);
+	SmartDashboard::PutBoolean("Shooter at speed", isAtSpeed(shooterValue));
 	SmartDashboard::PutBoolean("Is Jammed", isJammed);
 
 	
@@ -236,8 +229,17 @@ void ShooterSubsystem::shoot(float shooterOutput){
 }
 
 void ShooterSubsystem::push(float pusherOutput){
-	pusher.Set(-pusherOutput);
+	float pm = SmartDashboard::GetNumber("p-mul");
+	pusher.Set(((float) -pusherOutput) * pm);
 }
-bool ShooterSubsystem::getUpToSpeed(void){
-	return (std::abs(shooterOptEncoder.PIDGet() - shooterValue) < 1.0);
+
+bool ShooterSubsystem::isAtSpeed(float val){
+	return (std::abs(shooterOptEncoder.PIDGet() - val) < 1.0);
+}
+bool ShooterSubsystem::isAtSpeed(void){
+	return isAtSpeed(pid.GetSetpoint());
+}
+
+bool ShooterSubsystem::sensorEdge(int dir){
+	return (pusherSensor.Fall() and dir > 0) or (pusherSensor.Rise() and dir < 0);
 }

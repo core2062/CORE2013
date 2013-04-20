@@ -51,7 +51,6 @@ class ShooterSubsystem : public CORESubsystem{
 	bool up;
 	bool down;
 	bool shooterSpeedOverride;
-	bool shooterAtSpeed;
 	bool isJammed;
 	
 	int feed;
@@ -60,8 +59,7 @@ class ShooterSubsystem : public CORESubsystem{
 	
 	
 public:
-	static const float pushTime = .42;	 // Pusher activation timing
-//	 Practice robot is more like .46 for some reason
+	static const float pushTime = .42;	 // DEPRECATED
 	static const float jamThresh = 1; // seconds
 	
 	ShooterSubsystem(void);
@@ -82,7 +80,10 @@ public:
 	
 	void push(float pusherOutput);
 	
-	bool getUpToSpeed(void);
+	bool isAtSpeed(float val);
+	bool isAtSpeed(void);
+	
+	bool sensorEdge(int dir);
 };
 
 class ShootAction : public Action{
@@ -92,47 +93,47 @@ class ShootAction : public Action{
 	bool started;
 	int discs_shot;
 	int n_discs;
-	static const float recovery_time = 1;
+	bool pushing;
+	static const float recovery_time = .25;
 public:
 	ShootAction(ShooterSubsystem& shoot, int discs):
 		pusher_timer(),
 		recovery_timer()
 	{
 		m_shooter = &shoot;
-		n_discs = discs;
+		n_discs = discs+1;
 		discs_shot = 0;
 		started = false;
+		pushing = false;
 	}
 	ControlFlow call(void){
-		cout << "Call called" << endl;
+//		cout << "Call called" << endl;
+		if (not started){
+			started = true;
+			recovery_timer.Start();
+		}
 		if (discs_shot < n_discs){ //if we didn't shoot all the discs we wanted to
+			bool s = m_shooter->sensorEdge(1);
+			cout<< "d: " << discs_shot <<
+				   " s: " << s << " p: "<<pushing << " a: "<<m_shooter->isAtSpeed() <<endl;
 			m_shooter->shoot(1);
-			//m_shooter->getUpToSpeed() or 
-			cout << "recovery: " << recovery_timer.Get()<<endl;
-			if ((recovery_timer.Get() > recovery_time)){		//ready is shooter up-to-speed or recovery time > time to recover
-				recovery_timer.Stop();
-				cout << "pusher: " << pusher_timer.Get() << endl;
-				if (pusher_timer.Get()==0){
-					m_shooter->push(1);
-					pusher_timer.Start();
-				}else if (pusher_timer.Get() >= ShooterSubsystem::pushTime){
-					++discs_shot;
-					m_shooter->push(0);
-					pusher_timer.Stop();
-					pusher_timer.Reset();
-					recovery_timer.Reset();
-					recovery_timer.Start();
-				}else{
-					m_shooter->push(1);
-				}
-			} else if (recovery_timer.Get()==0){
+			if (s and pushing){
+				pushing = false;
+				recovery_timer.Reset();
 				recovery_timer.Start();
+				discs_shot++;
+			} else {
+				if((not pushing) and m_shooter->isAtSpeed() and recovery_timer.Get()>recovery_time){
+					recovery_timer.Stop();
+					pushing = true;
+				}
 			}
-			return CONTINUE;
+			m_shooter->push(pushing);
 		}else{
 			m_shooter->shoot(0);
 			return END;
 		}
+		return CONTINUE;
 	}
 };
 #endif

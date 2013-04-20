@@ -61,8 +61,7 @@ public:
 			
 			autoMode.AddObject("Do nothing", new std::string("do nothing"));
 			autoMode.AddDefault("Shooter only", new std::string("shooter only"));
-			autoMode.AddObject("Left of pramid", new std::string("left of pyramid"));
-			autoMode.AddObject("Right of pyramid", new std::string("right of pyramid"));
+			autoMode.AddObject("Wait, Shoot", new std::string("wait then sheet"));
 			
 //			autoMode.AddObject("Shoot only", new std::string("shoot only"));
 //			autoMode.AddObject("Drive only", new std::string("drive only"));
@@ -82,12 +81,12 @@ public:
 		/* Left of pyramid actions*/
 		DriveAction drive_LOP1 (drive, .5, SmartDashboard::GetNumber("drive-timing"));
 		RotateAction rotate_LOP1 (drive, .5, SmartDashboard::GetNumber("rotate-timing"));
-		ShootAction shoot_LOP1 (shooter, 4);
+		ShootAction shoot_LOP1 (shooter, 6);
 		
 		/* Right of pyramid actions*/
 		DriveAction drive_ROP1 (drive, .5, SmartDashboard::GetNumber("drive-timing"));
 		RotateAction rotate_ROP1 (drive, -.5, SmartDashboard::GetNumber("rotate-timing"));
-		ShootAction shoot_ROP1 (shooter, 4);
+		ShootAction shoot_ROP1 (shooter, 6);
 		
 		
 		
