@@ -54,6 +54,7 @@ public:
 	bool shooterDown(void){return shooterDecrease.Rise();};
 	bool shooterShoot(void){return feedTrigger.Get();};
 	bool shooterBackwards(void){return joystick2.GetRawButton(12);};
+	bool shooterManualBack(void){return joystick1.GetRawButton(7);}; //back button in center of joystick
 	
 	bool block(void){return blocker.Get();};
 	bool blockDown(void){return joystick2.GetRawButton(7);};

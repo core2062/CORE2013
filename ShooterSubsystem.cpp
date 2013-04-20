@@ -114,6 +114,7 @@ void ShooterSubsystem::teleopInput(COREJoystick& joystick){
 	
 	feed = joystick.shooterBackwards() ? -1 : feed;
 	shooterOn = joystick.shooterOn();
+	pushMan = joystick.shooterManualBack();
 }
 
 void ShooterSubsystem::teleopLogic(void){
@@ -157,6 +158,10 @@ void ShooterSubsystem::teleopLogic(void){
 	if(isJammed){
 		pusherOutput = 0;
 		isFeeding = false;
+	}
+	
+	if(pushMan){
+		pusherOutput = .5;
 	}
 	
 	// Shooter
@@ -240,6 +245,6 @@ bool ShooterSubsystem::isAtSpeed(void){
 	return isAtSpeed(pid.GetSetpoint());
 }
 
-bool ShooterSubsystem::sensorEdge(int dir){
+bool ShooterSubsystem::sensorEdge(float dir){
 	return (pusherSensor.Fall() and dir > 0) or (pusherSensor.Rise() and dir < 0);
 }

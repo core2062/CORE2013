@@ -52,10 +52,11 @@ class ShooterSubsystem : public CORESubsystem{
 	bool down;
 	bool shooterSpeedOverride;
 	bool isJammed;
+	bool pushMan;
 	
 	int feed;
 	bool isFeeding;
-	int pusherOutput;
+	float pusherOutput;
 	
 	
 public:
@@ -83,7 +84,7 @@ public:
 	bool isAtSpeed(float val);
 	bool isAtSpeed(void);
 	
-	bool sensorEdge(int dir);
+	bool sensorEdge(float dir);
 };
 
 class ShootAction : public Action{
