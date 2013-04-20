@@ -111,15 +111,17 @@ void DriveSubsystem::teleopInit(void){
 	SmartDashboard::PutNumber("Ether A", .5);
 	SmartDashboard::PutNumber("Ether B", .5);
 	
-	SmartDashboard::PutNumber("Left", 0);
-	SmartDashboard::PutNumber("Right", 0);
+	SmartDashboard::PutNumber("DriveDistance", 0);
+	
+//	SmartDashboard::PutNumber("Left", 0);
+//	SmartDashboard::PutNumber("Right", 0);
 	
 //	SmartDashboard::PutBoolean("Cubed inputs", false);
 	
 //	SmartDashboard::PutNumber("Gyro Angle Raw", 0);
 //	SmartDashboard::PutNumber("Gyro Angle Rounded", 0);
 	
-	SmartDashboard::PutNumber("Pyramid Speed", 0.707);
+//	SmartDashboard::PutNumber("Pyramid Speed", 0.707);
 
 }
 
@@ -161,7 +163,7 @@ void DriveSubsystem::teleopLogic(void){
 //			rotate = .5;
 //		}
 //	}
-	SmartDashboard::PutNumber("Mag", mag); SmartDashboard::PutNumber("Rot", rotate);
+//	SmartDashboard::PutNumber("Mag", mag); SmartDashboard::PutNumber("Rot", rotate);
 	
 //	SmartDashboard::PutNumber("Gyro Angle Raw", gyroAngle);
 //	SmartDashboard::PutNumber("Gyro Angle Rounded", gyroAngleRounded);
@@ -175,8 +177,8 @@ float deadband(float value, float range){
 
 void DriveSubsystem::teleopOutput(void){
 	
-	SmartDashboard::PutNumber("Left", left.GetRate());
-	SmartDashboard::PutNumber("Right", right.GetRate());
+//	SmartDashboard::PutNumber("Left", left.GetRate());
+//	SmartDashboard::PutNumber("Right", right.GetRate());
 	
 //	mag = magLimiter.limit(mag);
 //	

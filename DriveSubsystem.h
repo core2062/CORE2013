@@ -37,8 +37,8 @@ class DriveSubsystem : public CORESubsystem{
 //	SendableChooser controlSelect;
 //	SendableChooser algoSelect;
 	
-	std::string control;
-	std::string algo;
+//	std::string control;
+//	std::string algo;
 	
 	bool autoRotateLeft;
 	bool autoRotateRight;
