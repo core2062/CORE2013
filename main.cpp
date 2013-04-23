@@ -26,8 +26,8 @@ class CORE2013 : public SimpleRobot
 	
 	Timer insightTime;
 	
-	SendableChooser autoMode;
-	std::string autonomousMode;
+//	SendableChooser autoMode;
+//	std::string autonomousMode;
 
 public:
 	
@@ -55,58 +55,39 @@ public:
 
 	void RobotInit(void){
 			robot.robotInit();
-			SmartDashboard::PutNumber("drive-timing", 30);
-			SmartDashboard::PutNumber("rotate-timing", 1.22);
 			SmartDashboard::PutBoolean("Dev on", CORERobot::isDevMode());
 			
-			autoMode.AddObject("Do nothing", new std::string("do nothing"));
-			autoMode.AddDefault("Shooter only", new std::string("shooter only"));
-			autoMode.AddObject("Wait, Shoot", new std::string("wait then sheet"));
+			SmartDashboard::PutBoolean("wait-before", false);
+			SmartDashboard::PutBoolean("backup", false);
+			SmartDashboard::PutBoolean("flip", false);
 			
-//			autoMode.AddObject("Shoot only", new std::string("shoot only"));
-//			autoMode.AddObject("Drive only", new std::string("drive only"));
-//			autoMode.AddObject("Rotate only", new std::string("rotate only"));
-			SmartDashboard::PutData("Autonomous mode", &autoMode);
+			SmartDashboard::PutNumber("Delay time", 3);
+			
+			SmartDashboard::PutNumber("backup-distance", 30);
+			SmartDashboard::PutNumber("flip-timing", 2);
 		}
 
 	void Autonomous(void){
 		Watchdog &wd = GetWatchdog();
 		wd.SetEnabled(false);
 		wd.SetExpiration(.5);
-		std::string* mode ((std::string *) autoMode.GetSelected());
-		
+
+		autoSeq AutoSequencer();
 		/* Shooter only actions*/
-		ShootAction shoot_only (shooter, 6);
+		ShootAction shoot (shooter, 6);
+		DriveAction drive_back (drive, -.7, -SmartDashboard::GetNumber("backup-distance"));
+		RotateAction flip (drive, .5, SmartDashboard::GetNumber("flip-timing"));
+		WaitAction wait (SmartDashboard::GetNumber("Delay time"));
+		WaitAction after (.25);
+		if(SmartDashboard::GetBoolean("wait-before")){
+			autoSeq.add_action(wait);}
+//		autoSeq.add_action(shoot);
+		autoSeq.add_action(after);
+		if(SmartDashboard::GetBoolean("backup")){
+			autoSeq.add_action(drive_back);}
+		if(SmartDashboard::GetBoolean("flip")){
+			autoSeq.add_action(flip);}
 		
-		/* Left of pyramid actions*/
-		DriveAction drive_LOP1 (drive, .5, SmartDashboard::GetNumber("drive-timing"));
-		RotateAction rotate_LOP1 (drive, .5, SmartDashboard::GetNumber("rotate-timing"));
-		ShootAction shoot_LOP1 (shooter, 6);
-		
-		/* Right of pyramid actions*/
-		DriveAction drive_ROP1 (drive, .5, SmartDashboard::GetNumber("drive-timing"));
-		RotateAction rotate_ROP1 (drive, -.5, SmartDashboard::GetNumber("rotate-timing"));
-		ShootAction shoot_ROP1 (shooter, 6);
-		
-		
-		
-		if(*mode == "shooter only"){
-			autoSeq.add_action(shoot_only);
-		}
-		
-		if(*mode == "left of pyramid"){
-			autoSeq.add_action(drive_LOP1);
-			autoSeq.add_action(rotate_LOP1);
-			autoSeq.add_action(shoot_LOP1);
-		}
-		if(*mode == "right of pyramid"){
-			autoSeq.add_action(drive_ROP1);
-			autoSeq.add_action(rotate_ROP1);
-			autoSeq.add_action(shoot_ROP1);
-		}
-		if(*mode == "do nothing"){
-//			do nothing :D
-		}
 		
 		while (IsAutonomous() and !IsDisabled()){
 			wd.Feed();
@@ -152,7 +133,6 @@ public:
 			robot.teleop(joystick);
 
 			CORERobot::setDevMode(SmartDashboard::GetBoolean("Dev on"));
-			autonomousMode = *((std::string *) autoMode.GetSelected());
 			
 			Wait(0.05);				// wait for a motor update time
 		}

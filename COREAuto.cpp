@@ -44,7 +44,7 @@ void AutoSequencer::iter(void){
 		return;
 	}
 	Action* a = aqueue.front();
-//	cout <<a<<endl;
+	cout <<a<<endl;
 	Action::ControlFlow return_val = a->call();
 	
 //	cout<<"after action"<<endl;
