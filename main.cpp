@@ -72,7 +72,7 @@ public:
 		wd.SetEnabled(false);
 		wd.SetExpiration(.5);
 
-		autoSeq AutoSequencer();
+		autoSeq = AutoSequencer();
 		/* Shooter only actions*/
 		ShootAction shoot (shooter, 6);
 		DriveAction drive_back (drive, -.7, -SmartDashboard::GetNumber("backup-distance"));
