@@ -61,10 +61,10 @@ public:
 			SmartDashboard::PutBoolean("backup", false);
 			SmartDashboard::PutBoolean("flip", false);
 			
-			SmartDashboard::PutNumber("Delay time", 3);
+			SmartDashboard::PutNumber("Delay time", 5);
 			
-			SmartDashboard::PutNumber("backup-distance", 30);
-			SmartDashboard::PutNumber("flip-timing", 2);
+			SmartDashboard::PutNumber("backup-distance", 12); //48 (changed to be safe until encoders are fixed)
+			SmartDashboard::PutNumber("flip-timing", 1.25);
 		}
 
 	void Autonomous(void){
@@ -81,7 +81,7 @@ public:
 		WaitAction after (.25);
 		if(SmartDashboard::GetBoolean("wait-before")){
 			autoSeq.add_action(wait);}
-//		autoSeq.add_action(shoot);
+		autoSeq.add_action(shoot);
 		autoSeq.add_action(after);
 		if(SmartDashboard::GetBoolean("backup")){
 			autoSeq.add_action(drive_back);}
