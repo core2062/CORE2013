@@ -91,14 +91,14 @@ public:
 		m_start = m_drive->getDistance();
 	}
 	Action::ControlFlow call(void){
-		cout << m_drive->getDistance()<<endl;
+		double d = m_drive->getDistance() - m_start;
+		cout << d <<endl;
 		cout << m_dist << endl;
 		bool done;
-		float dist = m_drive->getDistance();
 		if (m_mag > 0){
-			done = dist > m_dist;
+			done = d > m_dist;
 		} else{
-			done = dist < m_dist;
+			done = d < m_dist;
 		}
 		if(!done){
 			m_drive->drive(m_mag, 0);

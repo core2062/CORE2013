@@ -13,7 +13,7 @@ DriveSubsystem::DriveSubsystem(void):
 	RRDrive(CORERobot::DRIVE_RIGHT_REAR),
 	
 	left(CORERobot::DRIVE_LEFT_ENC_A, CORERobot::DRIVE_LEFT_ENC_B, true),
-	right(CORERobot::DRIVE_RIGHT_ENC_A, CORERobot::DRIVE_RIGHT_ENC_B, true),
+	right(CORERobot::DRIVE_RIGHT_ENC_A, CORERobot::DRIVE_RIGHT_ENC_B, false),
 	
 //	gyro(CORERobot::DRIVE_GYRO),
 
@@ -44,7 +44,7 @@ DriveSubsystem::DriveSubsystem(void):
 	left.SetPIDSourceParameter(Encoder::kRate);
 	right.Start();
 	left.Start();
-		
+	
 //	controlSelect.AddObject("Tank", new std::string("tank"));
 //	controlSelect.AddObject("Arcade", new std::string("arcade"));
 //	controlSelect.AddDefault("Kaj", new std::string("kaj"));
