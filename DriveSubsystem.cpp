@@ -113,8 +113,8 @@ void DriveSubsystem::teleopInit(void){
 	
 	SmartDashboard::PutNumber("DriveDistance", 0);
 	
-//	SmartDashboard::PutNumber("Left", 0);
-//	SmartDashboard::PutNumber("Right", 0);
+	SmartDashboard::PutNumber("Left", 0);
+	SmartDashboard::PutNumber("Right", 0);
 	
 //	SmartDashboard::PutBoolean("Cubed inputs", false);
 	
@@ -177,8 +177,8 @@ float deadband(float value, float range){
 
 void DriveSubsystem::teleopOutput(void){
 	
-//	SmartDashboard::PutNumber("Left", left.GetRate());
-//	SmartDashboard::PutNumber("Right", right.GetRate());
+	SmartDashboard::PutNumber("Left", left.GetRate());
+	SmartDashboard::PutNumber("Right", right.GetRate());
 	
 //	mag = magLimiter.limit(mag);
 //	
