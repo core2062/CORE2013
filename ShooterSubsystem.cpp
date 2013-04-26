@@ -21,7 +21,7 @@ SensorEdge::SensorEdge():
 
 // returns current state
 bool SensorEdge::Get(){
-	return( puckPhotoEye.GetVoltage() < .5 );
+	return( puckPhotoEye.GetVoltage() < SmartDashboard::GetNumber("photo-thresh") );
 }
 
 float SensorEdge::GetVoltage(){
@@ -95,6 +95,7 @@ void ShooterSubsystem::robotInit(void){
 	SmartDashboard::PutBoolean("Shooter speed override", shooterSpeedOverride);
 	SmartDashboard::PutBoolean("Shooter at speed", false);
 	SmartDashboard::PutNumber("p-mul", .5); // TODO: tune a better speed
+	SmartDashboard::PutNumber("photo-thresh", 3.5);
 }
 
 void ShooterSubsystem::teleopInit(void)
@@ -115,6 +116,7 @@ void ShooterSubsystem::teleopInput(COREJoystick& joystick){
 	feed = joystick.shooterBackwards() ? -1 : feed;
 	shooterOn = joystick.shooterOn();
 	pushMan = joystick.shooterManualBack();
+	pushStop = joystick.shooterManStop();
 }
 
 void ShooterSubsystem::teleopLogic(void){
@@ -160,9 +162,13 @@ void ShooterSubsystem::teleopLogic(void){
 		isFeeding = false;
 	}
 	
-	if(pushMan){
-		pusherOutput = .5;
+	if(pushMan and !isFeeding){
+		pusherOutput = .1;
 	}
+	if (pushStop and !isFeeding){
+		pusherOutput = 0;
+	}
+	
 	
 	// Shooter
 	if (pyramidSpeed) {
