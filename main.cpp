@@ -4,6 +4,7 @@
 #include "COREJoystick.h"
 #include "Subsystems.h"
 #include <string>
+#include <cmath>
 #include "COREAuto.h"
 
 #include "InsightLT/InsightLT.h"
@@ -21,7 +22,7 @@ class CORE2013 : public SimpleRobot
 //	ClimbSubsystem climb;
 	
 	insight::InsightLT display;
-	insight::DecimalData disp_userInfo;
+	insight::StringData disp_timeData;
 	insight::DecimalData disp_batteryVoltage;
 	
 	Timer insightTime;
@@ -103,15 +104,20 @@ public:
 		cout << "Disabled" << endl;
 
 		disp_batteryVoltage.setData((DriverStation::GetInstance())->GetBatteryVoltage());
-		disp_batteryVoltage.setHeader("Batt:");
-		disp_userInfo.setHeader("Match Time:");
-		display.registerData(disp_userInfo, 1);
+		disp_batteryVoltage.setHeader("Battery:");
+		disp_timeData.setHeader("Match Time:");
+		display.registerData(disp_timeData, 1);
 		display.registerData(disp_batteryVoltage, 2);
 		display.startDisplay();
 		
 		while (IsDisabled()){
 			disp_batteryVoltage.setData((DriverStation::GetInstance())->GetBatteryVoltage());
-			disp_userInfo.setData(insightTime.Get());
+			double time = insightTime.Get();
+			int minutes = (int)floor(time/60);
+			double seconds = fmod(time, 60.0);
+			char out [10];
+			sprintf(out, "%im %.2fs", minutes, seconds);
+			disp_timeData.setData(out);
 			Wait(.05);
 		}
 	}
