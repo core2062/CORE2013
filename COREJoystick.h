@@ -27,6 +27,8 @@ class COREJoystick {
 	COREJoystickButton	blocker;
 	COREJoystickButton  manPush;
 	
+	COREJoystickButton  quickturn;
+	
 public:
 	COREJoystick(void):
 	joystick1(1),
@@ -37,14 +39,19 @@ public:
 	shooterIncrease( &joystick2, 5),
 	shooterDecrease( &joystick2, 3),
 	blocker( &joystick2, 8),
-	manPush( &joystick1, 7){
-	}
+	manPush( &joystick1, 7),
+	quickturn( &joystick1, 5)
+	{	}
 
 	// Drive
 	float driveLeft(void){return joystick1.GetRawAxis(2);};
 	float driveRight(void){return joystick1.GetRawAxis(5);};
-	float driveKajMag(void){return joystick1.GetRawAxis(2);};
+	float driveMag(void){return joystick1.GetRawAxis(2);};
 	float driveKajRot(void){return joystick1.GetRawAxis(4);};
+	float driveSteerX(void){return joystick1.GetRawAxis(4);};
+	float driveSteerY(void){return joystick1.GetRawAxis(5);};
+	bool driveQuickturn(void){return quickturn.Rise();};
+	float driveQuickturnAxis(void){return joystick1.GetRawAxis(3);};
 	bool autoRotLeft(void){return joystick1.GetRawButton(3);};
 	bool autoRotRight(void){return joystick1.GetRawButton(2);};
 //	bool pyramidDrive(void) {return joystick1.GetRawAxis(1)>0.66;};

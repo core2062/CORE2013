@@ -4,7 +4,7 @@
 #include <cmath>
 #include "private/trigP.h"
 
-float deadband(float value, float range = .05);
+float deadband(float value);
 
 DriveSubsystem::DriveSubsystem(void):
 	FLDrive(CORERobot::DRIVE_LEFT_FRONT),
@@ -26,10 +26,10 @@ DriveSubsystem::DriveSubsystem(void):
 	PIDLeft(0, 0.0, 0, 1, &left, &leftOut),
 	PIDRight(0, 0.0, 0, 1, &right, &rightOut),
 
-	m_drive( PIDLeft, PIDRight )
+	m_drive( PIDLeft, PIDRight ),
 	
 //	controlSelect(),
-//	algoSelect()
+	algoSelect()
 {
 	//drive.SetInvertedMotor(RobotDrive::kFrontLeftMotor,true);
 	//drive.SetInvertedMotor(RobotDrive::kFrontRightMotor,true);
@@ -45,15 +45,13 @@ DriveSubsystem::DriveSubsystem(void):
 	right.Start();
 	left.Start();
 	
-//	controlSelect.AddObject("Tank", new std::string("tank"));
-//	controlSelect.AddObject("Arcade", new std::string("arcade"));
-//	controlSelect.AddDefault("Kaj", new std::string("kaj"));
-	
-//	algoSelect.AddObject("Classic", new std::string("classic"));
-//	algoSelect.AddDefault("Ether", new std::string("ether"));
+	algoSelect.AddObject("tank", new std::string("tank"));
+	algoSelect.AddObject("culver", new std::string("culver"));
+	algoSelect.AddDefault("ether", new std::string("ether"));
 	
 	autoRotateLeft = false;
 	autoRotateRight = false;
+	quickturn = false;
 }
 
 std::string DriveSubsystem::name(void){
@@ -106,10 +104,13 @@ void DriveSubsystem::teleopInit(void){
 //	SmartDashboard::PutNumber("L Setpoint", PIDLeft.GetSetpoint());
 	
 //	SmartDashboard::PutData("Control Selecter", &controlSelect);
-//	SmartDashboard::PutData("Algo Selecter", &algoSelect);
+	SmartDashboard::PutData("Algo Selecter", &algoSelect);
 	
 	SmartDashboard::PutNumber("Ether A", .5);
 	SmartDashboard::PutNumber("Ether B", .5);
+	
+	SmartDashboard::PutNumber("culver-radius-gain", 1.2);
+	SmartDashboard::PutNumber("culver-raw-gain", 1.5);
 	
 	SmartDashboard::PutNumber("DriveDistance", 0);
 	
@@ -126,18 +127,24 @@ void DriveSubsystem::teleopInit(void){
 }
 
 void DriveSubsystem::teleopInput(COREJoystick& joystick){
-//	control = *((std::string *) controlSelect.GetSelected());
-//	if (control == "arcade"){
-//		mag = joystick.driveClassicMag();
-//		rotate = joystick.driveClassicRot();
-//	}
-//	if (control == "kaj"){
-		mag= joystick.driveKajMag();
-		rotate = joystick.driveKajRot();
-//	}else{
-//		cout << "  !!Error in controlSelect!!  " << endl;
-//	}
-//	algo = *((std::string *) algoSelect.GetSelected());
+
+	mag = joystick.driveMag();
+	rotate = joystick.driveKajRot();
+	tank_left = joystick.driveLeft();
+	tank_right = joystick.driveRight();
+	steer_x = joystick.driveSteerX();
+	steer_y = joystick.driveSteerY();
+	if(joystick.driveQuickturn()){
+		quickturn = !quickturn;
+	}
+	if(joystick.driveQuickturnAxis() > .75) { 
+		quickturn = true;
+	} else if (joystick.driveQuickturnAxis() < .1){
+		quickturn = quickturn;
+	} else {
+		quickturn = false;
+	}
+	algo = *((std::string *) algoSelect.GetSelected());
 //	autoRotateLeft = joystick.autoRotLeft();
 //	autoRotateRight = joystick.autoRotRight();
 }
@@ -148,6 +155,10 @@ void DriveSubsystem::teleopLogic(void){
 	
 	mag = deadband(mag);
 	rotate = deadband(rotate);
+	tank_left = deadband(tank_left);
+	tank_right = deadband(tank_right);
+	steer_x = deadband(steer_x);
+	steer_y = deadband(steer_y);
 
 //	if (mag == 0 and rotate == 0){
 //		if (autoRotateLeft and (gyro.GetAngle() < 41.5)){
@@ -168,8 +179,8 @@ void DriveSubsystem::teleopLogic(void){
 //	SmartDashboard::PutNumber("Gyro Angle Raw", gyroAngle);
 //	SmartDashboard::PutNumber("Gyro Angle Rounded", gyroAngleRounded);
 }
-float deadband(float value, float range){
-	if(std::abs(value) < range){
+float deadband(float value){
+	if(std::abs(value) < .05){
 		return 0;
 	}
 	return value;
@@ -181,14 +192,17 @@ void DriveSubsystem::teleopOutput(void){
 	SmartDashboard::PutNumber("Right", right.GetRate());
 	
 //	mag = magLimiter.limit(mag);
-//	
-//	if(algo == "classic"){
-//		m_drive.ArcadeDrive(mag, rotate);
-//	} else if (algo == "ether"){
+//	cout << algo << endl;
+	if(algo == "tank"){
+		m_drive.TankDrive(tank_left, tank_right, true);
+	} else if (algo == "culver"){
+		m_drive.CulverDrive(mag, steer_x, steer_y, quickturn,
+				SmartDashboard::GetNumber("culver-radius-gain"), SmartDashboard::GetNumber("culver-raw-gain"));
+    } else {
 		double a = SmartDashboard::GetNumber("Ether A");
 		double b = SmartDashboard::GetNumber("Ether B");
 		m_drive.EtherArcade(mag, -rotate, a, b);
-//	}
+	}
 
 	
 	if (CORERobot::isDevMode()){

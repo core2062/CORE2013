@@ -31,14 +31,20 @@ class DriveSubsystem : public CORESubsystem{
 		
 	COREDrive m_drive;
 	
-	float	mag;
-	float	rotate;
+	float mag;
+	float rotate;
+	float tank_left;
+	float tank_right;
+	float steer_x;
+	float steer_y;
+	
+	bool quickturn;
 	
 //	SendableChooser controlSelect;
-//	SendableChooser algoSelect;
+	SendableChooser algoSelect;
 	
 //	std::string control;
-//	std::string algo;
+	std::string algo;
 	
 	bool autoRotateLeft;
 	bool autoRotateRight;
