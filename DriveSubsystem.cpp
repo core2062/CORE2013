@@ -83,6 +83,14 @@ void DriveSubsystem::robotInit(void){
 	PIDLeft.Enable();
 	PIDRight.Enable();
 //	SmartDashboard::PutNumber("gyro-gain", 7);
+	
+	SmartDashboard::PutNumber("Ether A", 0);
+	SmartDashboard::PutNumber("Ether B", 1);
+	
+	SmartDashboard::PutNumber("culver-radius-gain", 1.2);
+	SmartDashboard::PutNumber("culver-raw-gain", 1.5);
+	
+	SmartDashboard::PutBoolean("backup-turn", false);
 }
 
 void DriveSubsystem::teleopInit(void){
@@ -105,12 +113,6 @@ void DriveSubsystem::teleopInit(void){
 	
 //	SmartDashboard::PutData("Control Selecter", &controlSelect);
 	SmartDashboard::PutData("Algo Selecter", &algoSelect);
-	
-	SmartDashboard::PutNumber("Ether A", .5);
-	SmartDashboard::PutNumber("Ether B", .5);
-	
-	SmartDashboard::PutNumber("culver-radius-gain", 1.2);
-	SmartDashboard::PutNumber("culver-raw-gain", 1.5);
 	
 	SmartDashboard::PutNumber("DriveDistance", 0);
 	
@@ -196,7 +198,7 @@ void DriveSubsystem::teleopOutput(void){
 	if(algo == "tank"){
 		m_drive.TankDrive(tank_left, tank_right, true);
 	} else if (algo == "culver"){
-		m_drive.CulverDrive(mag, steer_x, steer_y, quickturn,
+		m_drive.CulverDrive(mag, steer_x, steer_y, quickturn, SmartDashboard::GetBoolean("backup-turn"),
 				SmartDashboard::GetNumber("culver-radius-gain"), SmartDashboard::GetNumber("culver-raw-gain"));
     } else {
 		double a = SmartDashboard::GetNumber("Ether A");

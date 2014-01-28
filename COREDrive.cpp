@@ -36,9 +36,7 @@ void COREDrive::EtherArcade(double mag, double rotate, double a, double b){
 		}
 	}
 
-	SetLeftRightMotorOutputs(left, right);	
-		
-//	cout <<left*50 << endl <<right*50<<endl;
+	SetLeftRightMotorOutputs(left, right);
 }
 
 /*
@@ -188,7 +186,7 @@ const double c_half_pi_reciprocal=1.0 / (PI_2);  //its more efficient to multipl
 const double c_taper_limit=DEG_2_RAD(115.0);
 const double c_taper_length_recip=1.0 / (c_taper_limit-PI_2);
 
-void COREDrive::CulverDrive(float throttle, float steer_x, float steer_y, bool quickturn,
+void COREDrive::CulverDrive(float throttle, float steer_x, float steer_y, bool quickturn, bool backup_turn,
 		double gain_radius, double gain_raw ) {
 	
 		//Find arctan of wheel stick relative to vertical... note relative to vertical suggests that we swap the x and y components!
@@ -218,11 +216,14 @@ void COREDrive::CulverDrive(float throttle, float steer_x, float steer_y, bool q
 	double left = throttle;
 	double right = throttle;
 //	cout << left<< " : "<<right;
+	if(backup_turn){
+		throttle = -std::abs(throttle);
+	}
 	if (quickturn) {
 		const double raw = r * theta * c_half_pi_reciprocal * radius_filter * gain_raw * -1;
 		//		const double raw = r * interp_2d(theta, c_raw_theta_x, c_raw_theta_z, _countof(c_raw_theta_x)) * c_gain_raw);
 		SmartDashboard::PutNumber("culver-raw", raw);
-
+		
 		#if 1
 			left += raw;
 			right -= raw;
@@ -236,7 +237,6 @@ void COREDrive::CulverDrive(float throttle, float steer_x, float steer_y, bool q
 		//Find the radius component based on r, theta, filter curve, gain, throttle, sign
 		const double radius = r * theta * c_half_pi_reciprocal * radius_filter
 				* gain_radius * throttle;
-		
 		SmartDashboard::PutNumber("culver-radius", radius);
 		
 		left += radius;
